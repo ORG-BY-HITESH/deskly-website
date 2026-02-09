@@ -6,6 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Deskly — Smart Screen Time Tracker for Windows</title>
     <meta name="description" content="Track your screen time, set app limits, and build healthier digital habits. Free, local-first, and private." />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.deskly.in/" />
+    <meta property="og:title" content="Deskly — Smart Screen Time Tracker for Windows" />
+    <meta property="og:description" content="Track your screen time, set app limits, and build healthier digital habits. Free, local-first, and private." />
+    <meta property="og:image" content="https://www.deskly.in/og-image.png" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://www.deskly.in/" />
+    <meta property="twitter:title" content="Deskly — Smart Screen Time Tracker for Windows" />
+    <meta property="twitter:description" content="Track your screen time, set app limits, and build healthier digital habits. Free, local-first, and private." />
+    <meta property="twitter:image" content="https://www.deskly.in/og-image.png" />
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -23,7 +44,7 @@
             --surface-elevated: #14171C;
             --text: #E8E6EB;
             --text-secondary: #A8A5B0;
-            --text-muted: #6b7280;
+            --text-muted: #9CA3AF;
             --border: rgba(148, 163, 184, 0.12);
             --success: #22C55E;
             --radius: 20px;
@@ -41,6 +62,16 @@
 
         a { color: var(--primary); text-decoration: none; }
         a:hover { text-decoration: underline; }
+
+        /* ───── Skip Link ───── */
+        .skip-link {
+            position: absolute; top: -100px; left: 0;
+            background: var(--primary); color: white;
+            padding: 12px 20px; border-radius: 0 0 8px 0;
+            font-weight: 600; z-index: 1000;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; text-decoration: none; outline: 3px solid white; }
 
         /* ───── Layout ───── */
         .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
@@ -70,6 +101,12 @@
             -webkit-text-fill-color: white !important;
         }
         .nav-cta:hover { filter: brightness(1.1); text-decoration: none !important; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none;
+            color: var(--text); font-size: 1.5rem; cursor: pointer;
+            padding: 8px; margin: -8px;
+        }
+        .mobile-menu-btn:hover { color: var(--primary); }
 
         /* ───── Hero ───── */
         .hero {
@@ -118,6 +155,29 @@
             background: transparent; border: 1px solid var(--border); color: var(--text);
         }
         .btn-outline:hover { background: var(--surface-elevated); text-decoration: none; }
+        
+        /* ───── Loading State ───── */
+        .nav-cta.loading {
+            opacity: 0.6;
+            pointer-events: none;
+            position: relative;
+        }
+        .nav-cta.loading::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border: 2px solid white;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
 
         /* ───── Features ───── */
         .features { padding: 100px 0; }
@@ -200,32 +260,65 @@
         footer a { color: var(--text-secondary); }
 
         /* ───── Responsive ───── */
-        @media (max-width: 640px) {
-            .nav-links { display: none; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            .nav-links {
+                position: fixed;
+                top: 64px;
+                left: 0;
+                right: 0;
+                background: rgba(2, 6, 23, 0.98);
+                backdrop-filter: blur(16px);
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                padding: 24px;
+                gap: 20px;
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: transform 0.3s, opacity 0.3s;
+                pointer-events: none;
+            }
+            .nav-links.open {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: all;
+            }
+            .nav-links a { font-size: 1.1rem; }
+            .hero { padding: 120px 0 80px; }
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 1rem; }
+            .hero-actions { flex-direction: column; }
+            .hero-actions a { width: 100%; text-align: center; }
             .features-grid { grid-template-columns: 1fr; }
+            .steps { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 
 <body>
+    <!-- Skip to main content -->
+    <a href="#main" class="skip-link">Skip to main content</a>
+    
     <!-- Nav -->
     <nav>
         <div class="nav-inner">
             <a href="/" class="nav-logo">Deskly</a>
-            <div class="nav-links">
+            <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+                <span id="menu-icon">☰</span>
+            </button>
+            <div class="nav-links" id="nav-menu">
                 <a href="#features">Features</a>
                 <a href="#how">How It Works</a>
-                <a href="/auth/login?source=web" class="nav-cta">Sign In</a>
+                <a href="/auth/login?source=web" class="nav-cta" id="auth-btn">Sign In</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero -->
+    <main id="main">
     <section class="hero">
         <div class="container">
-            <div class="hero-badge">✦ Free &amp; Privacy-first</div>
+            <div class="hero-badge"><span aria-hidden="true">✦</span> Free &amp; Privacy-first</div>
             <h1>
                 Your screen time,<br />
                 <span class="gradient">understood.</span>
@@ -235,7 +328,7 @@
                 and helps you build healthier digital habits. All data stays on your device.
             </p>
             <div class="hero-actions">
-                <a href="#download" class="btn-hero btn-primary">Download for Windows</a>
+                <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn-hero btn-primary" download>Download for Windows</a>
                 <a href="#features" class="btn-hero btn-outline">See Features</a>
             </div>
         </div>
@@ -250,32 +343,32 @@
             </div>
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">⏱</div>
+                    <div class="feature-icon" aria-label="Real-time tracking icon"><span aria-hidden="true">⏱</span></div>
                     <h3>Real-Time Tracking</h3>
                     <p>See exactly which apps and websites you use, updated every second. No manual logging.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🌐</div>
+                    <div class="feature-icon" aria-label="Browser intelligence icon"><span aria-hidden="true">🌐</span></div>
                     <h3>Browser Intelligence</h3>
                     <p>Automatically detects 60+ browsers and tracks individual website usage by parsing window titles.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">⏳</div>
+                    <div class="feature-icon" aria-label="App limits icon"><span aria-hidden="true">⏳</span></div>
                     <h3>App Limits</h3>
                     <p>Set daily time limits per app. Get overlay warnings, with the option to extend up to 3 times per day.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📂</div>
+                    <div class="feature-icon" aria-label="Custom categories icon"><span aria-hidden="true">📂</span></div>
                     <h3>Custom Categories</h3>
                     <p>Organize your apps and websites into categories like Work, Social, Entertainment — your way.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon" aria-label="Weekly reports icon"><span aria-hidden="true">📊</span></div>
                     <h3>Weekly Reports</h3>
                     <p>Beautifully designed reports with trends, top apps, category breakdowns, and week-over-week comparison.</p>
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
+                    <div class="feature-icon" aria-label="Privacy icon"><span aria-hidden="true">🔒</span></div>
                     <h3>100% Local &amp; Private</h3>
                     <p>All your data lives in a local vault on your machine. Nothing is sent to the cloud. Ever.</p>
                 </div>
@@ -313,35 +406,66 @@
             <div class="cta-card">
                 <h2>Ready to take control?</h2>
                 <p>Download Deskly for free and start understanding your screen time today.</p>
-                <a href="#" class="btn-hero btn-primary">Download for Windows</a>
+                <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn-hero btn-primary" download>Download for Windows</a>
             </div>
         </div>
     </section>
+    </main>
 
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2026 <a href="/">Deskly</a>. Built with care in India.</p>
+            <p>&copy; <span id="year">2026</span> <a href="/">Deskly</a>. Built with care in India.</p>
         </div>
     </footer>
 
     <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navMenu = document.getElementById('nav-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                const isOpen = navMenu.classList.toggle('open');
+                mobileMenuBtn.setAttribute('aria-expanded', isOpen);
+                menuIcon.textContent = isOpen ? '✕' : '☰';
+            });
+            
+            // Close menu when clicking a link
+            navMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('open');
+                    mobileMenuBtn.setAttribute('aria-expanded', 'false');
+                    menuIcon.textContent = '☰';
+                });
+            });
+        }
+        
+        // Update footer year dynamically
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
         // If the user is already signed in (cookie set), turn the nav CTA into an Account button
         (async () => {
+            const authBtn = document.getElementById('auth-btn');
+            if (!authBtn) return;
+            
             try {
+                authBtn.classList.add('loading');
                 const res = await fetch('/api/me', { credentials: 'include' });
-                if (!res.ok) return;
-                const data = await res.json().catch(() => null);
-                if (!data?.user) return;
-
-                const cta = document.querySelector('.nav-cta');
-                if (cta) {
-                    cta.textContent = 'Account';
-                    cta.href = '/account';
+                
+                if (res.ok) {
+                    const data = await res.json().catch(() => null);
+                    if (data?.user) {
+                        authBtn.textContent = 'Account';
+                        authBtn.href = '/account';
+                    }
                 }
             } catch (err) {
                 // Silent fail – navbar just stays as Sign In
                 console.warn('Auth check failed', err);
+            } finally {
+                authBtn.classList.remove('loading');
             }
         })();
     </script>
