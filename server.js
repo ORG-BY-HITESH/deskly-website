@@ -132,14 +132,16 @@ app.get('/auth/callback', async (req, res, next) => {
             if (state) context = JSON.parse(state);
         } catch { /* ignore */ }
 
+        // Always set a cookie so the website can show signed-in state
+        res.cookie('deskly_token', token, {
+            httpOnly: true,
+            secure: baseUrl.startsWith('https'),
+            sameSite: 'lax',
+            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        });
+
         if (context.source === 'web') {
-            // Web login — set a cookie and redirect to /account
-            res.cookie('deskly_token', token, {
-                httpOnly: true,
-                secure: baseUrl.startsWith('https'),
-                sameSite: 'lax',
-                maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-            });
+            // Web login — redirect to /account
             return res.redirect('/account');
         }
 
@@ -159,15 +161,25 @@ app.get('/auth/logout', (req, res) => {
     res.redirect('/');
 });
 
-// ─── API: Verify token (desktop app can call this) ─────────────────────────────
+// ─── API: Verify token (desktop app or website can call this) ──────────────────
 
 app.get('/api/me', (req, res) => {
     const authHeader = req.headers.authorization;
-    if (!authHeader?.startsWith('Bearer ')) {
+    let token = null;
+
+    // Prefer explicit Bearer token (desktop app, API clients)
+    if (authHeader?.startsWith('Bearer ')) {
+        token = authHeader.slice(7);
+    } else if (req.cookies?.deskly_token) {
+        // Fallback to cookie (website)
+        token = req.cookies.deskly_token;
+    }
+
+    if (!token) {
         return res.status(401).json({ error: 'Missing token' });
     }
 
-    const user = verifyToken(authHeader.slice(7));
+    const user = verifyToken(token);
     if (!user) {
         return res.status(401).json({ error: 'Invalid or expired token' });
     }

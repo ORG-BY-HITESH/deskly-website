@@ -324,6 +324,27 @@
             <p>&copy; 2026 <a href="/">Deskly</a>. Built with care in India.</p>
         </div>
     </footer>
+
+    <script>
+        // If the user is already signed in (cookie set), turn the nav CTA into an Account button
+        (async () => {
+            try {
+                const res = await fetch('/api/me', { credentials: 'include' });
+                if (!res.ok) return;
+                const data = await res.json().catch(() => null);
+                if (!data?.user) return;
+
+                const cta = document.querySelector('.nav-cta');
+                if (cta) {
+                    cta.textContent = 'Account';
+                    cta.href = '/account';
+                }
+            } catch (err) {
+                // Silent fail – navbar just stays as Sign In
+                console.warn('Auth check failed', err);
+            }
+        })();
+    </script>
 </body>
 
 </html>
