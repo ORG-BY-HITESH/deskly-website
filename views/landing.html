@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deskly — Smart Screen Time Tracker for Windows</title>
+    <meta name="description" content="Track your screen time, set app limits, and build healthier digital habits. Free, local-first, and private." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ───── Reset & Base ───── */
+        *,
+        *::before,
+        *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #818CF8;
+            --primary-dark: #6366F1;
+            --surface: #020617;
+            --surface-card: #0F1117;
+            --surface-elevated: #14171C;
+            --text: #E8E6EB;
+            --text-secondary: #A8A5B0;
+            --text-muted: #6b7280;
+            --border: rgba(148, 163, 184, 0.12);
+            --success: #22C55E;
+            --radius: 20px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--surface);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ───── Layout ───── */
+        .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+        /* ───── Nav ───── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            backdrop-filter: blur(16px) saturate(1.5);
+            background: rgba(2, 6, 23, 0.75);
+            border-bottom: 1px solid var(--border);
+        }
+        .nav-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+        }
+        .nav-logo {
+            font-size: 1.25rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), #A5B4FC);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .nav-links { display: flex; gap: 28px; align-items: center; }
+        .nav-links a { color: var(--text-secondary); font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--text); text-decoration: none; }
+        .nav-cta {
+            padding: 8px 20px; border-radius: 999px; font-weight: 600; font-size: 0.88rem;
+            background: var(--primary); color: white !important;
+            -webkit-text-fill-color: white !important;
+        }
+        .nav-cta:hover { filter: brightness(1.1); text-decoration: none !important; }
+
+        /* ───── Hero ───── */
+        .hero {
+            padding: 160px 0 100px;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+            width: 700px; height: 500px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.12), transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 16px; border-radius: 999px; font-size: 0.82rem;
+            background: rgba(129, 140, 248, 0.1); border: 1px solid rgba(129, 140, 248, 0.2);
+            color: var(--primary); font-weight: 500; margin-bottom: 24px;
+        }
+        .hero h1 {
+            font-size: clamp(2.4rem, 5vw, 3.5rem); font-weight: 800;
+            line-height: 1.15; letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, #818CF8, #A5B4FC, #C4B5FD);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.15rem; color: var(--text-secondary);
+            max-width: 560px; margin: 0 auto 36px;
+        }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-hero {
+            padding: 14px 32px; border-radius: 999px; font-weight: 600; font-size: 1rem;
+            border: none; cursor: pointer; transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #818CF8, #6366F1);
+            color: white;
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.3);
+        }
+        .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); text-decoration: none; }
+        .btn-outline {
+            background: transparent; border: 1px solid var(--border); color: var(--text);
+        }
+        .btn-outline:hover { background: var(--surface-elevated); text-decoration: none; }
+
+        /* ───── Features ───── */
+        .features { padding: 100px 0; }
+        .features-heading {
+            text-align: center; margin-bottom: 60px;
+        }
+        .features-heading h2 {
+            font-size: 2rem; font-weight: 700; margin-bottom: 12px;
+        }
+        .features-heading p { color: var(--text-secondary); max-width: 500px; margin: 0 auto; }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 24px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .feature-card:hover {
+            border-color: rgba(129, 140, 248, 0.3);
+            transform: translateY(-2px);
+        }
+        .feature-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(129, 140, 248, 0.1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; margin-bottom: 16px;
+        }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; }
+        .feature-card p { color: var(--text-secondary); font-size: 0.92rem; line-height: 1.5; }
+
+        /* ───── How It Works ───── */
+        .how-section { padding: 80px 0; }
+        .how-section h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 48px; }
+        .steps {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px; text-align: center;
+        }
+        .step-num {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: var(--primary); color: white; font-weight: 700;
+            display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 14px; font-size: 1rem;
+        }
+        .steps h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 6px; }
+        .steps p { color: var(--text-secondary); font-size: 0.88rem; }
+
+        /* ───── CTA ───── */
+        .cta-section {
+            padding: 80px 0 120px; text-align: center;
+        }
+        .cta-card {
+            background: var(--surface-card);
+            border: 1px solid var(--border);
+            border-radius: 28px;
+            padding: 56px 32px;
+            position: relative; overflow: hidden;
+        }
+        .cta-card::before {
+            content: '';
+            position: absolute; top: -80px; left: 50%; transform: translateX(-50%);
+            width: 500px; height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15), transparent 70%);
+            pointer-events: none;
+        }
+        .cta-card h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 12px; position: relative; }
+        .cta-card p { color: var(--text-secondary); margin-bottom: 28px; position: relative; }
+
+        /* ───── Footer ───── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 32px 0;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--text-secondary); }
+
+        /* ───── Responsive ───── */
+        @media (max-width: 640px) {
+            .nav-links { display: none; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Nav -->
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="nav-logo">Deskly</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how">How It Works</a>
+                <a href="/auth/login?source=web" class="nav-cta">Sign In</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">✦ Free &amp; Privacy-first</div>
+            <h1>
+                Your screen time,<br />
+                <span class="gradient">understood.</span>
+            </h1>
+            <p>
+                Deskly tracks how you spend time on your Windows PC — apps, browsers, websites —
+                and helps you build healthier digital habits. All data stays on your device.
+            </p>
+            <div class="hero-actions">
+                <a href="#download" class="btn-hero btn-primary">Download for Windows</a>
+                <a href="#features" class="btn-hero btn-outline">See Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="features-heading">
+                <h2>Everything you need to take control</h2>
+                <p>Powerful tracking with zero compromises on privacy.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⏱</div>
+                    <h3>Real-Time Tracking</h3>
+                    <p>See exactly which apps and websites you use, updated every second. No manual logging.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3>Browser Intelligence</h3>
+                    <p>Automatically detects 60+ browsers and tracks individual website usage by parsing window titles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏳</div>
+                    <h3>App Limits</h3>
+                    <p>Set daily time limits per app. Get overlay warnings, with the option to extend up to 3 times per day.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📂</div>
+                    <h3>Custom Categories</h3>
+                    <p>Organize your apps and websites into categories like Work, Social, Entertainment — your way.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Weekly Reports</h3>
+                    <p>Beautifully designed reports with trends, top apps, category breakdowns, and week-over-week comparison.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Local &amp; Private</h3>
+                    <p>All your data lives in a local vault on your machine. Nothing is sent to the cloud. Ever.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-section" id="how">
+        <div class="container">
+            <h2>Get started in 3 steps</h2>
+            <div class="steps">
+                <div>
+                    <div class="step-num">1</div>
+                    <h3>Download &amp; Install</h3>
+                    <p>Grab the installer, run it, and Deskly starts tracking automatically.</p>
+                </div>
+                <div>
+                    <div class="step-num">2</div>
+                    <h3>Choose Your Vault</h3>
+                    <p>Pick where your data lives — Documents, a USB drive, wherever you want.</p>
+                </div>
+                <div>
+                    <div class="step-num">3</div>
+                    <h3>Build Better Habits</h3>
+                    <p>Set goals, review your reports, and start spending time more intentionally.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section" id="download">
+        <div class="container">
+            <div class="cta-card">
+                <h2>Ready to take control?</h2>
+                <p>Download Deskly for free and start understanding your screen time today.</p>
+                <a href="#" class="btn-hero btn-primary">Download for Windows</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 <a href="/">Deskly</a>. Built with care in India.</p>
+        </div>
+    </footer>
+</body>
+
+</html>
