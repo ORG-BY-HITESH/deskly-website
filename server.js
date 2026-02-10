@@ -27,11 +27,17 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const jwtSecret = process.env.JWT_SECRET || 'dev-secret-change-me';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 
-// WorkOS client
-const workos = new WorkOS({
-    apiKey: process.env.WORKOS_API_KEY,
-    clientId: process.env.WORKOS_CLIENT_ID,
-});
+// WorkOS client (lazy init — only needed for auth routes)
+let workos = null;
+function getWorkOS() {
+    if (!workos) {
+        workos = new WorkOS({
+            apiKey: process.env.WORKOS_API_KEY,
+            clientId: process.env.WORKOS_CLIENT_ID,
+        });
+    }
+    return workos;
+}
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -70,6 +76,11 @@ app.get('/', (req, res) => {
 // ─── Account Page (browser-based, for web visitors) ────────────────────────────
 
 app.get('/account', (req, res) => {
+    // If WorkOS is not configured, show a friendly page instead of crashing
+    if (!process.env.WORKOS_API_KEY || !process.env.WORKOS_CLIENT_ID) {
+        return res.send(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Deskly — Account</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:#09090b;color:#ededef;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}a{color:#818cf8;text-decoration:none}.wrap{max-width:380px}.wrap h1{font-size:1.5rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:8px}.wrap p{font-size:0.88rem;color:#8b8b92;line-height:1.6;margin-bottom:24px}.btn{display:inline-flex;align-items:center;gap:8px;font-size:0.84rem;font-weight:500;padding:10px 20px;border-radius:9px;background:#fff;color:#09090b;transition:opacity 0.2s}.btn:hover{opacity:0.85}</style></head><body><div class="wrap"><h1>Account</h1><p>Sign in is available when the server is connected to WorkOS. For now, Deskly works entirely without an account.</p><a href="/" class="btn">← Back to home</a></div></body></html>`);
+    }
+
     const token = req.cookies?.deskly_token;
     const user = token ? verifyToken(token) : null;
 
@@ -93,7 +104,7 @@ app.get('/auth/login', async (req, res, next) => {
             source: source || 'desktop', // 'desktop' or 'web'
         });
 
-        const authorizationUrl = workos.userManagement.getAuthorizationUrl({
+        const authorizationUrl = getWorkOS().userManagement.getAuthorizationUrl({
             clientId: process.env.WORKOS_CLIENT_ID,
             redirectUri: `${baseUrl}/auth/callback`,
             provider: 'authkit',
@@ -118,7 +129,7 @@ app.get('/auth/callback', async (req, res, next) => {
         }
 
         // Exchange code for user
-        const { user } = await workos.userManagement.authenticateWithCode({
+        const { user } = await getWorkOS().userManagement.authenticateWithCode({
             clientId: process.env.WORKOS_CLIENT_ID,
             code: String(code),
         });
