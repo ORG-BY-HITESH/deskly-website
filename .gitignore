@@ -1,3 +1,13 @@
 node_modules/
 .env
+.env.backup
+.env.*.bak
 .vercel
+package-lock.json
+
+# OS artifacts
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+._*

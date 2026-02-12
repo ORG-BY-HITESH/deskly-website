@@ -13,6 +13,7 @@
     <meta property="og:url" content="https://deskly.in" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index, follow" />
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -21,7 +22,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
 
     <style>
         /* ═══════════════════════════════════════════════════
@@ -38,7 +39,7 @@
             --border-2: rgba(255, 255, 255, 0.09);
             --text: #ededef;
             --text-2: #8b8b92;
-            --text-3: #4e4e56;
+            --text-3: #5c5c66;
             --primary: #818cf8;
             --primary-dim: rgba(129, 140, 248, 0.12);
             --green: #34d399;
@@ -70,6 +71,15 @@
         a { text-decoration: none; color: inherit; }
         ::selection { background: rgba(129, 140, 248, 0.25); color: #fff; }
         [id] { scroll-margin-top: 80px; }
+
+        .skip-link {
+            position: absolute; top: -100px; left: 16px;
+            background: var(--primary); color: #fff;
+            padding: 8px 16px; border-radius: 8px;
+            font-size: 0.82rem; font-weight: 500;
+            z-index: 1000; transition: top 0.2s;
+        }
+        .skip-link:focus { top: 12px; }
 
         /* ═══════════════════════════════════════════════════
            NOISE GRAIN OVERLAY
@@ -167,7 +177,7 @@
            HERO
            ═══════════════════════════════════════════════════ */
         .hero {
-            padding: 160px 0 56px;
+            padding: 180px 0 64px;
             text-align: center;
             position: relative;
         }
@@ -178,9 +188,9 @@
             position: absolute;
             top: -200px; left: 50%;
             translate: -50% 0;
-            width: 800px; height: 500px;
+            width: 1000px; height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129,140,248,0.04) 0%, transparent 65%);
+            background: radial-gradient(ellipse, rgba(129,140,248,0.06) 0%, transparent 60%);
             pointer-events: none;
         }
 
@@ -216,14 +226,21 @@
         }
 
         .hero h1 {
-            font-size: clamp(2.75rem, 6vw, 4.25rem);
+            font-size: clamp(3rem, 7vw, 5rem);
             font-weight: 700;
-            letter-spacing: -0.045em;
-            line-height: 1.04;
-            margin-bottom: 20px;
+            letter-spacing: -0.05em;
+            line-height: 0.98;
+            margin-bottom: 28px;
             position: relative;
-            max-width: 680px;
+            max-width: 760px;
             margin-left: auto; margin-right: auto;
+        }
+
+        .hero h1 .serif-em {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: -0.03em;
         }
 
         .hero h1 .gradient {
@@ -241,11 +258,11 @@
         }
 
         .hero .sub {
-            font-size: 1.05rem;
+            font-size: 1.1rem;
             line-height: 1.65;
             color: var(--text-2);
-            max-width: 420px;
-            margin: 0 auto 36px;
+            max-width: 440px;
+            margin: 0 auto 40px;
             font-weight: 400;
         }
 
@@ -267,12 +284,12 @@
 
         .btn-primary {
             background: #fff; color: #09090b;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.06);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.06), 0 0 24px rgba(255,255,255,0.08), 0 0 48px rgba(255,255,255,0.04);
         }
 
         .btn-primary:hover {
             background: #fff;
-            box-shadow: 0 4px 16px rgba(255,255,255,0.08), 0 0 0 1px rgba(255,255,255,0.1);
+            box-shadow: 0 4px 16px rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.1), 0 0 32px rgba(255,255,255,0.1), 0 0 64px rgba(255,255,255,0.06);
             transform: translateY(-1px);
         }
 
@@ -327,11 +344,13 @@
 
         .window {
             background: var(--surface);
-            border: 1px solid var(--border-2);
+            border: 1px solid rgba(129,140,248,0.1);
             border-radius: 16px;
             overflow: hidden;
             box-shadow:
-                0 0 0 1px rgba(255,255,255,0.02),
+                0 0 0 1px rgba(129,140,248,0.05),
+                0 0 60px rgba(129,140,248,0.06),
+                0 0 120px rgba(129,140,248,0.03),
                 0 2px 4px rgba(0,0,0,0.08),
                 0 8px 20px rgba(0,0,0,0.12),
                 0 20px 40px rgba(0,0,0,0.18),
@@ -574,6 +593,7 @@
             display: flex; gap: 32px;
             animation: scroll 30s linear infinite;
             width: max-content;
+            will-change: transform;
         }
 
         .ticker-set {
@@ -600,9 +620,22 @@
             width: 20px; height: 20px; border-radius: 6px;
             flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.58rem; font-weight: 700; color: rgba(255,255,255,0.85);
-            opacity: 0.7;
+            font-size: 0.58rem; font-weight: 700; color: rgba(255,255,255,0.9);
+            opacity: 0.75;
+            transition: opacity 0.2s;
         }
+
+        .ticker-item:hover .ti-letter { opacity: 1; }
+
+        /* Inline SVG browser icons */
+        .ticker-item .ti-svg {
+            width: 20px; height: 20px;
+            flex-shrink: 0;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .ticker-item:hover .ti-svg { opacity: 1; }
 
         @keyframes scroll {
             0% { transform: translateX(0); }
@@ -613,7 +646,7 @@
            NUMBERS
            ═══════════════════════════════════════════════════ */
         .numbers {
-            padding: 80px 0;
+            padding: 100px 0;
         }
 
         .numbers-grid {
@@ -627,7 +660,7 @@
 
         .num-cell {
             background: var(--bg);
-            padding: 32px 24px;
+            padding: 48px 24px;
             text-align: center;
             transition: background 0.3s var(--ease);
         }
@@ -635,21 +668,27 @@
         .num-cell:hover { background: var(--surface); }
 
         .num-val {
-            font-size: 1.65rem; font-weight: 700;
+            font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700;
             letter-spacing: -0.04em; line-height: 1;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            font-variant-numeric: tabular-nums;
+            transition: color 0.3s var(--ease);
         }
 
+        .num-cell:hover .num-val { color: var(--primary); }
+
         .num-label {
-            font-size: 0.74rem; color: var(--text-3);
+            font-size: 0.78rem; color: var(--text-3);
         }
 
         /* ═══════════════════════════════════════════════════
            HOW IT WORKS
            ═══════════════════════════════════════════════════ */
         .how {
-            padding: 96px 0;
+            padding: 120px 0;
             border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
 
         .how .s-eyebrow {
@@ -659,10 +698,10 @@
         }
 
         .how .s-heading {
-            font-size: clamp(1.5rem, 3vw, 2.1rem);
-            font-weight: 700; letter-spacing: -0.035em;
-            line-height: 1.12; margin-bottom: 56px;
-            max-width: 480px;
+            font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+            font-weight: 700; letter-spacing: -0.04em;
+            line-height: 1.12; margin-bottom: 64px;
+            max-width: 520px;
         }
 
         .steps {
@@ -704,8 +743,10 @@
            FEATURES
            ═══════════════════════════════════════════════════ */
         .features {
-            padding: 96px 0;
+            padding: 120px 0;
             border-top: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
         }
 
         .features .s-eyebrow {
@@ -715,8 +756,8 @@
         }
 
         .features .s-heading {
-            font-size: clamp(1.5rem, 3vw, 2.1rem);
-            font-weight: 700; letter-spacing: -0.035em;
+            font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+            font-weight: 700; letter-spacing: -0.04em;
             line-height: 1.12; margin-bottom: 10px;
         }
 
@@ -742,7 +783,7 @@
             position: relative;
         }
 
-        .fc:hover { background: rgba(15,15,18,0.8); }
+        .fc:hover { background: rgba(15,15,18,0.8); cursor: pointer; }
 
         .fc-icon {
             width: 36px; height: 36px; border-radius: 10px;
@@ -755,7 +796,122 @@
 
         .fc:hover .fc-icon { border-color: var(--border-2); background: var(--surface-3); }
 
-        .fc-icon svg { width: 16px; height: 16px; color: var(--text-2); }
+        .fc-icon svg { width: 16px; height: 16px; color: var(--text-2); transition: color 0.3s; }
+
+        /* Feature icon accent colors */
+        .fc:nth-child(1) .fc-icon { background: rgba(129,140,248,0.08); border-color: rgba(129,140,248,0.12); }
+        .fc:nth-child(1) .fc-icon svg { color: #818cf8; }
+        .fc:nth-child(2) .fc-icon { background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.12); }
+        .fc:nth-child(2) .fc-icon svg { color: #34d399; }
+        .fc:nth-child(3) .fc-icon { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.12); }
+        .fc:nth-child(3) .fc-icon svg { color: #fbbf24; }
+        .fc:nth-child(4) .fc-icon { background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.12); }
+        .fc:nth-child(4) .fc-icon svg { color: #f472b6; }
+        .fc:nth-child(5) .fc-icon { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.12); }
+        .fc:nth-child(5) .fc-icon svg { color: #6366f1; }
+        .fc:nth-child(6) .fc-icon { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.12); }
+        .fc:nth-child(6) .fc-icon svg { color: #f87171; }
+        .fc:nth-child(7) .fc-icon { background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.12); }
+        .fc:nth-child(7) .fc-icon svg { color: #2dd4bf; }
+        .fc:nth-child(8) .fc-icon { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.12); }
+        .fc:nth-child(8) .fc-icon svg { color: #38bdf8; }
+        .fc:nth-child(9) .fc-icon { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.12); }
+        .fc:nth-child(9) .fc-icon svg { color: #a855f7; }
+
+        /* Feature card mouse-tracking spotlight */
+        .fc::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(129,140,248,0.06), transparent 40%);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.4s var(--ease);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .fc:hover::before { opacity: 1; }
+        .fc > * { position: relative; z-index: 1; }
+
+        /* Floating UI micro-cards */
+        .float-card {
+            position: absolute;
+            background: rgba(15,15,18,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-2);
+            border-radius: 12px;
+            padding: 14px 18px;
+            z-index: 1;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.02);
+            pointer-events: none;
+            max-width: 210px;
+            animation: floatBob 6s ease-in-out infinite;
+        }
+
+        .float-card-1 {
+            top: 100px; right: calc(50% - 620px);
+            --fc-r: 2deg;
+            transform: rotate(2deg);
+        }
+
+        .float-card-2 {
+            bottom: 200px; left: calc(50% - 610px);
+            --fc-r: -1.5deg;
+            transform: rotate(-1.5deg);
+            animation-delay: -3s;
+        }
+
+        @keyframes floatBob {
+            0%, 100% { transform: translateY(0) rotate(var(--fc-r, 0deg)); }
+            50% { transform: translateY(-8px) rotate(var(--fc-r, 0deg)); }
+        }
+
+        .fcard-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .fcard-emoji { font-size: 0.85rem; line-height: 1; }
+        .fcard-title { font-size: 0.7rem; font-weight: 600; color: var(--text); }
+        .fcard-desc { font-size: 0.62rem; color: var(--text-3); line-height: 1.45; }
+        .fcard-badge {
+            display: inline-flex; align-items: center; gap: 4px;
+            margin-top: 8px;
+            font-size: 0.56rem; font-weight: 600;
+            padding: 2px 8px; border-radius: 100px;
+            letter-spacing: 0.01em;
+        }
+        .fcard-badge-gold {
+            background: rgba(251,191,36,0.1);
+            color: rgba(251,191,36,0.85);
+            border: 1px solid rgba(251,191,36,0.1);
+        }
+        .fcard-badge-green {
+            background: var(--green-dim);
+            color: rgba(52,211,153,0.85);
+            border: 1px solid rgba(52,211,153,0.1);
+        }
+
+        /* Section gradient orbs */
+        .how::before, .features::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(100px);
+            opacity: 0.035;
+        }
+
+        .how::before {
+            top: 10%; right: -200px;
+            background: radial-gradient(circle, #818cf8, transparent 70%);
+        }
+
+        .features::before {
+            top: 30%; left: -200px;
+            background: radial-gradient(circle, #a855f7, transparent 70%);
+        }
+
+        @media (max-width: 1280px) {
+            .float-card { display: none; }
+        }
 
         .fc h3 {
             font-size: 0.88rem; font-weight: 600;
@@ -772,7 +928,7 @@
            PRIVACY
            ═══════════════════════════════════════════════════ */
         .privacy {
-            padding: 96px 0;
+            padding: 120px 0;
             border-top: 1px solid var(--border);
         }
 
@@ -788,8 +944,8 @@
         }
 
         .priv-left .s-heading {
-            font-size: clamp(1.5rem, 3vw, 2.1rem);
-            font-weight: 700; letter-spacing: -0.035em;
+            font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+            font-weight: 700; letter-spacing: -0.04em;
             line-height: 1.12; margin-bottom: 10px;
         }
 
@@ -929,10 +1085,64 @@
         }
 
         /* ═══════════════════════════════════════════════════
+           EDITORIAL STATEMENT / MANIFESTO
+           ═══════════════════════════════════════════════════ */
+        .statement {
+            padding: 120px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .statement::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            translate: -50% -50%;
+            width: 800px; height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(ellipse, rgba(129,140,248,0.04) 0%, transparent 55%);
+            pointer-events: none;
+        }
+
+        .statement-text {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 4.5vw, 3.5rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+            color: var(--text);
+            max-width: 720px;
+            margin: 0 auto 24px;
+        }
+
+        .statement-text .st-em {
+            color: var(--primary);
+        }
+
+        .statement-sub {
+            font-size: 0.88rem;
+            color: var(--text-3);
+            max-width: 440px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .statement-rule {
+            width: 48px; height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            margin: 0 auto 28px;
+            opacity: 0.5;
+        }
+
+        /* ═══════════════════════════════════════════════════
            CTA
            ═══════════════════════════════════════════════════ */
         .cta {
-            padding: 112px 0 120px;
+            padding: 140px 0 150px;
             text-align: center;
             position: relative;
         }
@@ -942,31 +1152,56 @@
             position: absolute;
             top: 40%; left: 50%;
             translate: -50% -50%;
-            width: 600px; height: 400px;
+            width: 800px; height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129,140,248,0.03) 0%, transparent 60%);
+            background: radial-gradient(ellipse, rgba(129,140,248,0.05) 0%, transparent 55%);
             pointer-events: none;
         }
 
         .cta h2 {
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            font-weight: 700; letter-spacing: -0.045em;
-            line-height: 1.08;
-            margin-bottom: 16px;
+            font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+            font-weight: 700; letter-spacing: -0.05em;
+            line-height: 1.04;
+            margin-bottom: 20px;
+        }
+
+        .cta h2 .serif-em {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-style: italic;
+            font-weight: 400;
+            letter-spacing: -0.02em;
         }
 
         .cta .sub {
-            font-size: 0.95rem; color: var(--text-2);
-            max-width: 380px; margin: 0 auto 32px; line-height: 1.6;
+            font-size: 1rem; color: var(--text-2);
+            max-width: 400px; margin: 0 auto 40px; line-height: 1.6;
         }
 
-        .cta .pills { margin-top: 22px; }
+        .cta .pills { margin-top: 24px; }
+
+        /* Trust / built-with row */
+        .trust-row {
+            margin-top: 40px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .trust-label {
+            font-size: 0.6rem; color: var(--text-3);
+            text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
+        }
+        .trust-logos {
+            display: flex; align-items: center; gap: 12px;
+        }
+        .trust-item {
+            display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.68rem; color: var(--text-3);
+        }
+        .trust-sep { color: var(--border-2); font-size: 0.5rem; }
 
         /* ═══════════════════════════════════════════════════
            FOOTER
            ═══════════════════════════════════════════════════ */
         footer {
-            padding: 28px 0;
+            padding: 40px 0 32px;
             border-top: 1px solid var(--border);
         }
 
@@ -974,9 +1209,27 @@
             display: flex; align-items: center; justify-content: space-between;
         }
 
+        .footer-left {
+            display: flex; align-items: center; gap: 20px;
+        }
+
+        .footer-logo {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 0.82rem; color: var(--text-2);
+        }
+
+        .footer-logo .fl-icon {
+            width: 22px; height: 22px; border-radius: 6px; overflow: hidden;
+        }
+        .footer-logo .fl-icon svg { width: 100%; height: 100%; display: block; }
+
         .footer-copy {
-            font-size: 0.72rem; color: var(--text-3);
+            font-size: 0.68rem; color: var(--text-3);
             display: flex; align-items: center; gap: 6px;
+        }
+
+        .footer-sep {
+            width: 1px; height: 16px; background: var(--border-2);
         }
 
         .footer-links { display: flex; gap: 24px; }
@@ -1037,17 +1290,22 @@
         @media (max-width: 640px) {
             nav .nav-links { display: none; }
             .burger { display: block; }
-            .hero { padding: 124px 0 40px; }
-            .hero h1 { font-size: 2.25rem; }
+            .hero { padding: 140px 0 40px; }
+            .hero h1 { font-size: 2.5rem; }
             .hero-actions { flex-direction: column; align-items: stretch; }
             .btn { justify-content: center; }
             .fg { grid-template-columns: 1fr; }
             .dm-row { grid-template-columns: 1fr; }
             .dm-card.full { grid-column: span 1; }
-            .features, .privacy, .how, .cta { padding: 72px 0; }
+            .features, .privacy, .how { padding: 80px 0; }
+            .cta { padding: 80px 0 88px; }
+            .statement { padding: 72px 0; }
+            .statement-text { font-size: 1.7rem; }
             .numbers { padding: 56px 0; }
             .container { padding: 0 20px; }
             .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
+            .footer-left { flex-direction: column; gap: 8px; }
+            .footer-sep { display: none; }
             .dm-current { display: none; }
             .pc-flow { flex-direction: column; align-items: flex-start; gap: 10px; }
             .pc-source { width: 100%; }
@@ -1081,6 +1339,9 @@
     </style>
 </head>
 <body>
+
+<!-- Skip to content -->
+<a href="#how" class="skip-link">Skip to content</a>
 
 <!-- SVG defs -->
 <svg style="position:absolute;width:0;height:0" aria-hidden="true">
@@ -1124,7 +1385,7 @@
             <a href="/downloads/Deskly-Setup-1.0.0.exe" class="nav-cta">Download</a>
         </div>
 
-        <button class="burger" aria-label="Menu" onclick="document.querySelector('.mob-menu').classList.add('open')">
+        <button class="burger" aria-label="Menu">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
         </button>
     </div>
@@ -1132,13 +1393,13 @@
 
 <!-- Mobile menu -->
 <div class="mob-menu" role="dialog" aria-label="Navigation">
-    <button class="mob-close" aria-label="Close" onclick="this.parentElement.classList.remove('open')">
+    <button class="mob-close" aria-label="Close">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
     </button>
-    <a href="#how" onclick="this.closest('.mob-menu').classList.remove('open')">How it works</a>
-    <a href="#features" onclick="this.closest('.mob-menu').classList.remove('open')">Features</a>
-    <a href="#privacy" onclick="this.closest('.mob-menu').classList.remove('open')">Privacy</a>
-    <a href="/account" onclick="this.closest('.mob-menu').classList.remove('open')">Sign in</a>
+    <a href="#how">How it works</a>
+    <a href="#features">Features</a>
+    <a href="#privacy">Privacy</a>
+    <a href="/account">Sign in</a>
     <a href="/downloads/Deskly-Setup-1.0.0.exe">Download</a>
 </div>
 
@@ -1150,7 +1411,7 @@
             v1.0 — Free for Windows
         </div>
 
-        <h1 class="hero-anim" data-d="2">Know where your<br><span class="gradient">time actually goes</span></h1>
+        <h1 class="hero-anim" data-d="2">Know where your<br><span class="gradient serif-em">time actually goes</span></h1>
 
         <p class="sub hero-anim" data-d="3">Screen time tracking with 1-second precision.<br>Every app, every website. All data stays local.</p>
 
@@ -1166,6 +1427,10 @@
             <span class="pill"><span class="pd" style="background:var(--green)"></span>Free &amp; open source</span>
             <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
             <span class="pill"><span class="pd" style="background:var(--text-3)"></span>No account needed</span>
+            <a href="https://github.com" class="pill" style="transition:border-color 0.2s;cursor:pointer" onmouseenter="this.style.borderColor='rgba(255,255,255,0.14)'" onmouseleave="this.style.borderColor=''">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+                Open source
+            </a>
         </div>
     </div>
 </section>
@@ -1183,7 +1448,10 @@
                         <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                             <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)"/>
                             <g transform="translate(256,256)">
+                                <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
+                                <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
                                 <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
+                                <circle cx="95" cy="-95" r="18" fill="#4ade80"/><circle cx="95" cy="-95" r="10" fill="#22c55e"/>
                             </g>
                         </svg>
                     </div>
@@ -1231,12 +1499,12 @@
                     </div>
 
                     <div class="sb-user">
-                        <div class="sb-avatar">H</div>
-                        <span class="sb-name">Hitesh</span>
+                        <div class="sb-avatar">A</div>
+                        <span class="sb-name">Alex</span>
                     </div>
                 </div>
                 <div class="dm">
-                    <div class="dm-greeting">Good afternoon, <strong>Hitesh</strong> <span class="dm-current"><span class="dm-pulse"></span>VS Code — main.js</span></div>
+                    <div class="dm-greeting">Good afternoon, <strong>Alex</strong> <span class="dm-current"><span class="dm-pulse"></span>Chrome — youtube.com</span></div>
 
                     <div class="dm-card full">
                         <div class="dm-label">Today's Activity</div>
@@ -1368,6 +1636,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Floating UI cards (wide screens only) -->
+    <div class="float-card float-card-1">
+        <div class="fcard-top">
+            <span class="fcard-emoji">🏆</span>
+            <span class="fcard-title">Achievement unlocked</span>
+        </div>
+        <div class="fcard-desc">Weekly Warrior — hit your goal 7 days in a row</div>
+        <span class="fcard-badge fcard-badge-gold">+ 50 XP</span>
+    </div>
+
+    <div class="float-card float-card-2">
+        <div class="fcard-top">
+            <span class="fcard-emoji">🧘</span>
+            <span class="fcard-title">Time for a break</span>
+        </div>
+        <div class="fcard-desc">You've been focused for 45 minutes</div>
+        <span class="fcard-badge fcard-badge-green">Eye rest · 20-20-20</span>
+    </div>
 </section>
 
 <!-- ── BROWSER TICKER ────────────────────────── -->
@@ -1378,37 +1665,37 @@
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="20" height="20" loading="lazy">Chrome</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt="" width="20" height="20" loading="lazy">Brave</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139" alt="" width="20" height="20" loading="lazy">Firefox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#0078D7">E</span>Edge</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#0078D4"/><path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1" stroke-width="1.5" stroke-linecap="round"/></svg>Edge</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt="" width="20" height="20" loading="lazy">Opera</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt="" width="20" height="20" loading="lazy">Vivaldi</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt="" width="20" height="20" loading="lazy">Arc</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698" alt="" width="20" height="20" loading="lazy">Tor</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#3DDC84">Cr</span>Chromium</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#E74C3C">Wf</span>Waterfox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">Mu</span>Mullvad</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#4ECDC4">Lw</span>LibreWolf</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#7C6AEF">Ze</span>Zen</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#E91E63">Pp</span>Polypane</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00796B">Mi</span>Midori</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#2196F3">Wh</span>Whale</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#4587F3"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="6" r="1.5" fill="#fff"/></svg>Chromium</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#5B4D9E"/><path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5"/></svg>Waterfox</span>
+            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
+            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt="" width="20" height="20" loading="lazy">LibreWolf</span>
+            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF" alt="" width="20" height="20" loading="lazy">Zen</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#2E66F6"/><rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9"/><rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6"/></svg>Polypane</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#45B855"/><path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Midori</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#00C170"/><path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Whale</span>
         </div>
         <div class="ticker-set">
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="20" height="20" loading="lazy">Chrome</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt="" width="20" height="20" loading="lazy">Brave</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139" alt="" width="20" height="20" loading="lazy">Firefox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#0078D7">E</span>Edge</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#0078D4"/><path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1" stroke-width="1.5" stroke-linecap="round"/></svg>Edge</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt="" width="20" height="20" loading="lazy">Opera</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt="" width="20" height="20" loading="lazy">Vivaldi</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt="" width="20" height="20" loading="lazy">Arc</span>
             <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698" alt="" width="20" height="20" loading="lazy">Tor</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#3DDC84">Cr</span>Chromium</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#E74C3C">Wf</span>Waterfox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">Mu</span>Mullvad</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#4ECDC4">Lw</span>LibreWolf</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#7C6AEF">Ze</span>Zen</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#E91E63">Pp</span>Polypane</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00796B">Mi</span>Midori</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#2196F3">Wh</span>Whale</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#4587F3"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="6" r="1.5" fill="#fff"/></svg>Chromium</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#5B4D9E"/><path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5"/></svg>Waterfox</span>
+            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
+            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt="" width="20" height="20" loading="lazy">LibreWolf</span>
+            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF" alt="" width="20" height="20" loading="lazy">Zen</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#2E66F6"/><rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9"/><rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6"/></svg>Polypane</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#45B855"/><path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Midori</span>
+            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#00C170"/><path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Whale</span>
         </div>
     </div>
 </section>
@@ -1418,19 +1705,19 @@
     <div class="container">
         <div class="numbers-grid reveal">
             <div class="num-cell">
-                <div class="num-val">56</div>
+                <div class="num-val" data-target="56" data-suffix="">0</div>
                 <div class="num-label">Browsers tracked</div>
             </div>
             <div class="num-cell">
-                <div class="num-val">88</div>
+                <div class="num-val" data-target="88" data-suffix="">0</div>
                 <div class="num-label">Websites auto-recognized</div>
             </div>
             <div class="num-cell">
-                <div class="num-val">1 sec</div>
+                <div class="num-val" data-target="1" data-suffix=" sec">0 sec</div>
                 <div class="num-label">Tracking precision</div>
             </div>
             <div class="num-cell">
-                <div class="num-val">0 bytes</div>
+                <div class="num-val" data-target="0" data-suffix=" bytes">0 bytes</div>
                 <div class="num-label">Sent to any server</div>
             </div>
         </div>
@@ -1441,7 +1728,7 @@
 <section class="how" id="how">
     <div class="container">
         <div class="s-eyebrow reveal">How it works</div>
-        <h2 class="s-heading reveal" data-d="1">Install once. It handles the rest.</h2>
+        <h2 class="s-heading reveal" data-d="1">Install once.<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">It handles the rest.</em></h2>
 
         <div class="steps">
             <div class="step reveal" data-d="1">
@@ -1469,7 +1756,7 @@
 <section class="features" id="features">
     <div class="container">
         <div class="s-eyebrow reveal">Features</div>
-        <h2 class="s-heading reveal" data-d="1">Everything you need.<br>Nothing you don't.</h2>
+        <h2 class="s-heading reveal" data-d="1">Everything you need.<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">Nothing you don't.</em></h2>
         <p class="s-sub reveal" data-d="2">No bloat, no subscription, no upsell. A focused tool that does its job well.</p>
 
         <div class="fg reveal" data-d="3">
@@ -1546,7 +1833,7 @@
         <div class="priv-layout">
             <div class="priv-left">
                 <div class="s-eyebrow reveal">Privacy</div>
-                <h2 class="s-heading reveal" data-d="1">Your data never leaves<br>your machine.</h2>
+                <h2 class="s-heading reveal" data-d="1">Your data never leaves<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">your machine.</em></h2>
                 <p class="s-sub reveal" data-d="2">Everything lives in a local folder you choose — like Obsidian for your screen time. Move it to a USB, sync it with Dropbox, or delete it entirely. Your call.</p>
 
                 <div class="checks reveal" data-d="3">
@@ -1636,7 +1923,7 @@
 <!-- ── CTA ───────────────────────────────────── -->
 <section class="cta">
     <div class="container">
-        <h2 class="reveal">See where your time<br>actually goes.</h2>
+        <h2 class="reveal">See where your time<br><span class="serif-em">actually goes.</span></h2>
         <p class="sub reveal" data-d="1">Free. Private. No sign-up. Just install<br>and get honest answers about your screen time.</p>
 
         <div class="reveal" data-d="2">
@@ -1651,6 +1938,19 @@
             <span class="pill"><span class="pd" style="background:var(--text-3)"></span>~85 MB</span>
             <span class="pill"><span class="pd" style="background:var(--green)"></span>No telemetry</span>
         </div>
+
+        <div class="trust-row reveal" data-d="4">
+            <span class="trust-label">Built with</span>
+            <div class="trust-logos">
+                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:var(--text-3)"><path d="M11.998 2C6.466 2 2 6.478 2 12.026c0 4.432 2.865 8.19 6.839 9.516.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.071 1.532 1.031 1.532 1.031.892 1.529 2.341 1.088 2.913.832.091-.647.349-1.088.636-1.339-2.22-.253-4.555-1.112-4.555-4.947 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 11.998 2z"/></svg> Open Source</span>
+                <span class="trust-sep">&middot;</span>
+                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)"><circle cx="12" cy="12" r="10"/><path d="M12,2 a15.3,15.3 0 0,1 0,20"/><path d="M12,2 a15.3,15.3 0 0,0 0,20"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Electron</span>
+                <span class="trust-sep">&middot;</span>
+                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:var(--text-3)"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236z" fill="currentColor"/><path d="M12 6.545c3.636 0 6.742 1.847 8.186 4.459C18.742 13.612 15.636 15.46 12 15.46s-6.742-1.848-8.186-4.456C5.258 8.392 8.364 6.545 12 6.545z" stroke="currentColor" stroke-width="1.5"/></svg> React</span>
+                <span class="trust-sep">&middot;</span>
+                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Local-first</span>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1658,10 +1958,27 @@
 <footer>
     <div class="container">
         <div class="footer-inner">
-            <span class="footer-copy">
-                &copy; 2026 Deskly
-                <span style="color:var(--text-3);font-size:0.65rem">· Built with Electron + React</span>
-            </span>
+            <div class="footer-left">
+                <a href="/" class="footer-logo" aria-label="Deskly home">
+                    <div class="fl-icon">
+                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)"/>
+                            <g transform="translate(256,256)">
+                                <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
+                                <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
+                                <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
+                                <circle cx="95" cy="-95" r="18" fill="#4ade80"/><circle cx="95" cy="-95" r="10" fill="#22c55e"/>
+                            </g>
+                        </svg>
+                    </div>
+                    Deskly
+                </a>
+                <div class="footer-sep"></div>
+                <span class="footer-copy">
+                    &copy; <script>document.write(new Date().getFullYear())</script> Deskly
+                    <span style="color:var(--text-3);font-size:0.62rem">· Built with Electron + React</span>
+                </span>
+            </div>
             <div class="footer-links">
                 <a href="#features">Features</a>
                 <a href="#privacy">Privacy</a>
@@ -1676,6 +1993,22 @@
 <script>
 (function() {
     'use strict';
+
+    // ── Mobile menu (burger + close + nav links) ──
+    const mobMenu = document.querySelector('.mob-menu');
+    const burger  = document.querySelector('.burger');
+    const mobClose = document.querySelector('.mob-close');
+
+    if (burger && mobMenu) {
+        burger.addEventListener('click', () => mobMenu.classList.add('open'));
+    }
+    if (mobClose && mobMenu) {
+        mobClose.addEventListener('click', () => mobMenu.classList.remove('open'));
+    }
+    // Close mobile menu when any in-page link is tapped
+    mobMenu?.querySelectorAll('a[href^="#"]').forEach(link => {
+        link.addEventListener('click', () => mobMenu.classList.remove('open'));
+    });
 
     // ── Nav scroll ──
     const nav = document.getElementById('nav');
@@ -1735,8 +2068,71 @@
         ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
     }
 
+    // ── Animated number counters ──
+    const numObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const vals = entry.target.querySelectorAll('.num-val[data-target]');
+                vals.forEach(el => {
+                    const target = parseInt(el.dataset.target);
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1400;
+                    const start = performance.now();
+                    function tick(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+                        const current = Math.round(eased * target);
+                        el.textContent = current + suffix;
+                        if (progress < 1) requestAnimationFrame(tick);
+                    }
+                    requestAnimationFrame(tick);
+                });
+                numObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    const numGrid = document.querySelector('.numbers-grid');
+    if (numGrid) numObserver.observe(numGrid);
+
+    // ── Parallax mockup scroll ──
+    const windowEl = document.querySelector('.window');
+    const mockupSec = document.querySelector('.mockup-section');
+    const prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (windowEl && mockupSec && window.innerWidth > 960 && !prefersRM) {
+        let pTick = false;
+        window.addEventListener('scroll', () => {
+            if (!pTick) {
+                requestAnimationFrame(() => {
+                    if (!windowEl.classList.contains('visible')) { pTick = false; return; }
+                    const rect = mockupSec.getBoundingClientRect();
+                    const vh = window.innerHeight;
+                    if (rect.top < vh && rect.bottom > 0) {
+                        const p = (vh - rect.top) / (vh + rect.height);
+                        windowEl.style.transform = `translateY(${(p - 0.5) * -24}px)`;
+                    }
+                    pTick = false;
+                });
+                pTick = true;
+            }
+        }, { passive: true });
+    }
+
+    // ── Feature card spotlight ──
+    const fgEl = document.querySelector('.fg');
+    if (fgEl) {
+        fgEl.addEventListener('mousemove', (e) => {
+            fgEl.querySelectorAll('.fc').forEach(card => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            });
+        });
+    }
+
     // ── Prefers reduced motion ──
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if (prefersRM) {
         document.querySelectorAll('.hero-anim').forEach(el => {
             el.style.animation = 'none';
             el.style.opacity = '1';

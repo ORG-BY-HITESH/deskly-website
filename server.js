@@ -15,17 +15,32 @@
 
 require('dotenv').config();
 
+const crypto = require('crypto');
 const express = require('express');
 const path = require('path');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const { WorkOS } = require('@workos-inc/node');
 
 const app = express();
+
+// Behind Vercel / any reverse proxy — needed for rate-limit & secure cookies
+app.set('trust proxy', 1);
 const port = process.env.PORT || 4000;
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
-const jwtSecret = process.env.JWT_SECRET || 'dev-secret-change-me';
+const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
+
+// ─── JWT Secret ────────────────────────────────────────────────────────────────
+// In production, refuse to start without a real secret
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret && isProduction) {
+    console.error('FATAL: JWT_SECRET is required in production. Set it in your .env file.');
+    process.exit(1);
+}
+const JWT_KEY = jwtSecret || 'dev-secret-change-me';
 
 // WorkOS client (lazy init — only needed for auth routes)
 let workos = null;
@@ -39,10 +54,51 @@ function getWorkOS() {
     return workos;
 }
 
+// ─── Security middleware ───────────────────────────────────────────────────────
+app.use(helmet({
+    contentSecurityPolicy: {
+        directives: {
+            defaultSrc: ["'self'"],
+            scriptSrc: ["'self'", "'unsafe-inline'"],
+            styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+            fontSrc: ["'self'", "https://fonts.gstatic.com"],
+            imgSrc: ["'self'", "https://cdn.simpleicons.org", "data:", "https:"],
+            connectSrc: ["'self'"],
+        },
+    },
+}));
+
+// Rate limiting on auth routes
+const authLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 20,                   // 20 requests per window
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: 'Too many auth requests. Please try again later.',
+});
+
+const apiLimiter = rateLimit({
+    windowMs: 1 * 60 * 1000,  // 1 minute
+    max: 60,                   // 60 requests per window
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
+
+/** Escape HTML entities to prevent XSS in template strings */
+function esc(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
 
 function signToken(user) {
     return jwt.sign(
@@ -54,14 +110,14 @@ function signToken(user) {
                 : user.email.split('@')[0],
             picture: user.profilePictureUrl || null,
         },
-        jwtSecret,
+        JWT_KEY,
         { expiresIn: '30d' }
     );
 }
 
 function verifyToken(token) {
     try {
-        return jwt.verify(token, jwtSecret);
+        return jwt.verify(token, JWT_KEY);
     } catch {
         return null;
     }
@@ -94,14 +150,26 @@ app.get('/account', (req, res) => {
 
 // ─── Auth: Start Login ─────────────────────────────────────────────────────────
 
-app.get('/auth/login', async (req, res, next) => {
+app.get('/auth/login', authLimiter, async (req, res, next) => {
     try {
         const { device_id, source } = req.query;
 
-        // Store context in state so we get it back in the callback
-        const state = JSON.stringify({
+        // CSRF-safe OAuth state: random nonce stored in a short-lived cookie
+        const nonce = crypto.randomBytes(24).toString('base64url');
+        const statePayload = {
+            n: nonce,
             device_id: device_id || null,
-            source: source || 'desktop', // 'desktop' or 'web'
+            source: source || 'desktop',
+        };
+        const state = JSON.stringify(statePayload);
+
+        // Store nonce in a short-lived cookie to verify on callback
+        res.cookie('oauth_nonce', nonce, {
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: 'lax',
+            maxAge: 10 * 60 * 1000, // 10 minutes — plenty for OAuth round-trip
+            path: '/auth/callback',
         });
 
         const authorizationUrl = getWorkOS().userManagement.getAuthorizationUrl({
@@ -120,13 +188,29 @@ app.get('/auth/login', async (req, res, next) => {
 
 // ─── Auth: OAuth Callback ──────────────────────────────────────────────────────
 
-app.get('/auth/callback', async (req, res, next) => {
+app.get('/auth/callback', authLimiter, async (req, res, next) => {
     try {
         const { code, state } = req.query;
 
         if (!code) {
             return res.status(400).send('Missing authorization code from WorkOS');
         }
+
+        // Verify CSRF nonce from the state matches the cookie
+        let context = { source: 'desktop', device_id: null };
+        try {
+            if (state) {
+                const parsed = JSON.parse(state);
+                const savedNonce = req.cookies?.oauth_nonce;
+                if (!savedNonce || parsed.n !== savedNonce) {
+                    return res.status(403).send('OAuth state mismatch — possible CSRF. Please try signing in again.');
+                }
+                context = { source: parsed.source || 'desktop', device_id: parsed.device_id || null };
+            }
+        } catch { /* ignore malformed state */ }
+
+        // Clear the one-time nonce cookie
+        res.clearCookie('oauth_nonce', { path: '/auth/callback' });
 
         // Exchange code for user
         const { user } = await getWorkOS().userManagement.authenticateWithCode({
@@ -137,16 +221,10 @@ app.get('/auth/callback', async (req, res, next) => {
         // Create a signed JWT
         const token = signToken(user);
 
-        // Parse state to figure out where to send the user
-        let context = { source: 'desktop', device_id: null };
-        try {
-            if (state) context = JSON.parse(state);
-        } catch { /* ignore */ }
-
         // Always set a cookie so the website can show signed-in state
         res.cookie('deskly_token', token, {
             httpOnly: true,
-            secure: baseUrl.startsWith('https'),
+            secure: isProduction,
             sameSite: 'lax',
             maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
         });
@@ -167,6 +245,12 @@ app.get('/auth/callback', async (req, res, next) => {
 
 // ─── Auth: Sign Out ────────────────────────────────────────────────────────────
 
+app.post('/auth/logout', (req, res) => {
+    res.clearCookie('deskly_token');
+    res.redirect('/');
+});
+
+// Keep GET as a fallback so direct links / bookmarked logouts still work
 app.get('/auth/logout', (req, res) => {
     res.clearCookie('deskly_token');
     res.redirect('/');
@@ -174,7 +258,7 @@ app.get('/auth/logout', (req, res) => {
 
 // ─── API: Verify token (desktop app or website can call this) ──────────────────
 
-app.get('/api/me', (req, res) => {
+app.get('/api/me', apiLimiter, (req, res) => {
     const authHeader = req.headers.authorization;
     let token = null;
 
@@ -255,18 +339,18 @@ function desktopCallbackPage(user, deepLink) {
 <body>
     <div class="card">
         <div class="check">✓</div>
-        <h1>Welcome, ${displayName}!</h1>
-        <p class="email">${user.email}</p>
+        <h1>Welcome, ${esc(displayName)}!</h1>
+        <p class="email">${esc(user.email)}</p>
         <p class="hint">You're all set. Click below to return to the Deskly app.</p>
-        <a href="${deepLink}" class="btn">Open Deskly App</a>
+        <a href="${esc(deepLink)}" class="btn">Open Deskly App</a>
         <p class="manual">
-            Button not working? <a href="${deepLink}">Click here</a> or copy this link:<br/>
-            <code style="font-size:0.7rem;color:#6b7280;word-break:break-all;">${deepLink}</code>
+            Button not working? <a href="${esc(deepLink)}">Click here</a> or copy this link:<br/>
+            <code style="font-size:0.7rem;color:#6b7280;word-break:break-all;">${esc(deepLink)}</code>
         </p>
     </div>
     <script>
         // Auto-redirect to the deep link
-        setTimeout(() => { window.location.href = "${deepLink}"; }, 1500);
+        setTimeout(() => { window.location.href = "${esc(deepLink)}"; }, 1500);
     </script>
 </body>
 </html>`;
@@ -329,21 +413,21 @@ function accountPage(user) {
     <div class="card">
         <div class="avatar">
             ${user.picture
-                ? `<img src="${user.picture}" alt="avatar" />`
-                : user.name?.charAt(0)?.toUpperCase() || '?'
+                ? `<img src="${esc(user.picture)}" alt="avatar" />`
+                : esc(user.name?.charAt(0)?.toUpperCase() || '?')
             }
         </div>
-        <h1>${user.name || 'Deskly User'}</h1>
-        <p class="email">${user.email}</p>
+        <h1>${esc(user.name || 'Deskly User')}</h1>
+        <p class="email">${esc(user.email)}</p>
         <div class="info-row">
             <span class="info-label">User ID</span>
-            <span class="info-value" style="font-size:0.8rem;color:#6b7280;">${user.sub}</span>
+            <span class="info-value" style="font-size:0.8rem;color:#6b7280;">${esc(user.sub)}</span>
         </div>
         <div class="info-row">
             <span class="info-label">Auth Provider</span>
             <span class="info-value">WorkOS</span>
         </div>
-        <form action="/auth/logout" method="get">
+        <form action="/auth/logout" method="post">
             <button type="submit" class="btn-logout">Sign Out</button>
         </form>
     </div>
@@ -351,15 +435,31 @@ function accountPage(user) {
 </html>`;
 }
 
+// ─── 404 handler ───────────────────────────────────────────────────────────────
+
+app.use((req, res) => {
+    res.status(404).send(`
+        <!DOCTYPE html>
+        <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>404 — Deskly</title>
+        <style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',system-ui,sans-serif;background:#020617;color:#e5e7eb;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:24px}h1{font-size:4rem;font-weight:800;letter-spacing:-0.04em;background:linear-gradient(135deg,#818cf8,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}p{color:#6b7280;margin:12px 0 24px;font-size:0.95rem}a{color:#818cf8;font-weight:500;font-size:0.9rem}</style>
+        </head><body><div><h1>404</h1><p>This page doesn\u2019t exist. Maybe it moved, or you typoed the URL.</p><a href="/">&larr; Back to Deskly</a></div></body></html>
+    `);
+});
+
 // ─── Error handler ─────────────────────────────────────────────────────────────
 
 app.use((err, req, res, next) => {
     console.error(err);
+    // Never leak internal error details to the client
+    const safeMessage = isProduction
+        ? 'An unexpected error occurred. Please try again later.'
+        : esc(err.message || 'Unknown error');
     res.status(500).send(`
         <div style="font-family:system-ui;background:#020617;color:#e5e7eb;display:flex;align-items:center;justify-content:center;min-height:100vh;">
             <div style="text-align:center;">
                 <h1 style="color:#EF4444;">Something went wrong</h1>
-                <p style="color:#6b7280;margin-top:8px;">${err.message || 'Unknown error'}</p>
+                <p style="color:#6b7280;margin-top:8px;">${safeMessage}</p>
                 <a href="/" style="color:#818CF8;margin-top:16px;display:inline-block;">Go Home</a>
             </div>
         </div>
