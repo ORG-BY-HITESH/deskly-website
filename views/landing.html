@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Deskly — Know where your time goes</title>
-    <meta name="description" content="The screen time tracker that actually respects you. 1-second precision. 56 browsers. Zero data leaves your machine." />
+    <meta name="description"
+        content="The screen time tracker that actually respects you. 1-second precision. 56 browsers. Zero data leaves your machine." />
     <meta name="theme-color" content="#0a0a0b" />
 
     <meta property="og:title" content="Deskly — Know where your time goes" />
-    <meta property="og:description" content="Smart screen time tracking for Windows. 1-second precision. All data stays local." />
+    <meta property="og:description"
+        content="Smart screen time tracking for Windows. 1-second precision. All data stays local." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
@@ -22,13 +25,21 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet" />
 
     <style>
         /* ═══════════════════════════════════════════════════
            RESET & TOKENS
            ═══════════════════════════════════════════════════ */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         :root {
             --bg: #09090b;
@@ -38,7 +49,7 @@
             --border: rgba(255, 255, 255, 0.055);
             --border-2: rgba(255, 255, 255, 0.09);
             --text: #ededef;
-            --text-2: #8b8b92;
+            --text-2: #9CA3AF;
             --text-3: #5c5c66;
             --primary: #818cf8;
             --primary-dim: rgba(129, 140, 248, 0.12);
@@ -68,18 +79,55 @@
             text-rendering: optimizeLegibility;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ::selection { background: rgba(129, 140, 248, 0.25); color: #fff; }
-        [id] { scroll-margin-top: 80px; }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ::selection {
+            background: rgba(129, 140, 248, 0.4);
+            color: #fff;
+        }
+
+        ::-moz-selection {
+            background: rgba(129, 140, 248, 0.4);
+            color: #fff;
+        }
+
+        [id] {
+            scroll-margin-top: 80px;
+        }
+
+        /* Focus indicators for keyboard navigation */
+        button:focus-visible,
+        a:focus-visible,
+        input:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
+        }
 
         .skip-link {
-            position: absolute; top: -100px; left: 16px;
-            background: var(--primary); color: #fff;
-            padding: 8px 16px; border-radius: 8px;
-            font-size: 0.82rem; font-weight: 500;
-            z-index: 1000; transition: top 0.2s;
+            position: absolute;
+            top: -100px;
+            left: 16px;
+            background: var(--primary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            z-index: 1000;
+            transition: top 0.2s;
         }
-        .skip-link:focus { top: 12px; }
+
+        .skip-link:focus {
+            top: 12px;
+        }
 
         /* ═══════════════════════════════════════════════════
            NOISE GRAIN OVERLAY
@@ -96,7 +144,11 @@
             background-size: 256px;
         }
 
-        .container { max-width: 1080px; margin: 0 auto; padding: 0 28px; }
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
 
         :focus-visible {
             outline: 2px solid var(--primary);
@@ -108,9 +160,14 @@
            NAV
            ═══════════════════════════════════════════════════ */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
             height: 56px;
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             border-bottom: 1px solid transparent;
             transition: all 0.5s var(--ease);
         }
@@ -123,41 +180,69 @@
         }
 
         nav .inner {
-            max-width: 1080px; width: 100%;
-            margin: 0 auto; padding: 0 28px;
-            display: flex; align-items: center; justify-content: space-between;
+            max-width: 1080px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .logo {
-            display: flex; align-items: center; gap: 10px;
-            font-weight: 600; font-size: 0.92rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 0.92rem;
             letter-spacing: -0.02em;
             color: var(--text);
         }
 
         .logo-icon {
-            width: 28px; height: 28px; border-radius: 8px;
-            overflow: hidden; flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .logo-icon svg { width: 100%; height: 100%; display: block; }
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
 
         .nav-links {
-            display: flex; align-items: center; gap: 1px;
+            display: flex;
+            align-items: center;
+            gap: 1px;
             list-style: none;
         }
 
         .nav-links a {
-            display: block; padding: 6px 14px;
-            font-size: 0.815rem; font-weight: 400;
-            color: var(--text-2); border-radius: 6px;
+            display: block;
+            padding: 6px 14px;
+            font-size: 0.815rem;
+            font-weight: 400;
+            color: var(--text-2);
+            border-radius: 6px;
             transition: color 0.2s, background 0.2s;
         }
 
-        .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+        .nav-links a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-links a:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
 
         .nav-cta {
-            font-size: 0.79rem !important; font-weight: 500 !important;
+            font-size: 0.79rem !important;
+            font-weight: 500 !important;
             color: var(--bg) !important;
             background: var(--text) !important;
             padding: 5px 13px !important;
@@ -165,13 +250,64 @@
             transition: opacity 0.2s !important;
         }
 
-        .nav-cta:hover { opacity: 0.85 !important; }
+        .nav-cta:hover {
+            opacity: 0.85 !important;
+        }
+
+        .nav-cta:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
 
         .burger {
-            display: none; background: none; border: none;
-            cursor: pointer; color: var(--text-2); padding: 4px;
+            display: none;
+            position: relative;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            background: none;
+            width: 44px;
+            height: 44px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: background-color 0.2s var(--ease);
         }
-        .burger svg { width: 20px; height: 20px; }
+
+        .burger:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .burger::before,
+        .burger::after,
+        .burger span {
+            content: '';
+            display: block;
+            position: absolute;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            transition: all 0.3s var(--ease);
+            border-radius: 1px;
+        }
+
+        .burger::before {
+            top: 12px;
+        }
+
+        .burger span {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .burger::after {
+            bottom: 12px;
+        }
+
+        .burger svg {
+            width: 20px;
+            height: 20px;
+        }
 
         /* ═══════════════════════════════════════════════════
            HERO
@@ -186,43 +322,66 @@
         .hero::before {
             content: '';
             position: absolute;
-            top: -200px; left: 50%;
+            top: -200px;
+            left: 50%;
             translate: -50% 0;
-            width: 1000px; height: 600px;
+            width: 1000px;
+            height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129,140,248,0.06) 0%, transparent 60%);
+            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.06) 0%, transparent 60%);
             pointer-events: none;
         }
 
         .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             padding: 4px 12px 4px 5px;
             border-radius: 100px;
             border: 1px solid var(--border-2);
-            background: rgba(255,255,255,0.02);
-            font-size: 0.74rem; color: var(--text-2);
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 0.74rem;
+            color: var(--text-2);
             margin-bottom: 28px;
             transition: border-color 0.3s, background 0.3s;
         }
 
-        .hero-badge:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.04); }
+        .hero-badge:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+        }
 
         .hero-badge .dot {
-            width: 18px; height: 18px; border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
             background: var(--green-dim);
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .hero-badge .dot::after {
             content: '';
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: var(--green);
             animation: pulse 2.5s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.8); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
         }
 
         .hero h1 {
@@ -233,7 +392,8 @@
             margin-bottom: 28px;
             position: relative;
             max-width: 760px;
-            margin-left: auto; margin-right: auto;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .hero h1 .serif-em {
@@ -253,8 +413,15 @@
         }
 
         @keyframes shimmer {
-            0%, 100% { background-position: 0% center; }
-            50% { background-position: 100% center; }
+
+            0%,
+            100% {
+                background-position: 0% center;
+            }
+
+            50% {
+                background-position: 100% center;
+            }
         }
 
         .hero .sub {
@@ -267,62 +434,177 @@
         }
 
         .hero-actions {
-            display: flex; align-items: center; justify-content: center;
-            gap: 10px; margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 32px;
         }
 
         .btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            font-family: inherit; font-size: 0.84rem; font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+            font-size: 0.84rem;
+            font-weight: 500;
             padding: 10px 20px;
-            border: none; border-radius: 9px;
-            cursor: pointer; position: relative;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            position: relative;
             transition: all 0.2s var(--ease);
         }
 
-        .btn svg { width: 15px; height: 15px; flex-shrink: 0; }
-
-        .btn-primary {
-            background: #fff; color: #09090b;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.06), 0 0 24px rgba(255,255,255,0.08), 0 0 48px rgba(255,255,255,0.04);
+        .btn[aria-busy="true"] {
+            pointer-events: none;
+            opacity: 0.7;
         }
 
-        .btn-primary:hover {
+        .btn[aria-busy="true"]::after {
+            content: '';
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            margin-left: 6px;
+            border: 2px solid currentColor;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .btn svg {
+            width: 15px;
+            height: 15px;
+            flex-shrink: 0;
+        }
+
+        .btn-primary {
             background: #fff;
-            box-shadow: 0 4px 16px rgba(255,255,255,0.12), 0 0 0 1px rgba(255,255,255,0.1), 0 0 32px rgba(255,255,255,0.1), 0 0 64px rgba(255,255,255,0.06);
+            color: #09090b;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.06), 0 0 24px rgba(255, 255, 255, 0.08), 0 0 48px rgba(255, 255, 255, 0.04);
+        }
+
+        .btn-primary:hover:not([aria-busy="true"]) {
+            background: #fff;
+            box-shadow: 0 4px 16px rgba(255, 255, 255, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 32px rgba(255, 255, 255, 0.1), 0 0 64px rgba(255, 255, 255, 0.06);
             transform: translateY(-1px);
         }
 
-        .btn-primary:active { transform: translateY(0) scale(0.98); }
+        .btn-primary:active:not([aria-busy="true"]) {
+            transform: translateY(0) scale(0.98);
+        }
 
         .btn-ghost {
-            background: transparent; color: var(--text-2);
+            background: transparent;
+            color: var(--text-2);
             border: 1px solid var(--border-2);
         }
 
-        .btn-ghost:hover {
+        .btn-ghost:hover:not([aria-busy="true"]) {
             color: var(--text);
-            border-color: rgba(255,255,255,0.16);
-            background: rgba(255,255,255,0.03);
+            border-color: rgba(255, 255, 255, 0.16);
+            background: rgba(255, 255, 255, 0.03);
             transform: translateY(-1px);
         }
 
-        .btn-ghost:active { transform: translateY(0) scale(0.98); }
+        .btn-ghost:active:not([aria-busy="true"]) {
+            transform: translateY(0) scale(0.98);
+        }
 
         .pills {
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px; flex-wrap: wrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
         }
 
         .pill {
-            font-size: 0.72rem; color: var(--text-3);
-            padding: 3px 10px; border-radius: 100px;
+            font-size: 0.72rem;
+            color: var(--text-3);
+            padding: 3px 10px;
+            border-radius: 100px;
             border: 1px solid var(--border);
-            background: rgba(255,255,255,0.01);
-            display: inline-flex; align-items: center; gap: 6px;
+            background: rgba(255, 255, 255, 0.01);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s var(--ease);
         }
 
-        .pill .pd { width: 4px; height: 4px; border-radius: 50%; }
+        .pill:not(a) {
+            cursor: default;
+        }
+
+        .pill[href]:hover {
+            border-color: rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+            color: var(--text-2);
+        }
+
+        .pill[href]:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .pill .pd {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+        }
+
+        /* ═══════════════════════════════════════════════════
+           ERROR & SUCCESS STATES
+           ═══════════════════════════════════════════════════ */
+        .error {
+            color: #ef4444;
+            border-color: #ef4444 !important;
+        }
+
+        .error:focus-visible {
+            outline-color: #ef4444;
+        }
+
+        .success {
+            color: #22c55e;
+            border-color: #22c55e !important;
+        }
+
+        .success:focus-visible {
+            outline-color: #22c55e;
+        }
+
+        /* ═══════════════════════════════════════════════════
+           TOUCH-FRIENDLY TARGETS
+           ═══════════════════════════════════════════════════ */
+        @media (hover: none) and (pointer: coarse) {
+
+            button,
+            a[href],
+            [role="button"],
+            input[type="checkbox"],
+            input[type="radio"] {
+                min-width: 44px;
+                min-height: 44px;
+                padding: 10px 12px;
+            }
+
+            .btn {
+                min-height: 44px;
+                padding: 12px 20px;
+            }
+        }
 
         /* ═══════════════════════════════════════════════════
            WINDOW MOCKUP
@@ -335,7 +617,9 @@
         .mockup-section::after {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; right: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             height: 200px;
             background: linear-gradient(to bottom, transparent, var(--bg));
             pointer-events: none;
@@ -344,48 +628,70 @@
 
         .window {
             background: var(--surface);
-            border: 1px solid rgba(129,140,248,0.1);
+            border: 1px solid rgba(129, 140, 248, 0.1);
             border-radius: 16px;
             overflow: hidden;
             box-shadow:
-                0 0 0 1px rgba(129,140,248,0.05),
-                0 0 60px rgba(129,140,248,0.06),
-                0 0 120px rgba(129,140,248,0.03),
-                0 2px 4px rgba(0,0,0,0.08),
-                0 8px 20px rgba(0,0,0,0.12),
-                0 20px 40px rgba(0,0,0,0.18),
-                0 40px 80px rgba(0,0,0,0.22);
+                0 0 0 1px rgba(129, 140, 248, 0.05),
+                0 0 60px rgba(129, 140, 248, 0.06),
+                0 0 120px rgba(129, 140, 248, 0.03),
+                0 2px 4px rgba(0, 0, 0, 0.08),
+                0 8px 20px rgba(0, 0, 0, 0.12),
+                0 20px 40px rgba(0, 0, 0, 0.18),
+                0 40px 80px rgba(0, 0, 0, 0.22);
         }
 
         .tb {
             height: 42px;
-            background: linear-gradient(180deg, rgba(22,22,26,0.95) 0%, rgba(15,15,18,0.95) 100%);
+            background: linear-gradient(180deg, rgba(22, 22, 26, 0.95) 0%, rgba(15, 15, 18, 0.95) 100%);
             border-bottom: 1px solid var(--border);
-            display: flex; align-items: center;
+            display: flex;
+            align-items: center;
             padding: 0 16px;
         }
 
-        .tb-dots { display: flex; gap: 6px; align-items: center; width: 60px; }
+        .tb-dots {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            width: 60px;
+        }
 
         .tb-dot {
-            width: 10px; height: 10px; border-radius: 50%;
-            border: 1px solid rgba(255,255,255,0.06);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.06);
             background: var(--surface-2);
         }
 
         .tb-title {
-            flex: 1; text-align: center;
-            font-size: 0.68rem; color: var(--text-3);
+            flex: 1;
+            text-align: center;
+            font-size: 0.68rem;
+            color: var(--text-3);
             letter-spacing: 0.03em;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
         }
 
         .tb-title .tb-logo {
-            width: 14px; height: 14px; border-radius: 3px; overflow: hidden;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            overflow: hidden;
         }
-        .tb-title .tb-logo svg { width: 100%; height: 100%; }
 
-        .tb-spacer { width: 60px; }
+        .tb-title .tb-logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .tb-spacer {
+            width: 60px;
+        }
 
         .wb {
             display: grid;
@@ -395,63 +701,105 @@
 
         /* Sidebar */
         .sb {
-            background: rgba(12,12,15,0.8);
+            background: rgba(12, 12, 15, 0.8);
             border-right: 1px solid var(--border);
             padding: 16px 10px;
-            display: flex; flex-direction: column; gap: 2px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
 
         .sb-section-label {
-            font-size: 0.58rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            color: var(--text-3); padding: 12px 12px 6px;
+            font-size: 0.58rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-3);
+            padding: 12px 12px 6px;
             opacity: 0.7;
         }
 
         .sb-item {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 12px; border-radius: 8px;
-            font-size: 0.77rem; color: var(--text-3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.77rem;
+            color: var(--text-3);
             transition: all 0.15s;
         }
 
         .sb-item.active {
-            background: rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
             color: var(--text);
         }
 
-        .sb-item svg { width: 15px; height: 15px; opacity: 0.45; flex-shrink: 0; }
-        .sb-item.active svg { opacity: 0.8; }
+        .sb-item svg {
+            width: 15px;
+            height: 15px;
+            opacity: 0.45;
+            flex-shrink: 0;
+        }
 
-        .sb-spacer { flex: 1; }
+        .sb-item.active svg {
+            opacity: 0.8;
+        }
+
+        .sb-spacer {
+            flex: 1;
+        }
 
         .sb-user {
-            display: flex; align-items: center; gap: 9px;
-            padding: 10px 12px; border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 10px 12px;
+            border-top: 1px solid var(--border);
             margin-top: 4px;
         }
 
         .sb-avatar {
-            width: 24px; height: 24px; border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
             background: linear-gradient(135deg, var(--primary), #a78bfa);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.55rem; font-weight: 700; color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            font-weight: 700;
+            color: #fff;
         }
 
-        .sb-name { font-size: 0.72rem; color: var(--text-2); }
+        .sb-name {
+            font-size: 0.72rem;
+            color: var(--text-2);
+        }
 
         /* Main dashboard */
         .dm {
             padding: 20px;
-            display: flex; flex-direction: column; gap: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
         }
 
         .dm-greeting {
-            font-size: 0.82rem; color: var(--text-2);
+            font-size: 0.82rem;
+            color: var(--text-2);
         }
-        .dm-greeting strong { color: var(--text); font-weight: 600; }
 
-        .dm-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .dm-greeting strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .dm-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
 
         .dm-card {
             background: var(--surface-2);
@@ -460,118 +808,268 @@
             padding: 16px 18px;
         }
 
-        .dm-card.full { grid-column: 1 / -1; }
+        .dm-card.full {
+            grid-column: 1 / -1;
+        }
 
         .dm-label {
-            font-size: 0.6rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.08em;
-            color: var(--text-3); margin-bottom: 12px;
+            font-size: 0.6rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-3);
+            margin-bottom: 12px;
         }
 
         /* Ring widget */
-        .ring-row { display: flex; align-items: center; gap: 20px; }
+        .ring-row {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-        .ring-wrap { position: relative; width: 90px; height: 90px; flex-shrink: 0; }
-        .ring-wrap svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+        .ring-wrap {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            flex-shrink: 0;
+        }
 
-        .ring-track { fill: none; stroke: rgba(255,255,255,0.04); stroke-width: 8; }
+        .ring-wrap svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .ring-track {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.04);
+            stroke-width: 8;
+        }
+
         .ring-fill {
-            fill: none; stroke: url(#ringGrad); stroke-width: 8;
+            fill: none;
+            stroke: url(#ringGrad);
+            stroke-width: 8;
             stroke-linecap: round;
-            stroke-dasharray: 226; stroke-dashoffset: 68;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 68;
             transition: stroke-dashoffset 1.5s var(--ease);
         }
 
         .ring-center {
-            position: absolute; inset: 0;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
-        .ring-val { font-size: 1.05rem; font-weight: 700; letter-spacing: -0.03em; line-height: 1; }
-        .ring-sub { font-size: 0.55rem; color: var(--text-3); margin-top: 3px; }
+        .ring-val {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
 
-        .ring-stats { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+        .ring-sub {
+            font-size: 0.55rem;
+            color: var(--text-3);
+            margin-top: 3px;
+        }
+
+        .ring-stats {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
 
         .rs-row {
-            display: flex; justify-content: space-between; align-items: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding-bottom: 7px;
             border-bottom: 1px solid var(--border);
         }
-        .rs-row:last-child { border: none; padding: 0; }
-        .rs-k { font-size: 0.73rem; color: var(--text-3); }
-        .rs-v { font-size: 0.73rem; font-weight: 600; letter-spacing: -0.01em; }
+
+        .rs-row:last-child {
+            border: none;
+            padding: 0;
+        }
+
+        .rs-k {
+            font-size: 0.73rem;
+            color: var(--text-3);
+        }
+
+        .rs-v {
+            font-size: 0.73rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
 
         /* App list mini */
-        .app-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-        .app-row:last-child { margin: 0; }
+        .app-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .app-row:last-child {
+            margin: 0;
+        }
 
         .app-ico {
-            width: 28px; height: 28px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.6rem; font-weight: 700; color: #fff; flex-shrink: 0;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
         }
 
-        .app-info { flex: 1; min-width: 0; }
-        .app-name { font-size: 0.74rem; font-weight: 500; }
-        .app-time { font-size: 0.62rem; color: var(--text-3); }
-        .app-bar {
-            height: 3px; background: rgba(255,255,255,0.04);
-            border-radius: 100px; margin-top: 5px; overflow: hidden;
+        .app-info {
+            flex: 1;
+            min-width: 0;
         }
-        .app-prog { height: 100%; border-radius: 100px; }
+
+        .app-name {
+            font-size: 0.74rem;
+            font-weight: 500;
+        }
+
+        .app-time {
+            font-size: 0.62rem;
+            color: var(--text-3);
+        }
+
+        .app-bar {
+            height: 3px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 100px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+
+        .app-prog {
+            height: 100%;
+            border-radius: 100px;
+        }
 
         /* Category items */
         .cat-item {
-            display: flex; align-items: center; gap: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-bottom: 10px;
         }
-        .cat-item:last-child { margin: 0; }
 
-        .cat-dot {
-            width: 8px; height: 8px; border-radius: 3px; flex-shrink: 0;
+        .cat-item:last-child {
+            margin: 0;
         }
 
-        .cat-info { flex: 1; }
-        .cat-name { font-size: 0.73rem; font-weight: 500; }
-        .cat-time { font-size: 0.62rem; color: var(--text-3); }
+        .cat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .cat-info {
+            flex: 1;
+        }
+
+        .cat-name {
+            font-size: 0.73rem;
+            font-weight: 500;
+        }
+
+        .cat-time {
+            font-size: 0.62rem;
+            color: var(--text-3);
+        }
 
         .cat-pct {
-            font-size: 0.68rem; font-weight: 600;
-            color: var(--text-2); letter-spacing: -0.01em;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-2);
+            letter-spacing: -0.01em;
         }
 
         /* Activity timeline */
-        .timeline { display: flex; gap: 2px; align-items: flex-end; height: 36px; }
+        .timeline {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 36px;
+        }
+
         .tl-bar {
-            flex: 1; border-radius: 3px 3px 1px 1px;
-            background: var(--primary); min-height: 3px;
+            flex: 1;
+            border-radius: 3px 3px 1px 1px;
+            background: var(--primary);
+            min-height: 3px;
             transition: opacity 0.3s;
         }
-        .tl-bar.empty { background: rgba(255,255,255,0.03); height: 3px !important; }
-        .tl-bar.active { background: var(--green); animation: pulse 2s ease-in-out infinite; }
-        .tl-labels { display: flex; justify-content: space-between; margin-top: 8px; }
-        .tl-labels span { font-size: 0.56rem; color: var(--text-3); }
+
+        .tl-bar.empty {
+            background: rgba(255, 255, 255, 0.03);
+            height: 3px !important;
+        }
+
+        .tl-bar.active {
+            background: var(--green);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .tl-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+
+        .tl-labels span {
+            font-size: 0.56rem;
+            color: var(--text-3);
+        }
 
         /* Current activity */
         .dm-current {
-            display: inline-flex; align-items: center; gap: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             margin-left: 12px;
-            font-size: 0.72rem; color: var(--text-3); font-weight: 400;
-            background: rgba(52,211,153,0.06);
+            font-size: 0.72rem;
+            color: var(--text-3);
+            font-weight: 400;
+            background: rgba(52, 211, 153, 0.06);
             padding: 2px 10px 2px 8px;
             border-radius: 100px;
-            border: 1px solid rgba(52,211,153,0.1);
+            border: 1px solid rgba(52, 211, 153, 0.1);
         }
+
         .dm-pulse {
-            width: 6px; height: 6px; border-radius: 50%;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
             background: var(--green);
             animation: pulse 2s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         /* Improved app icons */
-        .app-ico img { width: 16px; height: 16px; object-fit: contain; }
+        .app-ico img {
+            width: 16px;
+            height: 16px;
+            object-fit: contain;
+        }
 
         /* ═══════════════════════════════════════════════════
            BROWSER TICKER
@@ -584,62 +1082,88 @@
 
         .browsers-label {
             text-align: center;
-            font-size: 0.72rem; color: var(--text-3);
+            font-size: 0.72rem;
+            color: var(--text-3);
             margin-bottom: 24px;
             letter-spacing: 0.04em;
         }
 
         .ticker {
-            display: flex; gap: 32px;
+            display: flex;
+            gap: 32px;
             animation: scroll 30s linear infinite;
             width: max-content;
             will-change: transform;
         }
 
         .ticker-set {
-            display: flex; gap: 32px; align-items: center;
+            display: flex;
+            gap: 32px;
+            align-items: center;
         }
 
         .ticker-item {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.78rem; color: var(--text-3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            color: var(--text-3);
             white-space: nowrap;
             flex-shrink: 0;
         }
 
         .ticker-item .ti-icon {
-            width: 20px; height: 20px;
+            width: 20px;
+            height: 20px;
             flex-shrink: 0;
             opacity: 0.8;
             transition: opacity 0.2s;
         }
 
-        .ticker-item:hover .ti-icon { opacity: 1; }
+        .ticker-item:hover .ti-icon {
+            opacity: 1;
+        }
 
         .ticker-item .ti-letter {
-            width: 20px; height: 20px; border-radius: 6px;
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
             flex-shrink: 0;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.58rem; font-weight: 700; color: rgba(255,255,255,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.9);
             opacity: 0.75;
             transition: opacity 0.2s;
         }
 
-        .ticker-item:hover .ti-letter { opacity: 1; }
+        .ticker-item:hover .ti-letter {
+            opacity: 1;
+        }
 
         /* Inline SVG browser icons */
         .ticker-item .ti-svg {
-            width: 20px; height: 20px;
+            width: 20px;
+            height: 20px;
             flex-shrink: 0;
             opacity: 0.8;
             transition: opacity 0.2s;
         }
 
-        .ticker-item:hover .ti-svg { opacity: 1; }
+        .ticker-item:hover .ti-svg {
+            opacity: 1;
+        }
 
         @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         /* ═══════════════════════════════════════════════════
@@ -650,7 +1174,8 @@
         }
 
         .numbers-grid {
-            display: grid; grid-template-columns: repeat(4, 1fr);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -665,20 +1190,27 @@
             transition: background 0.3s var(--ease);
         }
 
-        .num-cell:hover { background: var(--surface); }
+        .num-cell:hover {
+            background: var(--surface);
+        }
 
         .num-val {
-            font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700;
-            letter-spacing: -0.04em; line-height: 1;
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1;
             margin-bottom: 8px;
             font-variant-numeric: tabular-nums;
             transition: color 0.3s var(--ease);
         }
 
-        .num-cell:hover .num-val { color: var(--primary); }
+        .num-cell:hover .num-val {
+            color: var(--primary);
+        }
 
         .num-label {
-            font-size: 0.78rem; color: var(--text-3);
+            font-size: 0.78rem;
+            color: var(--text-3);
         }
 
         /* ═══════════════════════════════════════════════════
@@ -692,50 +1224,67 @@
         }
 
         .how .s-eyebrow {
-            font-size: 0.7rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            color: var(--text-3); margin-bottom: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-3);
+            margin-bottom: 12px;
         }
 
         .how .s-heading {
             font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-            font-weight: 700; letter-spacing: -0.04em;
-            line-height: 1.12; margin-bottom: 64px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.12;
+            margin-bottom: 64px;
             max-width: 520px;
         }
 
         .steps {
-            display: grid; grid-template-columns: repeat(3, 1fr);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 40px;
         }
 
-        .step { position: relative; }
+        .step {
+            position: relative;
+        }
 
         .step-num {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 28px; height: 28px; border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
             background: var(--primary-dim);
-            border: 1px solid rgba(129,140,248,0.15);
-            font-size: 0.7rem; font-weight: 700;
+            border: 1px solid rgba(129, 140, 248, 0.15);
+            font-size: 0.7rem;
+            font-weight: 700;
             color: var(--primary);
             margin-bottom: 16px;
         }
 
         .step h3 {
-            font-size: 0.92rem; font-weight: 600;
+            font-size: 0.92rem;
+            font-weight: 600;
             letter-spacing: -0.01em;
             margin-bottom: 8px;
         }
 
         .step p {
-            font-size: 0.82rem; color: var(--text-2);
+            font-size: 0.82rem;
+            color: var(--text-2);
             line-height: 1.6;
         }
 
         .step-connector {
             position: absolute;
-            top: 14px; left: calc(100% + 4px);
-            width: 32px; height: 1px;
+            top: 14px;
+            left: calc(100% + 4px);
+            width: 32px;
+            height: 1px;
             background: var(--border-2);
         }
 
@@ -750,25 +1299,33 @@
         }
 
         .features .s-eyebrow {
-            font-size: 0.7rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            color: var(--text-3); margin-bottom: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-3);
+            margin-bottom: 12px;
         }
 
         .features .s-heading {
             font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-            font-weight: 700; letter-spacing: -0.04em;
-            line-height: 1.12; margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.12;
+            margin-bottom: 10px;
         }
 
         .features .s-sub {
-            font-size: 0.92rem; color: var(--text-2);
-            max-width: 400px; line-height: 1.6;
+            font-size: 0.92rem;
+            color: var(--text-2);
+            max-width: 400px;
+            line-height: 1.6;
             margin-bottom: 56px;
         }
 
         .fg {
-            display: grid; grid-template-columns: repeat(3, 1fr);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
@@ -783,116 +1340,238 @@
             position: relative;
         }
 
-        .fc:hover { background: rgba(15,15,18,0.8); cursor: pointer; }
+        .fc:hover {
+            background: rgba(15, 15, 18, 0.8);
+            cursor: pointer;
+        }
 
         .fc-icon {
-            width: 36px; height: 36px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             margin-bottom: 16px;
             background: var(--surface-2);
             border: 1px solid var(--border);
             transition: border-color 0.3s, background 0.3s;
         }
 
-        .fc:hover .fc-icon { border-color: var(--border-2); background: var(--surface-3); }
+        .fc:hover .fc-icon {
+            border-color: var(--border-2);
+            background: var(--surface-3);
+        }
 
-        .fc-icon svg { width: 16px; height: 16px; color: var(--text-2); transition: color 0.3s; }
+        .fc-icon svg {
+            width: 16px;
+            height: 16px;
+            color: var(--text-2);
+            transition: color 0.3s;
+        }
 
         /* Feature icon accent colors */
-        .fc:nth-child(1) .fc-icon { background: rgba(129,140,248,0.08); border-color: rgba(129,140,248,0.12); }
-        .fc:nth-child(1) .fc-icon svg { color: #818cf8; }
-        .fc:nth-child(2) .fc-icon { background: rgba(52,211,153,0.08); border-color: rgba(52,211,153,0.12); }
-        .fc:nth-child(2) .fc-icon svg { color: #34d399; }
-        .fc:nth-child(3) .fc-icon { background: rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.12); }
-        .fc:nth-child(3) .fc-icon svg { color: #fbbf24; }
-        .fc:nth-child(4) .fc-icon { background: rgba(244,114,182,0.08); border-color: rgba(244,114,182,0.12); }
-        .fc:nth-child(4) .fc-icon svg { color: #f472b6; }
-        .fc:nth-child(5) .fc-icon { background: rgba(99,102,241,0.08); border-color: rgba(99,102,241,0.12); }
-        .fc:nth-child(5) .fc-icon svg { color: #6366f1; }
-        .fc:nth-child(6) .fc-icon { background: rgba(248,113,113,0.08); border-color: rgba(248,113,113,0.12); }
-        .fc:nth-child(6) .fc-icon svg { color: #f87171; }
-        .fc:nth-child(7) .fc-icon { background: rgba(45,212,191,0.08); border-color: rgba(45,212,191,0.12); }
-        .fc:nth-child(7) .fc-icon svg { color: #2dd4bf; }
-        .fc:nth-child(8) .fc-icon { background: rgba(56,189,248,0.08); border-color: rgba(56,189,248,0.12); }
-        .fc:nth-child(8) .fc-icon svg { color: #38bdf8; }
-        .fc:nth-child(9) .fc-icon { background: rgba(168,85,247,0.08); border-color: rgba(168,85,247,0.12); }
-        .fc:nth-child(9) .fc-icon svg { color: #a855f7; }
+        .fc:nth-child(1) .fc-icon {
+            background: rgba(129, 140, 248, 0.08);
+            border-color: rgba(129, 140, 248, 0.12);
+        }
+
+        .fc:nth-child(1) .fc-icon svg {
+            color: #818cf8;
+        }
+
+        .fc:nth-child(2) .fc-icon {
+            background: rgba(52, 211, 153, 0.08);
+            border-color: rgba(52, 211, 153, 0.12);
+        }
+
+        .fc:nth-child(2) .fc-icon svg {
+            color: #34d399;
+        }
+
+        .fc:nth-child(3) .fc-icon {
+            background: rgba(251, 191, 36, 0.08);
+            border-color: rgba(251, 191, 36, 0.12);
+        }
+
+        .fc:nth-child(3) .fc-icon svg {
+            color: #fbbf24;
+        }
+
+        .fc:nth-child(4) .fc-icon {
+            background: rgba(244, 114, 182, 0.08);
+            border-color: rgba(244, 114, 182, 0.12);
+        }
+
+        .fc:nth-child(4) .fc-icon svg {
+            color: #f472b6;
+        }
+
+        .fc:nth-child(5) .fc-icon {
+            background: rgba(99, 102, 241, 0.08);
+            border-color: rgba(99, 102, 241, 0.12);
+        }
+
+        .fc:nth-child(5) .fc-icon svg {
+            color: #6366f1;
+        }
+
+        .fc:nth-child(6) .fc-icon {
+            background: rgba(248, 113, 113, 0.08);
+            border-color: rgba(248, 113, 113, 0.12);
+        }
+
+        .fc:nth-child(6) .fc-icon svg {
+            color: #f87171;
+        }
+
+        .fc:nth-child(7) .fc-icon {
+            background: rgba(45, 212, 191, 0.08);
+            border-color: rgba(45, 212, 191, 0.12);
+        }
+
+        .fc:nth-child(7) .fc-icon svg {
+            color: #2dd4bf;
+        }
+
+        .fc:nth-child(8) .fc-icon {
+            background: rgba(56, 189, 248, 0.08);
+            border-color: rgba(56, 189, 248, 0.12);
+        }
+
+        .fc:nth-child(8) .fc-icon svg {
+            color: #38bdf8;
+        }
+
+        .fc:nth-child(9) .fc-icon {
+            background: rgba(168, 85, 247, 0.08);
+            border-color: rgba(168, 85, 247, 0.12);
+        }
+
+        .fc:nth-child(9) .fc-icon svg {
+            color: #a855f7;
+        }
 
         /* Feature card mouse-tracking spotlight */
         .fc::before {
             content: '';
-            position: absolute; inset: 0;
-            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(129,140,248,0.06), transparent 40%);
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(129, 140, 248, 0.06), transparent 40%);
             border-radius: inherit;
             opacity: 0;
             transition: opacity 0.4s var(--ease);
             pointer-events: none;
             z-index: 0;
         }
-        .fc:hover::before { opacity: 1; }
-        .fc > * { position: relative; z-index: 1; }
+
+        .fc:hover::before {
+            opacity: 1;
+        }
+
+        .fc>* {
+            position: relative;
+            z-index: 1;
+        }
 
         /* Floating UI micro-cards */
         .float-card {
             position: absolute;
-            background: rgba(15,15,18,0.92);
+            background: rgba(15, 15, 18, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-2);
             border-radius: 12px;
             padding: 14px 18px;
             z-index: 1;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.25), 0 0 0 1px rgba(255,255,255,0.02);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.02);
             pointer-events: none;
             max-width: 210px;
             animation: floatBob 6s ease-in-out infinite;
         }
 
         .float-card-1 {
-            top: 100px; right: calc(50% - 620px);
+            top: 100px;
+            right: calc(50% - 620px);
             --fc-r: 2deg;
             transform: rotate(2deg);
         }
 
         .float-card-2 {
-            bottom: 200px; left: calc(50% - 610px);
+            bottom: 200px;
+            left: calc(50% - 610px);
             --fc-r: -1.5deg;
             transform: rotate(-1.5deg);
             animation-delay: -3s;
         }
 
         @keyframes floatBob {
-            0%, 100% { transform: translateY(0) rotate(var(--fc-r, 0deg)); }
-            50% { transform: translateY(-8px) rotate(var(--fc-r, 0deg)); }
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--fc-r, 0deg));
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(var(--fc-r, 0deg));
+            }
         }
 
-        .fcard-top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-        .fcard-emoji { font-size: 0.85rem; line-height: 1; }
-        .fcard-title { font-size: 0.7rem; font-weight: 600; color: var(--text); }
-        .fcard-desc { font-size: 0.62rem; color: var(--text-3); line-height: 1.45; }
+        .fcard-top {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .fcard-emoji {
+            font-size: 0.85rem;
+            line-height: 1;
+        }
+
+        .fcard-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .fcard-desc {
+            font-size: 0.62rem;
+            color: var(--text-3);
+            line-height: 1.45;
+        }
+
         .fcard-badge {
-            display: inline-flex; align-items: center; gap: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
             margin-top: 8px;
-            font-size: 0.56rem; font-weight: 600;
-            padding: 2px 8px; border-radius: 100px;
+            font-size: 0.56rem;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 100px;
             letter-spacing: 0.01em;
         }
+
         .fcard-badge-gold {
-            background: rgba(251,191,36,0.1);
-            color: rgba(251,191,36,0.85);
-            border: 1px solid rgba(251,191,36,0.1);
+            background: rgba(251, 191, 36, 0.1);
+            color: rgba(251, 191, 36, 0.85);
+            border: 1px solid rgba(251, 191, 36, 0.1);
         }
+
         .fcard-badge-green {
             background: var(--green-dim);
-            color: rgba(52,211,153,0.85);
-            border: 1px solid rgba(52,211,153,0.1);
+            color: rgba(52, 211, 153, 0.85);
+            border: 1px solid rgba(52, 211, 153, 0.1);
         }
 
         /* Section gradient orbs */
-        .how::before, .features::before {
+        .how::before,
+        .features::before {
             content: '';
             position: absolute;
-            width: 600px; height: 600px;
+            width: 600px;
+            height: 600px;
             border-radius: 50%;
             pointer-events: none;
             filter: blur(100px);
@@ -900,27 +1579,33 @@
         }
 
         .how::before {
-            top: 10%; right: -200px;
+            top: 10%;
+            right: -200px;
             background: radial-gradient(circle, #818cf8, transparent 70%);
         }
 
         .features::before {
-            top: 30%; left: -200px;
+            top: 30%;
+            left: -200px;
             background: radial-gradient(circle, #a855f7, transparent 70%);
         }
 
         @media (max-width: 1280px) {
-            .float-card { display: none; }
+            .float-card {
+                display: none;
+            }
         }
 
         .fc h3 {
-            font-size: 0.88rem; font-weight: 600;
+            font-size: 0.88rem;
+            font-weight: 600;
             letter-spacing: -0.01em;
             margin-bottom: 7px;
         }
 
         .fc p {
-            font-size: 0.8rem; color: var(--text-2);
+            font-size: 0.8rem;
+            color: var(--text-2);
             line-height: 1.6;
         }
 
@@ -933,47 +1618,89 @@
         }
 
         .priv-layout {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 60px; align-items: start;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
         }
 
         .priv-left .s-eyebrow {
-            font-size: 0.7rem; font-weight: 500;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            color: var(--text-3); margin-bottom: 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-3);
+            margin-bottom: 12px;
         }
 
         .priv-left .s-heading {
             font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-            font-weight: 700; letter-spacing: -0.04em;
-            line-height: 1.12; margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            line-height: 1.12;
+            margin-bottom: 10px;
         }
 
         .priv-left .s-sub {
-            font-size: 0.92rem; color: var(--text-2);
-            line-height: 1.6; margin-bottom: 32px;
+            font-size: 0.92rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            margin-bottom: 32px;
         }
 
-        .checks { display: flex; flex-direction: column; gap: 16px; }
+        .checks {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
-        .check-item { display: flex; align-items: flex-start; gap: 12px; }
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
 
         .check-box {
-            width: 22px; height: 22px; border-radius: 7px;
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
             background: var(--green-dim);
-            border: 1px solid rgba(52,211,153,0.15);
-            display: flex; align-items: center; justify-content: center;
-            flex-shrink: 0; margin-top: 1px;
+            border: 1px solid rgba(52, 211, 153, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 1px;
         }
 
-        .check-box svg { width: 12px; height: 12px; color: var(--green); }
+        .check-box svg {
+            width: 12px;
+            height: 12px;
+            color: var(--green);
+        }
 
-        .check-text { font-size: 0.84rem; line-height: 1.55; }
-        .check-text strong { display: block; font-weight: 600; margin-bottom: 2px; }
-        .check-text span { color: var(--text-3); font-size: 0.78rem; }
+        .check-text {
+            font-size: 0.84rem;
+            line-height: 1.55;
+        }
+
+        .check-text strong {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .check-text span {
+            color: var(--text-3);
+            font-size: 0.78rem;
+        }
 
         /* Privacy comparison visual */
-        .priv-visual { display: flex; flex-direction: column; gap: 16px; }
+        .priv-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
 
         .priv-compare {
             background: var(--surface);
@@ -983,105 +1710,153 @@
             transition: border-color 0.3s;
         }
 
-        .priv-compare:hover { border-color: rgba(255,255,255,0.12); }
+        .priv-compare:hover {
+            border-color: rgba(255, 255, 255, 0.12);
+        }
 
         .pc-header {
-            display: flex; align-items: center; gap: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin-bottom: 18px;
         }
 
         .pc-badge {
-            font-size: 0.62rem; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 0.08em;
-            padding: 3px 10px; border-radius: 100px;
+            font-size: 0.62rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 3px 10px;
+            border-radius: 100px;
         }
 
         .pc-badge-muted {
-            background: rgba(239,68,68,0.08);
-            color: rgba(239,68,68,0.7);
-            border: 1px solid rgba(239,68,68,0.1);
+            background: rgba(239, 68, 68, 0.08);
+            color: rgba(239, 68, 68, 0.7);
+            border: 1px solid rgba(239, 68, 68, 0.1);
         }
 
         .pc-badge-green {
             background: var(--green-dim);
-            color: rgba(52,211,153,0.85);
-            border: 1px solid rgba(52,211,153,0.12);
+            color: rgba(52, 211, 153, 0.85);
+            border: 1px solid rgba(52, 211, 153, 0.12);
         }
 
         .pc-flow {
-            display: flex; align-items: center;
-            gap: 14px; flex-wrap: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: nowrap;
         }
 
         .pc-source {
-            display: flex; align-items: center; gap: 8px;
-            min-width: 100px; flex-shrink: 0;
-        }
-
-        .pc-source-icon {
-            width: 32px; height: 32px; border-radius: 9px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 100px;
             flex-shrink: 0;
         }
 
-        .pc-source-icon svg { width: 16px; height: 16px; }
-        .pc-source span { font-size: 0.74rem; font-weight: 500; }
+        .pc-source-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 9px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
 
-        .pc-trail { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .pc-source-icon svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .pc-source span {
+            font-size: 0.74rem;
+            font-weight: 500;
+        }
+
+        .pc-trail {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
 
         .pc-line {
-            display: flex; align-items: center; gap: 8px;
-            font-size: 0.68rem; color: var(--text-3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.68rem;
+            color: var(--text-3);
         }
 
         .pc-line .ar {
-            flex-shrink: 0; font-size: 0.62rem;
-            color: var(--text-3); opacity: 0.4;
+            flex-shrink: 0;
+            font-size: 0.62rem;
+            color: var(--text-3);
+            opacity: 0.4;
             font-family: 'SF Mono', monospace;
         }
 
         .pc-line .pc-dest {
-            padding: 3px 10px; border-radius: 6px;
-            font-size: 0.66rem; white-space: nowrap;
+            padding: 3px 10px;
+            border-radius: 6px;
+            font-size: 0.66rem;
+            white-space: nowrap;
         }
 
         .pc-others .pc-dest {
-            background: rgba(239,68,68,0.06);
-            color: rgba(239,68,68,0.6);
-            border: 1px solid rgba(239,68,68,0.06);
+            background: rgba(239, 68, 68, 0.06);
+            color: rgba(239, 68, 68, 0.6);
+            border: 1px solid rgba(239, 68, 68, 0.06);
         }
 
         .pc-deskly .pc-dest {
             background: var(--green-dim);
-            color: rgba(52,211,153,0.75);
-            border: 1px solid rgba(52,211,153,0.08);
+            color: rgba(52, 211, 153, 0.75);
+            border: 1px solid rgba(52, 211, 153, 0.08);
         }
 
         .priv-deskly {
-            border-color: rgba(52,211,153,0.12);
+            border-color: rgba(52, 211, 153, 0.12);
         }
-        .priv-deskly:hover { border-color: rgba(52,211,153,0.2); }
+
+        .priv-deskly:hover {
+            border-color: rgba(52, 211, 153, 0.2);
+        }
 
         .pc-bottom {
-            margin-top: 16px; padding-top: 14px;
+            margin-top: 16px;
+            padding-top: 14px;
             border-top: 1px solid var(--border);
-            font-size: 0.74rem; color: var(--text-2);
+            font-size: 0.74rem;
+            color: var(--text-2);
             line-height: 1.55;
         }
 
-        .pc-bottom strong { color: var(--text); font-weight: 600; }
+        .pc-bottom strong {
+            color: var(--text);
+            font-weight: 600;
+        }
 
         .pc-tags {
-            display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px;
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
         }
 
         .pc-tag {
-            font-size: 0.62rem; padding: 2px 8px;
+            font-size: 0.62rem;
+            padding: 2px 8px;
             border-radius: 4px;
             background: var(--green-dim);
-            border: 1px solid rgba(52,211,153,0.08);
-            color: rgba(52,211,153,0.7);
-            font-weight: 500; letter-spacing: 0.01em;
+            border: 1px solid rgba(52, 211, 153, 0.08);
+            color: rgba(52, 211, 153, 0.7);
+            font-weight: 500;
+            letter-spacing: 0.01em;
         }
 
         /* ═══════════════════════════════════════════════════
@@ -1099,11 +1874,13 @@
         .statement::before {
             content: '';
             position: absolute;
-            top: 50%; left: 50%;
+            top: 50%;
+            left: 50%;
             translate: -50% -50%;
-            width: 800px; height: 500px;
+            width: 800px;
+            height: 500px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129,140,248,0.04) 0%, transparent 55%);
+            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.04) 0%, transparent 55%);
             pointer-events: none;
         }
 
@@ -1132,7 +1909,8 @@
         }
 
         .statement-rule {
-            width: 48px; height: 1px;
+            width: 48px;
+            height: 1px;
             background: linear-gradient(90deg, transparent, var(--primary), transparent);
             margin: 0 auto 28px;
             opacity: 0.5;
@@ -1150,17 +1928,20 @@
         .cta::before {
             content: '';
             position: absolute;
-            top: 40%; left: 50%;
+            top: 40%;
+            left: 50%;
             translate: -50% -50%;
-            width: 800px; height: 600px;
+            width: 800px;
+            height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129,140,248,0.05) 0%, transparent 55%);
+            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.05) 0%, transparent 55%);
             pointer-events: none;
         }
 
         .cta h2 {
             font-size: clamp(2.2rem, 4.5vw, 3.8rem);
-            font-weight: 700; letter-spacing: -0.05em;
+            font-weight: 700;
+            letter-spacing: -0.05em;
             line-height: 1.04;
             margin-bottom: 20px;
         }
@@ -1173,29 +1954,52 @@
         }
 
         .cta .sub {
-            font-size: 1rem; color: var(--text-2);
-            max-width: 400px; margin: 0 auto 40px; line-height: 1.6;
+            font-size: 1rem;
+            color: var(--text-2);
+            max-width: 400px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
         }
 
-        .cta .pills { margin-top: 24px; }
+        .cta .pills {
+            margin-top: 24px;
+        }
 
         /* Trust / built-with row */
         .trust-row {
             margin-top: 40px;
-            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
         }
+
         .trust-label {
-            font-size: 0.6rem; color: var(--text-3);
-            text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500;
+            font-size: 0.6rem;
+            color: var(--text-3);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
         }
+
         .trust-logos {
-            display: flex; align-items: center; gap: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
+
         .trust-item {
-            display: inline-flex; align-items: center; gap: 5px;
-            font-size: 0.68rem; color: var(--text-3);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.68rem;
+            color: var(--text-3);
         }
-        .trust-sep { color: var(--border-2); font-size: 0.5rem; }
+
+        .trust-sep {
+            color: var(--border-2);
+            font-size: 0.5rem;
+        }
 
         /* ═══════════════════════════════════════════════════
            FOOTER
@@ -1206,47 +2010,87 @@
         }
 
         .footer-inner {
-            display: flex; align-items: center; justify-content: space-between;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .footer-left {
-            display: flex; align-items: center; gap: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .footer-logo {
-            display: flex; align-items: center; gap: 8px;
-            font-weight: 600; font-size: 0.82rem; color: var(--text-2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.82rem;
+            color: var(--text-2);
         }
 
         .footer-logo .fl-icon {
-            width: 22px; height: 22px; border-radius: 6px; overflow: hidden;
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            overflow: hidden;
         }
-        .footer-logo .fl-icon svg { width: 100%; height: 100%; display: block; }
+
+        .footer-logo .fl-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
 
         .footer-copy {
-            font-size: 0.68rem; color: var(--text-3);
-            display: flex; align-items: center; gap: 6px;
+            font-size: 0.68rem;
+            color: var(--text-3);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
         .footer-sep {
-            width: 1px; height: 16px; background: var(--border-2);
+            width: 1px;
+            height: 16px;
+            background: var(--border-2);
         }
 
-        .footer-links { display: flex; gap: 24px; }
+        .footer-links {
+            display: flex;
+            gap: 24px;
+        }
 
         .footer-links a {
-            font-size: 0.72rem; color: var(--text-3);
+            font-size: 0.72rem;
+            color: var(--text-3);
             transition: color 0.15s;
         }
 
-        .footer-links a:hover { color: var(--text-2); }
+        .footer-links a:hover {
+            color: var(--text-2);
+        }
+
+        .footer-links a:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
 
         /* ═══════════════════════════════════════════════════
            ANIMATIONS
            ═══════════════════════════════════════════════════ */
         @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(24px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .reveal {
@@ -1261,889 +2105,1338 @@
         }
 
         /* Stagger delays */
-        .reveal[data-d="1"] { transition-delay: 0.06s; }
-        .reveal[data-d="2"] { transition-delay: 0.12s; }
-        .reveal[data-d="3"] { transition-delay: 0.18s; }
-        .reveal[data-d="4"] { transition-delay: 0.24s; }
+        .reveal[data-d="1"] {
+            transition-delay: 0.06s;
+        }
+
+        .reveal[data-d="2"] {
+            transition-delay: 0.12s;
+        }
+
+        .reveal[data-d="3"] {
+            transition-delay: 0.18s;
+        }
+
+        .reveal[data-d="4"] {
+            transition-delay: 0.24s;
+        }
 
         /* Hero immediate animation (no IO needed) */
-        .hero-anim { animation: fadeUp 0.7s var(--ease) both; }
-        .hero-anim[data-d="1"] { animation-delay: 0.08s; }
-        .hero-anim[data-d="2"] { animation-delay: 0.16s; }
-        .hero-anim[data-d="3"] { animation-delay: 0.24s; }
-        .hero-anim[data-d="4"] { animation-delay: 0.32s; }
-        .hero-anim[data-d="5"] { animation-delay: 0.40s; }
+        .hero-anim {
+            animation: fadeUp 0.7s var(--ease) both;
+        }
+
+        .hero-anim[data-d="1"] {
+            animation-delay: 0.08s;
+        }
+
+        .hero-anim[data-d="2"] {
+            animation-delay: 0.16s;
+        }
+
+        .hero-anim[data-d="3"] {
+            animation-delay: 0.24s;
+        }
+
+        .hero-anim[data-d="4"] {
+            animation-delay: 0.32s;
+        }
+
+        .hero-anim[data-d="5"] {
+            animation-delay: 0.40s;
+        }
 
         /* ═══════════════════════════════════════════════════
            RESPONSIVE
            ═══════════════════════════════════════════════════ */
         @media (max-width: 960px) {
-            .wb { grid-template-columns: 1fr; }
-            .sb { display: none; }
-            .fg { grid-template-columns: 1fr 1fr; }
-            .numbers-grid { grid-template-columns: repeat(2, 1fr); }
-            .steps { grid-template-columns: 1fr; gap: 24px; }
-            .step-connector { display: none; }
-            .priv-layout { grid-template-columns: 1fr; gap: 36px; }
+            .wb {
+                grid-template-columns: 1fr;
+            }
+
+            .sb {
+                display: none;
+            }
+
+            .fg {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .numbers-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .step-connector {
+                display: none;
+            }
+
+            .priv-layout {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
         }
 
         @media (max-width: 640px) {
-            nav .nav-links { display: none; }
-            .burger { display: block; }
-            .hero { padding: 140px 0 40px; }
-            .hero h1 { font-size: 2.5rem; }
-            .hero-actions { flex-direction: column; align-items: stretch; }
-            .btn { justify-content: center; }
-            .fg { grid-template-columns: 1fr; }
-            .dm-row { grid-template-columns: 1fr; }
-            .dm-card.full { grid-column: span 1; }
-            .features, .privacy, .how { padding: 80px 0; }
-            .cta { padding: 80px 0 88px; }
-            .statement { padding: 72px 0; }
-            .statement-text { font-size: 1.7rem; }
-            .numbers { padding: 56px 0; }
-            .container { padding: 0 20px; }
-            .footer-inner { flex-direction: column; gap: 12px; text-align: center; }
-            .footer-left { flex-direction: column; gap: 8px; }
-            .footer-sep { display: none; }
-            .dm-current { display: none; }
-            .pc-flow { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .pc-source { width: 100%; }
+            nav .nav-links {
+                display: none;
+            }
+
+            .burger {
+                display: block;
+            }
+
+            .hero {
+                padding: 140px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .fg {
+                grid-template-columns: 1fr;
+            }
+
+            .dm-row {
+                grid-template-columns: 1fr;
+            }
+
+            .dm-card.full {
+                grid-column: span 1;
+            }
+
+            .features,
+            .privacy,
+            .how {
+                padding: 80px 0;
+            }
+
+            .cta {
+                padding: 80px 0 88px;
+            }
+
+            .statement {
+                padding: 72px 0;
+            }
+
+            .statement-text {
+                font-size: 1.7rem;
+            }
+
+            .numbers {
+                padding: 56px 0;
+            }
+
+            .container {
+                padding: 0 20px;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .footer-left {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .footer-sep {
+                display: none;
+            }
+
+            .dm-current {
+                display: none;
+            }
+
+            .pc-flow {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .pc-source {
+                width: 100%;
+            }
         }
 
         /* Mobile menu */
+        body.mob-menu-open {
+            overflow: hidden;
+        }
+
         .mob-menu {
-            display: none; position: fixed; inset: 0; z-index: 200;
-            background: rgba(9,9,11,0.97);
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(9, 9, 11, 0.97);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            animation: fadeIn 0.3s var(--ease);
         }
 
-        .mob-menu.open { display: flex; }
+        .mob-menu.open {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
 
         .mob-menu a {
-            font-size: 1rem; color: var(--text-2); padding: 14px 28px;
-            border-radius: 8px; transition: color 0.15s, background 0.15s;
+            font-size: 1rem;
+            color: var(--text-2);
+            padding: 14px 28px;
+            border-radius: 8px;
+            transition: color 0.15s, background 0.15s;
         }
 
-        .mob-menu a:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+        .mob-menu a:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .mob-menu a:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
 
         .mob-close {
-            position: absolute; top: 16px; right: 24px;
-            background: none; border: none; cursor: pointer;
-            color: var(--text-2); padding: 4px;
+            position: absolute;
+            top: 16px;
+            right: 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-2);
+            padding: 8px;
+            border-radius: 6px;
+            transition: background-color 0.2s var(--ease);
         }
 
-        .mob-close svg { width: 22px; height: 22px; }
+        .mob-close:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .mob-close:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .mob-close svg {
+            width: 22px;
+            height: 22px;
+        }
     </style>
 </head>
+
 <body>
 
-<!-- Skip to content -->
-<a href="#how" class="skip-link">Skip to content</a>
+    <!-- Skip to content -->
+    <a href="#how" class="skip-link">Skip to content</a>
 
-<!-- SVG defs -->
-<svg style="position:absolute;width:0;height:0" aria-hidden="true">
-    <defs>
-        <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#818CF8"/>
-            <stop offset="100%" stop-color="#6366F1"/>
-        </linearGradient>
-        <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stop-color="#7c3aed"/>
-            <stop offset="100%" stop-color="#a78bfa"/>
-        </linearGradient>
-    </defs>
-</svg>
+    <!-- SVG defs -->
+    <svg style="position:absolute;width:0;height:0" aria-hidden="true">
+        <defs>
+            <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#818CF8" />
+                <stop offset="100%" stop-color="#6366F1" />
+            </linearGradient>
+            <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#7c3aed" />
+                <stop offset="100%" stop-color="#a78bfa" />
+            </linearGradient>
+        </defs>
+    </svg>
 
-<!-- Logo SVG template (reused) -->
+    <!-- Logo SVG template (reused) -->
 
-<!-- ── NAV ───────────────────────────────────── -->
-<nav id="nav" aria-label="Main">
-    <div class="inner">
-        <a href="/" class="logo" aria-label="Deskly home">
-            <div class="logo-icon">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)"/>
-                    <g transform="translate(256,256)">
-                        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
-                        <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
-                        <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
-                        <circle cx="95" cy="-95" r="18" fill="#4ade80"/><circle cx="95" cy="-95" r="10" fill="#22c55e"/>
-                    </g>
+    <!-- ── NAV ───────────────────────────────────── -->
+    <nav id="nav" aria-label="Main">
+        <div class="inner">
+            <a href="/" class="logo" aria-label="Deskly home">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
+                        <g transform="translate(256,256)">
+                            <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
+                                stroke-width="28" />
+                            <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28"
+                                stroke-linecap="round" opacity="0.9" />
+                            <path
+                                d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
+                                fill="white" opacity="0.95" />
+                            <circle cx="95" cy="-95" r="18" fill="#4ade80" />
+                            <circle cx="95" cy="-95" r="10" fill="#22c55e" />
+                        </g>
+                    </svg>
+                </div>
+                Deskly
+            </a>
+
+            <div class="nav-links">
+                <a href="#how" aria-label="Learn how it works">How it works</a>
+                <a href="#features" aria-label="View features">Features</a>
+                <a href="#privacy" aria-label="Privacy and security">Privacy</a>
+                <a href="/account" aria-label="Sign in to your account">Sign in</a>
+                <a href="/downloads/Deskly-Setup-1.0.0.exe" class="nav-cta"
+                    aria-label="Download Deskly for Windows">Download</a>
+            </div>
+
+            <button class="burger" aria-label="Menu">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <line x1="4" y1="7" x2="20" y2="7" />
+                    <line x1="4" y1="12" x2="20" y2="12" />
+                    <line x1="4" y1="17" x2="20" y2="17" />
                 </svg>
-            </div>
-            Deskly
-        </a>
-
-        <div class="nav-links">
-            <a href="#how">How it works</a>
-            <a href="#features">Features</a>
-            <a href="#privacy">Privacy</a>
-            <a href="/account">Sign in</a>
-            <a href="/downloads/Deskly-Setup-1.0.0.exe" class="nav-cta">Download</a>
+            </button>
         </div>
+    </nav>
 
-        <button class="burger" aria-label="Menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>
+    <!-- Mobile menu -->
+    <div class="mob-menu" role="dialog" aria-label="Navigation menu">
+        <button class="mob-close" aria-label="Close navigation menu">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
         </button>
-    </div>
-</nav>
-
-<!-- Mobile menu -->
-<div class="mob-menu" role="dialog" aria-label="Navigation">
-    <button class="mob-close" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-    <a href="#how">How it works</a>
-    <a href="#features">Features</a>
-    <a href="#privacy">Privacy</a>
-    <a href="/account">Sign in</a>
-    <a href="/downloads/Deskly-Setup-1.0.0.exe">Download</a>
-</div>
-
-<!-- ── HERO ──────────────────────────────────── -->
-<section class="hero">
-    <div class="container">
-        <div class="hero-badge hero-anim" data-d="1">
-            <span class="dot"></span>
-            v1.0 — Free for Windows
-        </div>
-
-        <h1 class="hero-anim" data-d="2">Know where your<br><span class="gradient serif-em">time actually goes</span></h1>
-
-        <p class="sub hero-anim" data-d="3">Screen time tracking with 1-second precision.<br>Every app, every website. All data stays local.</p>
-
-        <div class="hero-actions hero-anim" data-d="4">
-            <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn btn-primary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download for Windows
-            </a>
-            <a href="#how" class="btn btn-ghost">See how it works</a>
-        </div>
-
-        <div class="pills hero-anim" data-d="5">
-            <span class="pill"><span class="pd" style="background:var(--green)"></span>Free &amp; open source</span>
-            <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
-            <span class="pill"><span class="pd" style="background:var(--text-3)"></span>No account needed</span>
-            <a href="https://github.com" class="pill" style="transition:border-color 0.2s;cursor:pointer" onmouseenter="this.style.borderColor='rgba(255,255,255,0.14)'" onmouseleave="this.style.borderColor=''">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.5"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
-                Open source
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ── APP WINDOW ────────────────────────────── -->
-<section class="mockup-section">
-    <div class="container">
-        <div class="window reveal">
-            <div class="tb">
-                <div class="tb-dots">
-                    <span class="tb-dot"></span><span class="tb-dot"></span><span class="tb-dot"></span>
-                </div>
-                <div class="tb-title">
-                    <div class="tb-logo">
-                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)"/>
-                            <g transform="translate(256,256)">
-                                <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
-                                <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
-                                <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
-                                <circle cx="95" cy="-95" r="18" fill="#4ade80"/><circle cx="95" cy="-95" r="10" fill="#22c55e"/>
-                            </g>
-                        </svg>
-                    </div>
-                    Deskly
-                </div>
-                <div class="tb-spacer"></div>
-            </div>
-            <div class="wb">
-                <div class="sb">
-                    <div class="sb-section-label">Overview</div>
-                    <div class="sb-item active">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-                        Dashboard
-                    </div>
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        App Insights
-                    </div>
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                        Browser
-                    </div>
-
-                    <div class="sb-section-label">Manage</div>
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                        Categories
-                    </div>
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                        App Limits
-                    </div>
-
-                    <div class="sb-section-label">Review</div>
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                        Reports
-                    </div>
-
-                    <div class="sb-spacer"></div>
-
-                    <div class="sb-item">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        Settings
-                    </div>
-
-                    <div class="sb-user">
-                        <div class="sb-avatar">A</div>
-                        <span class="sb-name">Alex</span>
-                    </div>
-                </div>
-                <div class="dm">
-                    <div class="dm-greeting">Good afternoon, <strong>Alex</strong> <span class="dm-current"><span class="dm-pulse"></span>Chrome — youtube.com</span></div>
-
-                    <div class="dm-card full">
-                        <div class="dm-label">Today's Activity</div>
-                        <div class="timeline">
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar" style="height:18%"></div>
-                            <div class="tl-bar" style="height:85%"></div>
-                            <div class="tl-bar" style="height:95%"></div>
-                            <div class="tl-bar" style="height:88%"></div>
-                            <div class="tl-bar" style="height:28%"></div>
-                            <div class="tl-bar" style="height:76%"></div>
-                            <div class="tl-bar" style="height:90%"></div>
-                            <div class="tl-bar" style="height:62%"></div>
-                            <div class="tl-bar active" style="height:40%"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                            <div class="tl-bar empty"></div>
-                        </div>
-                        <div class="tl-labels">
-                            <span>12 am</span><span>6 am</span><span>12 pm</span><span>6 pm</span><span>Now</span>
-                        </div>
-                    </div>
-
-                    <div class="dm-card full">
-                        <div class="dm-label">Screen time</div>
-                        <div class="ring-row">
-                            <div class="ring-wrap">
-                                <svg viewBox="0 0 100 100">
-                                    <circle class="ring-track" cx="50" cy="50" r="36"/>
-                                    <circle class="ring-fill" cx="50" cy="50" r="36"/>
-                                </svg>
-                                <div class="ring-center">
-                                    <span class="ring-val">4h 32m</span>
-                                    <span class="ring-sub">of 8h goal</span>
-                                </div>
-                            </div>
-                            <div class="ring-stats">
-                                <div class="rs-row"><span class="rs-k">Apps used</span><span class="rs-v">12</span></div>
-                                <div class="rs-row"><span class="rs-k">Sites visited</span><span class="rs-v">34</span></div>
-                                <div class="rs-row"><span class="rs-k">Unlocks</span><span class="rs-v">8</span></div>
-                                <div class="rs-row"><span class="rs-k">Day streak</span><span class="rs-v" style="color:var(--green)">5 days 🔥</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="dm-row">
-                        <div class="dm-card">
-                            <div class="dm-label">Top apps</div>
-                            <div class="app-row">
-                                <div class="app-ico" style="background:rgba(66,133,244,0.15)">
-                                    <img src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="16" height="16" loading="lazy">
-                                </div>
-                                <div class="app-info">
-                                    <div class="app-name">Chrome</div>
-                                    <div class="app-time">1h 48m</div>
-                                    <div class="app-bar"><div class="app-prog" style="width:72%;background:var(--primary)"></div></div>
-                                </div>
-                            </div>
-                            <div class="app-row">
-                                <div class="app-ico" style="background:rgba(0,122,204,0.15)">
-                                    <span style="font-size:0.65rem;font-weight:700;color:#007ACC">VS</span>
-                                </div>
-                                <div class="app-info">
-                                    <div class="app-name">VS Code</div>
-                                    <div class="app-time">1h 12m</div>
-                                    <div class="app-bar"><div class="app-prog" style="width:54%;background:#6366f1"></div></div>
-                                </div>
-                            </div>
-                            <div class="app-row">
-                                <div class="app-ico" style="background:rgba(29,185,84,0.15)">
-                                    <img src="https://cdn.simpleicons.org/spotify/1DB954" alt="" width="16" height="16" loading="lazy">
-                                </div>
-                                <div class="app-info">
-                                    <div class="app-name">Spotify</div>
-                                    <div class="app-time">42m</div>
-                                    <div class="app-bar"><div class="app-prog" style="width:30%;background:var(--green)"></div></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="dm-card">
-                            <div class="dm-label">Categories</div>
-                            <div class="cat-item">
-                                <div class="cat-dot" style="background:#22c55e"></div>
-                                <div class="cat-info">
-                                    <div class="cat-name">Development</div>
-                                    <div class="cat-time">2h 14m</div>
-                                </div>
-                                <span class="cat-pct">49%</span>
-                            </div>
-                            <div class="cat-item">
-                                <div class="cat-dot" style="background:#f59e0b"></div>
-                                <div class="cat-info">
-                                    <div class="cat-name">Entertainment</div>
-                                    <div class="cat-time">1h 06m</div>
-                                </div>
-                                <span class="cat-pct">24%</span>
-                            </div>
-                            <div class="cat-item">
-                                <div class="cat-dot" style="background:#ec4899"></div>
-                                <div class="cat-info">
-                                    <div class="cat-name">Social</div>
-                                    <div class="cat-time">38m</div>
-                                </div>
-                                <span class="cat-pct">14%</span>
-                            </div>
-                            <div class="cat-item">
-                                <div class="cat-dot" style="background:#38bdf8"></div>
-                                <div class="cat-info">
-                                    <div class="cat-name">Browsing</div>
-                                    <div class="cat-time">34m</div>
-                                </div>
-                                <span class="cat-pct">13%</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a href="#how" aria-label="Learn how it works">How it works</a>
+        <a href="#features" aria-label="View features">Features</a>
+        <a href="#privacy" aria-label="Privacy and security">Privacy</a>
+        <a href="/account" aria-label="Sign in to your account">Sign in</a>
+        <a href="/downloads/Deskly-Setup-1.0.0.exe" aria-label="Download Deskly for Windows">Download</a>
     </div>
 
-    <!-- Floating UI cards (wide screens only) -->
-    <div class="float-card float-card-1">
-        <div class="fcard-top">
-            <span class="fcard-emoji">🏆</span>
-            <span class="fcard-title">Achievement unlocked</span>
-        </div>
-        <div class="fcard-desc">Weekly Warrior — hit your goal 7 days in a row</div>
-        <span class="fcard-badge fcard-badge-gold">+ 50 XP</span>
-    </div>
-
-    <div class="float-card float-card-2">
-        <div class="fcard-top">
-            <span class="fcard-emoji">🧘</span>
-            <span class="fcard-title">Time for a break</span>
-        </div>
-        <div class="fcard-desc">You've been focused for 45 minutes</div>
-        <span class="fcard-badge fcard-badge-green">Eye rest · 20-20-20</span>
-    </div>
-</section>
-
-<!-- ── BROWSER TICKER ────────────────────────── -->
-<section class="browsers">
-    <div class="browsers-label">Works with 56 browsers — no extension needed</div>
-    <div class="ticker" aria-hidden="true">
-        <div class="ticker-set">
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="20" height="20" loading="lazy">Chrome</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt="" width="20" height="20" loading="lazy">Brave</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139" alt="" width="20" height="20" loading="lazy">Firefox</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#0078D4"/><path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1" stroke-width="1.5" stroke-linecap="round"/></svg>Edge</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt="" width="20" height="20" loading="lazy">Opera</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt="" width="20" height="20" loading="lazy">Vivaldi</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt="" width="20" height="20" loading="lazy">Arc</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698" alt="" width="20" height="20" loading="lazy">Tor</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#4587F3"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="6" r="1.5" fill="#fff"/></svg>Chromium</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#5B4D9E"/><path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5"/></svg>Waterfox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt="" width="20" height="20" loading="lazy">LibreWolf</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF" alt="" width="20" height="20" loading="lazy">Zen</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#2E66F6"/><rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9"/><rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6"/></svg>Polypane</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#45B855"/><path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Midori</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#00C170"/><path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Whale</span>
-        </div>
-        <div class="ticker-set">
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="20" height="20" loading="lazy">Chrome</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt="" width="20" height="20" loading="lazy">Brave</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139" alt="" width="20" height="20" loading="lazy">Firefox</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#0078D4"/><path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1" stroke-width="1.5" stroke-linecap="round"/></svg>Edge</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt="" width="20" height="20" loading="lazy">Opera</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt="" width="20" height="20" loading="lazy">Vivaldi</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt="" width="20" height="20" loading="lazy">Arc</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698" alt="" width="20" height="20" loading="lazy">Tor</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#4587F3"/><circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2"/><circle cx="12" cy="6" r="1.5" fill="#fff"/></svg>Chromium</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#5B4D9E"/><path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5"/></svg>Waterfox</span>
-            <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt="" width="20" height="20" loading="lazy">LibreWolf</span>
-            <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF" alt="" width="20" height="20" loading="lazy">Zen</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#2E66F6"/><rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9"/><rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6"/></svg>Polypane</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#45B855"/><path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Midori</span>
-            <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20"><circle cx="12" cy="12" r="11" fill="#00C170"/><path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>Whale</span>
-        </div>
-    </div>
-</section>
-
-<!-- ── NUMBERS ───────────────────────────────── -->
-<section class="numbers">
-    <div class="container">
-        <div class="numbers-grid reveal">
-            <div class="num-cell">
-                <div class="num-val" data-target="56" data-suffix="">0</div>
-                <div class="num-label">Browsers tracked</div>
-            </div>
-            <div class="num-cell">
-                <div class="num-val" data-target="88" data-suffix="">0</div>
-                <div class="num-label">Websites auto-recognized</div>
-            </div>
-            <div class="num-cell">
-                <div class="num-val" data-target="1" data-suffix=" sec">0 sec</div>
-                <div class="num-label">Tracking precision</div>
-            </div>
-            <div class="num-cell">
-                <div class="num-val" data-target="0" data-suffix=" bytes">0 bytes</div>
-                <div class="num-label">Sent to any server</div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── HOW IT WORKS ──────────────────────────── -->
-<section class="how" id="how">
-    <div class="container">
-        <div class="s-eyebrow reveal">How it works</div>
-        <h2 class="s-heading reveal" data-d="1">Install once.<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">It handles the rest.</em></h2>
-
-        <div class="steps">
-            <div class="step reveal" data-d="1">
-                <div class="step-num">1</div>
-                <div class="step-connector"></div>
-                <h3>Install &amp; choose a vault</h3>
-                <p>Pick any folder on your machine — Documents, a USB, your Dropbox. That's where your data lives. Human-readable JSON you can open in any editor.</p>
-            </div>
-            <div class="step reveal" data-d="2">
-                <div class="step-num">2</div>
-                <div class="step-connector"></div>
-                <h3>It runs in the background</h3>
-                <p>Every second, Deskly checks the foreground window using Windows UI Automation. No browser extension, no proxy, no kernel driver. Just reads the window title.</p>
-            </div>
-            <div class="step reveal" data-d="3">
-                <div class="step-num">3</div>
-                <h3>See exactly where time went</h3>
-                <p>Dashboard shows today at a glance. Reports show week, month, year, all-time. Best day, worst day, weekday patterns, top apps, category breakdown — all yours.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── FEATURES ──────────────────────────────── -->
-<section class="features" id="features">
-    <div class="container">
-        <div class="s-eyebrow reveal">Features</div>
-        <h2 class="s-heading reveal" data-d="1">Everything you need.<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">Nothing you don't.</em></h2>
-        <p class="s-sub reveal" data-d="2">No bloat, no subscription, no upsell. A focused tool that does its job well.</p>
-
-        <div class="fg reveal" data-d="3">
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                </div>
-                <h3>Browser intelligence</h3>
-                <p>Knows which site you're on across 56 browsers. Chrome, Brave, Arc, Tor, Zen — no extension, no proxy. Detects 88 websites automatically.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                </div>
-                <h3>Every app, every second</h3>
-                <p>Win32, UWP, PWAs. 1-second polling via UI Automation API. Sub-second accumulator means zero time lost on app switches.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                </div>
-                <h3>App limits</h3>
-                <p>Daily time caps with a soft overlay that follows the app. Three 5-minute extensions per day, then it's done. Respects your decision.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-                </div>
-                <h3>Deep reports</h3>
-                <p>Week, month, year, all-time up to 5 years. Best and worst days, weekday patterns, top 15 apps, category breakdown with percentages.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
-                </div>
-                <h3>Goals &amp; streaks</h3>
-                <p>Set a daily target. Build streaks. Unlock 10 achievements — First Step, Hat Trick, Weekly Warrior, all the way to Monthly Master.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-                </div>
-                <h3>Break reminders</h3>
-                <p>Five rotating types: eye rest (20-20-20), deep breathing, movement, hydration, mental reset. Configurable 20–60 minute intervals.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-                </div>
-                <h3>Custom categories</h3>
-                <p>Group apps and sites into Development, Social, Entertainment — or create your own. 12 colors, custom labels, AI-powered suggestions.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-                </div>
-                <h3>Export everything</h3>
-                <p>Full JSON dump or structured CSV with columns: date, app, category, duration. Your data is never locked in. Ever.</p>
-            </div>
-            <div class="fc">
-                <div class="fc-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-                </div>
-                <h3>System tray native</h3>
-                <p>Runs silently in the background. Shows today's time at a glance. Pause tracking, quick resume, double-click to open. Starts with Windows.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── PRIVACY ───────────────────────────────── -->
-<section class="privacy" id="privacy">
-    <div class="container">
-        <div class="priv-layout">
-            <div class="priv-left">
-                <div class="s-eyebrow reveal">Privacy</div>
-                <h2 class="s-heading reveal" data-d="1">Your data never leaves<br><em style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">your machine.</em></h2>
-                <p class="s-sub reveal" data-d="2">Everything lives in a local folder you choose — like Obsidian for your screen time. Move it to a USB, sync it with Dropbox, or delete it entirely. Your call.</p>
-
-                <div class="checks reveal" data-d="3">
-                    <div class="check-item">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        <div class="check-text"><strong>Local vault storage</strong><span>Readable JSON files in a folder you control</span></div>
-                    </div>
-                    <div class="check-item">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        <div class="check-text"><strong>No account, no cloud</strong><span>Works fully offline from the first second</span></div>
-                    </div>
-                    <div class="check-item">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        <div class="check-text"><strong>Export or delete anytime</strong><span>JSON, CSV, or full reset — one click</span></div>
-                    </div>
-                    <div class="check-item">
-                        <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
-                        <div class="check-text"><strong>Context isolation</strong><span>Sandboxed renderer, no node integration, encrypted tokens</span></div>
-                    </div>
-                </div>
+    <!-- ── HERO ──────────────────────────────────── -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge hero-anim" data-d="1">
+                <span class="dot"></span>
+                v1.0 — Free for Windows
             </div>
 
-            <div class="priv-visual reveal" data-d="2">
-                <!-- Other apps -->
-                <div class="priv-compare pc-others">
-                    <div class="pc-header">
-                        <span class="pc-badge pc-badge-muted">Other screen time apps</span>
-                    </div>
-                    <div class="pc-flow">
-                        <div class="pc-source">
-                            <div class="pc-source-icon" style="background:rgba(255,255,255,0.04);border:1px solid var(--border)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                            </div>
-                            <span>Your data</span>
-                        </div>
-                        <div class="pc-trail">
-                            <div class="pc-line">
-                                <span class="ar">&rarr;</span>
-                                <span class="pc-dest">Their cloud servers</span>
-                            </div>
-                            <div class="pc-line">
-                                <span class="ar">&rarr;</span>
-                                <span class="pc-dest">Analytics partners</span>
-                            </div>
-                            <div class="pc-line">
-                                <span class="ar">&rarr;</span>
-                                <span class="pc-dest">Ad networks</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <h1 class="hero-anim" data-d="2">Know where your<br><span class="gradient serif-em">time actually
+                    goes</span></h1>
 
-                <!-- Deskly -->
-                <div class="priv-compare pc-deskly priv-deskly">
-                    <div class="pc-header">
-                        <span class="pc-badge pc-badge-green">Deskly</span>
-                    </div>
-                    <div class="pc-flow">
-                        <div class="pc-source">
-                            <div class="pc-source-icon" style="background:var(--green-dim);border:1px solid rgba(52,211,153,0.12)">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--green)"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                            </div>
-                            <span>Your data</span>
-                        </div>
-                        <div class="pc-trail">
-                            <div class="pc-line">
-                                <span class="ar">&rarr;</span>
-                                <span class="pc-dest">A folder on your computer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="pc-bottom">
-                        <strong>That's it.</strong> No server, no account, no upload. Your screen time data lives in a folder you choose — like saving a Word document. Move it, back it up, or delete it. You're in full control.
-                    </div>
-                    <div class="pc-tags">
-                        <span class="pc-tag">Works offline</span>
-                        <span class="pc-tag">Portable</span>
-                        <span class="pc-tag">Your folder</span>
-                        <span class="pc-tag">Delete anytime</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+            <p class="sub hero-anim" data-d="3">Screen time tracking with 1-second precision.<br>Every app, every
+                website. All data stays local.</p>
 
-<!-- ── CTA ───────────────────────────────────── -->
-<section class="cta">
-    <div class="container">
-        <h2 class="reveal">See where your time<br><span class="serif-em">actually goes.</span></h2>
-        <p class="sub reveal" data-d="1">Free. Private. No sign-up. Just install<br>and get honest answers about your screen time.</p>
-
-        <div class="reveal" data-d="2">
-            <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn btn-primary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Download for Windows
-            </a>
-        </div>
-
-        <div class="pills reveal" data-d="3">
-            <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
-            <span class="pill"><span class="pd" style="background:var(--text-3)"></span>~85 MB</span>
-            <span class="pill"><span class="pd" style="background:var(--green)"></span>No telemetry</span>
-        </div>
-
-        <div class="trust-row reveal" data-d="4">
-            <span class="trust-label">Built with</span>
-            <div class="trust-logos">
-                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="color:var(--text-3)"><path d="M11.998 2C6.466 2 2 6.478 2 12.026c0 4.432 2.865 8.19 6.839 9.516.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.071 1.532 1.031 1.532 1.031.892 1.529 2.341 1.088 2.913.832.091-.647.349-1.088.636-1.339-2.22-.253-4.555-1.112-4.555-4.947 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 11.998 2z"/></svg> Open Source</span>
-                <span class="trust-sep">&middot;</span>
-                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)"><circle cx="12" cy="12" r="10"/><path d="M12,2 a15.3,15.3 0 0,1 0,20"/><path d="M12,2 a15.3,15.3 0 0,0 0,20"/><line x1="2" y1="12" x2="22" y2="12"/></svg> Electron</span>
-                <span class="trust-sep">&middot;</span>
-                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="color:var(--text-3)"><path d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236z" fill="currentColor"/><path d="M12 6.545c3.636 0 6.742 1.847 8.186 4.459C18.742 13.612 15.636 15.46 12 15.46s-6.742-1.848-8.186-4.456C5.258 8.392 8.364 6.545 12 6.545z" stroke="currentColor" stroke-width="1.5"/></svg> React</span>
-                <span class="trust-sep">&middot;</span>
-                <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Local-first</span>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ── FOOTER ────────────────────────────────── -->
-<footer>
-    <div class="container">
-        <div class="footer-inner">
-            <div class="footer-left">
-                <a href="/" class="footer-logo" aria-label="Deskly home">
-                    <div class="fl-icon">
-                        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)"/>
-                            <g transform="translate(256,256)">
-                                <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
-                                <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
-                                <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
-                                <circle cx="95" cy="-95" r="18" fill="#4ade80"/><circle cx="95" cy="-95" r="10" fill="#22c55e"/>
-                            </g>
-                        </svg>
-                    </div>
-                    Deskly
+            <div class="hero-actions hero-anim" data-d="4">
+                <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn btn-primary"
+                    aria-label="Download Deskly Setup for Windows">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download for Windows
                 </a>
-                <div class="footer-sep"></div>
-                <span class="footer-copy">
-                    &copy; <script>document.write(new Date().getFullYear())</script> Deskly
-                    <span style="color:var(--text-3);font-size:0.62rem">· Built with Electron + React</span>
-                </span>
+                <a href="#how" class="btn btn-ghost" aria-label="Learn how it works">See how it works</a>
             </div>
-            <div class="footer-links">
-                <a href="#features">Features</a>
-                <a href="#privacy">Privacy</a>
-                <a href="/account">Account</a>
-                <a href="mailto:hello@deskly.in">Contact</a>
+
+            <div class="pills hero-anim" data-d="5">
+                <span class="pill"><span class="pd" style="background:var(--green)"></span>Free &amp; open source</span>
+                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
+                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>No account needed</span>
+                <a href="https://github.com" class="pill" style="transition:border-color 0.2s;cursor:pointer"
+                    onmouseenter="this.style.borderColor='rgba(255,255,255,0.14)'"
+                    onmouseleave="this.style.borderColor=''">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="opacity:0.5">
+                        <path
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.385-1.335-1.755-1.335-1.755-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.605-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12" />
+                    </svg>
+                    Open source
+                </a>
             </div>
         </div>
-    </div>
-</footer>
+    </section>
 
-<!-- ── JS ────────────────────────────────────── -->
-<script>
-(function() {
-    'use strict';
+    <!-- ── APP WINDOW ────────────────────────────── -->
+    <section class="mockup-section">
+        <div class="container">
+            <div class="window reveal">
+                <div class="tb">
+                    <div class="tb-dots">
+                        <span class="tb-dot"></span><span class="tb-dot"></span><span class="tb-dot"></span>
+                    </div>
+                    <div class="tb-title">
+                        <div class="tb-logo">
+                            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
+                                <g transform="translate(256,256)">
+                                    <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
+                                        stroke-width="28" />
+                                    <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white"
+                                        stroke-width="28" stroke-linecap="round" opacity="0.9" />
+                                    <path
+                                        d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
+                                        fill="white" opacity="0.95" />
+                                    <circle cx="95" cy="-95" r="18" fill="#4ade80" />
+                                    <circle cx="95" cy="-95" r="10" fill="#22c55e" />
+                                </g>
+                            </svg>
+                        </div>
+                        Deskly
+                    </div>
+                    <div class="tb-spacer"></div>
+                </div>
+                <div class="wb">
+                    <div class="sb">
+                        <div class="sb-section-label">Overview</div>
+                        <div class="sb-item active">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                            Dashboard
+                        </div>
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <rect x="2" y="3" width="20" height="14" rx="2" />
+                                <line x1="8" y1="21" x2="16" y2="21" />
+                                <line x1="12" y1="17" x2="12" y2="21" />
+                            </svg>
+                            App Insights
+                        </div>
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="10" />
+                                <line x1="2" y1="12" x2="22" y2="12" />
+                                <path
+                                    d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                            </svg>
+                            Browser
+                        </div>
 
-    // ── Mobile menu (burger + close + nav links) ──
-    const mobMenu = document.querySelector('.mob-menu');
-    const burger  = document.querySelector('.burger');
-    const mobClose = document.querySelector('.mob-close');
+                        <div class="sb-section-label">Manage</div>
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <path
+                                    d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                                <line x1="7" y1="7" x2="7.01" y2="7" />
+                            </svg>
+                            Categories
+                        </div>
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="10" />
+                                <polyline points="12 6 12 12 16 14" />
+                            </svg>
+                            App Limits
+                        </div>
 
-    if (burger && mobMenu) {
-        burger.addEventListener('click', () => mobMenu.classList.add('open'));
-    }
-    if (mobClose && mobMenu) {
-        mobClose.addEventListener('click', () => mobMenu.classList.remove('open'));
-    }
-    // Close mobile menu when any in-page link is tapped
-    mobMenu?.querySelectorAll('a[href^="#"]').forEach(link => {
-        link.addEventListener('click', () => mobMenu.classList.remove('open'));
-    });
+                        <div class="sb-section-label">Review</div>
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <line x1="18" y1="20" x2="18" y2="10" />
+                                <line x1="12" y1="20" x2="12" y2="4" />
+                                <line x1="6" y1="20" x2="6" y2="14" />
+                            </svg>
+                            Reports
+                        </div>
 
-    // ── Nav scroll ──
-    const nav = document.getElementById('nav');
-    let lastY = 0;
-    let ticking = false;
+                        <div class="sb-spacer"></div>
 
-    function onScroll() {
-        if (!ticking) {
-            requestAnimationFrame(() => {
-                nav.classList.toggle('scrolled', window.scrollY > 8);
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }
+                        <div class="sb-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                                <circle cx="12" cy="12" r="3" />
+                                <path
+                                    d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                            </svg>
+                            Settings
+                        </div>
 
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+                        <div class="sb-user">
+                            <div class="sb-avatar">A</div>
+                            <span class="sb-name">Alex</span>
+                        </div>
+                    </div>
+                    <div class="dm">
+                        <div class="dm-greeting">Good afternoon, <strong>Alex</strong> <span class="dm-current"><span
+                                    class="dm-pulse"></span>Chrome — youtube.com</span></div>
 
-    // ── Intersection Observer reveal ──
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, {
-        threshold: 0.06,
-        rootMargin: '0px 0px -40px 0px'
-    });
+                        <div class="dm-card full">
+                            <div class="dm-label">Today's Activity</div>
+                            <div class="timeline">
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar" style="height:18%"></div>
+                                <div class="tl-bar" style="height:85%"></div>
+                                <div class="tl-bar" style="height:95%"></div>
+                                <div class="tl-bar" style="height:88%"></div>
+                                <div class="tl-bar" style="height:28%"></div>
+                                <div class="tl-bar" style="height:76%"></div>
+                                <div class="tl-bar" style="height:90%"></div>
+                                <div class="tl-bar" style="height:62%"></div>
+                                <div class="tl-bar active" style="height:40%"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                                <div class="tl-bar empty"></div>
+                            </div>
+                            <div class="tl-labels">
+                                <span>12 am</span><span>6 am</span><span>12 pm</span><span>6 pm</span><span>Now</span>
+                            </div>
+                        </div>
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+                        <div class="dm-card full">
+                            <div class="dm-label">Screen time</div>
+                            <div class="ring-row">
+                                <div class="ring-wrap">
+                                    <svg viewBox="0 0 100 100">
+                                        <circle class="ring-track" cx="50" cy="50" r="36" />
+                                        <circle class="ring-fill" cx="50" cy="50" r="36" />
+                                    </svg>
+                                    <div class="ring-center">
+                                        <span class="ring-val">4h 32m</span>
+                                        <span class="ring-sub">of 8h goal</span>
+                                    </div>
+                                </div>
+                                <div class="ring-stats">
+                                    <div class="rs-row"><span class="rs-k">Apps used</span><span class="rs-v">12</span>
+                                    </div>
+                                    <div class="rs-row"><span class="rs-k">Sites visited</span><span
+                                            class="rs-v">34</span></div>
+                                    <div class="rs-row"><span class="rs-k">Unlocks</span><span class="rs-v">8</span>
+                                    </div>
+                                    <div class="rs-row"><span class="rs-k">Day streak</span><span class="rs-v"
+                                            style="color:var(--green)">5 days 🔥</span></div>
+                                </div>
+                            </div>
+                        </div>
 
-    // ── Smooth anchor scrolling ──
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', e => {
-            const target = document.querySelector(anchor.getAttribute('href'));
-            if (target) {
-                e.preventDefault();
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        });
-    });
+                        <div class="dm-row">
+                            <div class="dm-card">
+                                <div class="dm-label">Top apps</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(66,133,244,0.15)">
+                                        <img src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="16"
+                                            height="16" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Chrome</div>
+                                        <div class="app-time">1h 48m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:72%;background:var(--primary)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(0,122,204,0.15)">
+                                        <span style="font-size:0.65rem;font-weight:700;color:#007ACC">VS</span>
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">VS Code</div>
+                                        <div class="app-time">1h 12m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:54%;background:#6366f1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(29,185,84,0.15)">
+                                        <img src="https://cdn.simpleicons.org/spotify/1DB954" alt="" width="16"
+                                            height="16" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Spotify</div>
+                                        <div class="app-time">42m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:30%;background:var(--green)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-    // ── Escape closes mobile menu ──
-    document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') {
-            document.querySelector('.mob-menu')?.classList.remove('open');
-        }
-    });
+                            <div class="dm-card">
+                                <div class="dm-label">Categories</div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#22c55e"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Development</div>
+                                        <div class="cat-time">2h 14m</div>
+                                    </div>
+                                    <span class="cat-pct">49%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#f59e0b"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Entertainment</div>
+                                        <div class="cat-time">1h 06m</div>
+                                    </div>
+                                    <span class="cat-pct">24%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#ec4899"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Social</div>
+                                        <div class="cat-time">38m</div>
+                                    </div>
+                                    <span class="cat-pct">14%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#38bdf8"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Browsing</div>
+                                        <div class="cat-time">34m</div>
+                                    </div>
+                                    <span class="cat-pct">13%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    // ── Pause ticker on hover ──
-    const ticker = document.querySelector('.ticker');
-    if (ticker) {
-        ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
-        ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
-    }
+        <!-- Floating UI cards (wide screens only) -->
+        <div class="float-card float-card-1">
+            <div class="fcard-top">
+                <span class="fcard-emoji">🏆</span>
+                <span class="fcard-title">Achievement unlocked</span>
+            </div>
+            <div class="fcard-desc">Weekly Warrior — hit your goal 7 days in a row</div>
+            <span class="fcard-badge fcard-badge-gold">+ 50 XP</span>
+        </div>
 
-    // ── Animated number counters ──
-    const numObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const vals = entry.target.querySelectorAll('.num-val[data-target]');
-                vals.forEach(el => {
-                    const target = parseInt(el.dataset.target);
-                    const suffix = el.dataset.suffix || '';
-                    const duration = 1400;
-                    const start = performance.now();
-                    function tick(now) {
-                        const elapsed = now - start;
-                        const progress = Math.min(elapsed / duration, 1);
-                        const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart
-                        const current = Math.round(eased * target);
-                        el.textContent = current + suffix;
-                        if (progress < 1) requestAnimationFrame(tick);
-                    }
-                    requestAnimationFrame(tick);
+        <div class="float-card float-card-2">
+            <div class="fcard-top">
+                <span class="fcard-emoji">🧘</span>
+                <span class="fcard-title">Time for a break</span>
+            </div>
+            <div class="fcard-desc">You've been focused for 45 minutes</div>
+            <span class="fcard-badge fcard-badge-green">Eye rest · 20-20-20</span>
+        </div>
+    </section>
+
+    <!-- ── BROWSER TICKER ────────────────────────── -->
+    <section class="browsers">
+        <div class="browsers-label">Works with 56 browsers — no extension needed</div>
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-set">
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4"
+                        alt="" width="20" height="20" loading="lazy">Chrome</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt=""
+                        width="20" height="20" loading="lazy">Brave</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139"
+                        alt="" width="20" height="20" loading="lazy">Firefox</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#0078D4" />
+                        <path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none"
+                            stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                        <path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1"
+                            stroke-width="1.5" stroke-linecap="round" />
+                    </svg>Edge</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt=""
+                        width="20" height="20" loading="lazy">Opera</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt=""
+                        width="20" height="20" loading="lazy">Vivaldi</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt=""
+                        width="20" height="20" loading="lazy">Arc</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698"
+                        alt="" width="20" height="20" loading="lazy">Tor</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#4587F3" />
+                        <circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2" />
+                        <circle cx="12" cy="6" r="1.5" fill="#fff" />
+                    </svg>Chromium</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#5B4D9E" />
+                        <path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2"
+                            stroke-linecap="round" />
+                        <circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5" />
+                    </svg>Waterfox</span>
+                <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt=""
+                        width="20" height="20" loading="lazy">LibreWolf</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF"
+                        alt="" width="20" height="20" loading="lazy">Zen</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#2E66F6" />
+                        <rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9" />
+                        <rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6" />
+                    </svg>Polypane</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#45B855" />
+                        <path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>Midori</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#00C170" />
+                        <path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff"
+                            stroke-width="2" stroke-linecap="round" />
+                    </svg>Whale</span>
+            </div>
+            <div class="ticker-set">
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/googlechrome/4285F4"
+                        alt="" width="20" height="20" loading="lazy">Chrome</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/brave/FB542B" alt=""
+                        width="20" height="20" loading="lazy">Brave</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/firefoxbrowser/FF7139"
+                        alt="" width="20" height="20" loading="lazy">Firefox</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#0078D4" />
+                        <path d="M7 13.5c0-3.3 2.5-6 5.5-6 1.6 0 2.8.9 2.8 2.3 0 1.3-1 2.2-2.8 2.2H7.5" fill="none"
+                            stroke="#fff" stroke-width="2" stroke-linecap="round" />
+                        <path d="M9.5 16c1 .6 2 .8 3 .8 2 0 3.5-1.2 3.5-3" fill="none" stroke="#35C1F1"
+                            stroke-width="1.5" stroke-linecap="round" />
+                    </svg>Edge</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/opera/FF1B2D" alt=""
+                        width="20" height="20" loading="lazy">Opera</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/vivaldi/EF3939" alt=""
+                        width="20" height="20" loading="lazy">Vivaldi</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/arc/FCBFBD" alt=""
+                        width="20" height="20" loading="lazy">Arc</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/torbrowser/7D4698"
+                        alt="" width="20" height="20" loading="lazy">Tor</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#4587F3" />
+                        <circle cx="12" cy="12" r="6" fill="none" stroke="#fff" stroke-width="2" />
+                        <circle cx="12" cy="6" r="1.5" fill="#fff" />
+                    </svg>Chromium</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#5B4D9E" />
+                        <path d="M7 10c0-3 2.5-5 5-5s4 1.5 4 3.5" fill="none" stroke="#fff" stroke-width="2"
+                            stroke-linecap="round" />
+                        <circle cx="16" cy="14" r="3" fill="none" stroke="#fff" stroke-width="1.5" />
+                    </svg>Waterfox</span>
+                <span class="ticker-item"><span class="ti-letter" style="background:#00AAFF">M</span>Mullvad</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/librewolf/00ACFF" alt=""
+                        width="20" height="20" loading="lazy">LibreWolf</span>
+                <span class="ticker-item"><img class="ti-icon" src="https://cdn.simpleicons.org/zenbrowser/7C6AEF"
+                        alt="" width="20" height="20" loading="lazy">Zen</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#2E66F6" />
+                        <rect x="6" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".9" />
+                        <rect x="13" y="6" width="5" height="12" rx="1.5" fill="#fff" opacity=".6" />
+                    </svg>Polypane</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#45B855" />
+                        <path d="M8 16V9l4-3 4 3v7" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>Midori</span>
+                <span class="ticker-item"><svg class="ti-svg" viewBox="0 0 24 24" width="20" height="20">
+                        <circle cx="12" cy="12" r="11" fill="#00C170" />
+                        <path d="M6 14c0-4 3-7 6-7s5 2 5 4-2 4-5 4c-2 0-3.5-1-3.5-2.5" fill="none" stroke="#fff"
+                            stroke-width="2" stroke-linecap="round" />
+                    </svg>Whale</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── NUMBERS ───────────────────────────────── -->
+    <section class="numbers">
+        <div class="container">
+            <div class="numbers-grid reveal">
+                <div class="num-cell">
+                    <div class="num-val" data-target="56" data-suffix="">0</div>
+                    <div class="num-label">Browsers tracked</div>
+                </div>
+                <div class="num-cell">
+                    <div class="num-val" data-target="88" data-suffix="">0</div>
+                    <div class="num-label">Websites auto-recognized</div>
+                </div>
+                <div class="num-cell">
+                    <div class="num-val" data-target="1" data-suffix=" sec">0 sec</div>
+                    <div class="num-label">Tracking precision</div>
+                </div>
+                <div class="num-cell">
+                    <div class="num-val" data-target="0" data-suffix=" bytes">0 bytes</div>
+                    <div class="num-label">Sent to any server</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── HOW IT WORKS ──────────────────────────── -->
+    <section class="how" id="how">
+        <div class="container">
+            <div class="s-eyebrow reveal">How it works</div>
+            <h2 class="s-heading reveal" data-d="1">Install once.<br><em
+                    style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">It
+                    handles the rest.</em></h2>
+
+            <div class="steps">
+                <div class="step reveal" data-d="1">
+                    <div class="step-num">1</div>
+                    <div class="step-connector"></div>
+                    <h3>Install &amp; choose a vault</h3>
+                    <p>Pick any folder on your machine — Documents, a USB, your Dropbox. That's where your data lives.
+                        Human-readable JSON you can open in any editor.</p>
+                </div>
+                <div class="step reveal" data-d="2">
+                    <div class="step-num">2</div>
+                    <div class="step-connector"></div>
+                    <h3>It runs in the background</h3>
+                    <p>Every second, Deskly checks the foreground window using Windows UI Automation. No browser
+                        extension, no proxy, no kernel driver. Just reads the window title.</p>
+                </div>
+                <div class="step reveal" data-d="3">
+                    <div class="step-num">3</div>
+                    <h3>See exactly where time went</h3>
+                    <p>Dashboard shows today at a glance. Reports show week, month, year, all-time. Best day, worst day,
+                        weekday patterns, top apps, category breakdown — all yours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FEATURES ──────────────────────────────── -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="s-eyebrow reveal">Features</div>
+            <h2 class="s-heading reveal" data-d="1">Everything you need.<br><em
+                    style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">Nothing
+                    you don't.</em></h2>
+            <p class="s-sub reveal" data-d="2">No bloat, no subscription, no upsell. A focused tool that does its job
+                well.</p>
+
+            <div class="fg reveal" data-d="3">
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </div>
+                    <h3>Browser intelligence</h3>
+                    <p>Knows which site you're on across 56 browsers. Chrome, Brave, Arc, Tor, Zen — no extension, no
+                        proxy. Detects 88 websites automatically.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="3" width="20" height="14" rx="2" />
+                            <line x1="8" y1="21" x2="16" y2="21" />
+                            <line x1="12" y1="17" x2="12" y2="21" />
+                        </svg>
+                    </div>
+                    <h3>Every app, every second</h3>
+                    <p>Win32, UWP, PWAs. 1-second polling via UI Automation API. Sub-second accumulator means zero time
+                        lost on app switches.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg>
+                    </div>
+                    <h3>App limits</h3>
+                    <p>Daily time caps with a soft overlay that follows the app. Three 5-minute extensions per day, then
+                        it's done. Respects your decision.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="20" x2="18" y2="10" />
+                            <line x1="12" y1="20" x2="12" y2="4" />
+                            <line x1="6" y1="20" x2="6" y2="14" />
+                        </svg>
+                    </div>
+                    <h3>Deep reports</h3>
+                    <p>Week, month, year, all-time up to 5 years. Best and worst days, weekday patterns, top 15 apps,
+                        category breakdown with percentages.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 20v-6M6 20V10M18 20V4" />
+                        </svg>
+                    </div>
+                    <h3>Goals &amp; streaks</h3>
+                    <p>Set a daily target. Build streaks. Unlock 10 achievements — First Step, Hat Trick, Weekly
+                        Warrior, all the way to Monthly Master.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+                        </svg>
+                    </div>
+                    <h3>Break reminders</h3>
+                    <p>Five rotating types: eye rest (20-20-20), deep breathing, movement, hydration, mental reset.
+                        Configurable 20–60 minute intervals.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
+                            <line x1="7" y1="7" x2="7.01" y2="7" />
+                        </svg>
+                    </div>
+                    <h3>Custom categories</h3>
+                    <p>Group apps and sites into Development, Social, Entertainment — or create your own. 12 colors,
+                        custom labels, AI-powered suggestions.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                            <polyline points="17 8 12 3 7 8" />
+                            <line x1="12" y1="3" x2="12" y2="15" />
+                        </svg>
+                    </div>
+                    <h3>Export everything</h3>
+                    <p>Full JSON dump or structured CSV with columns: date, app, category, duration. Your data is never
+                        locked in. Ever.</p>
+                </div>
+                <div class="fc">
+                    <div class="fc-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                    </div>
+                    <h3>System tray native</h3>
+                    <p>Runs silently in the background. Shows today's time at a glance. Pause tracking, quick resume,
+                        double-click to open. Starts with Windows.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PRIVACY ───────────────────────────────── -->
+    <section class="privacy" id="privacy">
+        <div class="container">
+            <div class="priv-layout">
+                <div class="priv-left">
+                    <div class="s-eyebrow reveal">Privacy</div>
+                    <h2 class="s-heading reveal" data-d="1">Your data never leaves<br><em
+                            style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">your
+                            machine.</em></h2>
+                    <p class="s-sub reveal" data-d="2">Everything lives in a local folder you choose — like Obsidian for
+                        your screen time. Move it to a USB, sync it with Dropbox, or delete it entirely. Your call.</p>
+
+                    <div class="checks reveal" data-d="3">
+                        <div class="check-item">
+                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            <div class="check-text"><strong>Local vault storage</strong><span>Readable JSON files in a
+                                    folder you control</span></div>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            <div class="check-text"><strong>No account, no cloud</strong><span>Works fully offline from
+                                    the first second</span></div>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            <div class="check-text"><strong>Export or delete anytime</strong><span>JSON, CSV, or full
+                                    reset — one click</span></div>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg></div>
+                            <div class="check-text"><strong>Context isolation</strong><span>Sandboxed renderer, no node
+                                    integration, encrypted tokens</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="priv-visual reveal" data-d="2">
+                    <!-- Other apps -->
+                    <div class="priv-compare pc-others">
+                        <div class="pc-header">
+                            <span class="pc-badge pc-badge-muted">Other screen time apps</span>
+                        </div>
+                        <div class="pc-flow">
+                            <div class="pc-source">
+                                <div class="pc-source-icon"
+                                    style="background:rgba(255,255,255,0.04);border:1px solid var(--border)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                                        style="color:var(--text-3)">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                                        <line x1="8" y1="21" x2="16" y2="21" />
+                                        <line x1="12" y1="17" x2="12" y2="21" />
+                                    </svg>
+                                </div>
+                                <span>Your data</span>
+                            </div>
+                            <div class="pc-trail">
+                                <div class="pc-line">
+                                    <span class="ar">&rarr;</span>
+                                    <span class="pc-dest">Their cloud servers</span>
+                                </div>
+                                <div class="pc-line">
+                                    <span class="ar">&rarr;</span>
+                                    <span class="pc-dest">Analytics partners</span>
+                                </div>
+                                <div class="pc-line">
+                                    <span class="ar">&rarr;</span>
+                                    <span class="pc-dest">Ad networks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Deskly -->
+                    <div class="priv-compare pc-deskly priv-deskly">
+                        <div class="pc-header">
+                            <span class="pc-badge pc-badge-green">Deskly</span>
+                        </div>
+                        <div class="pc-flow">
+                            <div class="pc-source">
+                                <div class="pc-source-icon"
+                                    style="background:var(--green-dim);border:1px solid rgba(52,211,153,0.12)">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                                        style="color:var(--green)">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" />
+                                        <line x1="8" y1="21" x2="16" y2="21" />
+                                        <line x1="12" y1="17" x2="12" y2="21" />
+                                    </svg>
+                                </div>
+                                <span>Your data</span>
+                            </div>
+                            <div class="pc-trail">
+                                <div class="pc-line">
+                                    <span class="ar">&rarr;</span>
+                                    <span class="pc-dest">A folder on your computer</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pc-bottom">
+                            <strong>That's it.</strong> No server, no account, no upload. Your screen time data lives in
+                            a folder you choose — like saving a Word document. Move it, back it up, or delete it. You're
+                            in full control.
+                        </div>
+                        <div class="pc-tags">
+                            <span class="pc-tag">Works offline</span>
+                            <span class="pc-tag">Portable</span>
+                            <span class="pc-tag">Your folder</span>
+                            <span class="pc-tag">Delete anytime</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ───────────────────────────────────── -->
+    <section class="cta">
+        <div class="container">
+            <h2 class="reveal">See where your time<br><span class="serif-em">actually goes.</span></h2>
+            <p class="sub reveal" data-d="1">Free. Private. No sign-up. Just install<br>and get honest answers about
+                your screen time.</p>
+
+            <div class="reveal" data-d="2">
+                <a href="/downloads/Deskly-Setup-1.0.0.exe" class="btn btn-primary"
+                    aria-label="Download Deskly for Windows">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                        <polyline points="7 10 12 15 17 10" />
+                        <line x1="12" y1="15" x2="12" y2="3" />
+                    </svg>
+                    Download for Windows
+                </a>
+            </div>
+
+            <div class="pills reveal" data-d="3">
+                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
+                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>~85 MB</span>
+                <span class="pill"><span class="pd" style="background:var(--green)"></span>No telemetry</span>
+            </div>
+
+            <div class="trust-row reveal" data-d="4">
+                <span class="trust-label">Built with</span>
+                <div class="trust-logos">
+                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
+                            style="color:var(--text-3)">
+                            <path
+                                d="M11.998 2C6.466 2 2 6.478 2 12.026c0 4.432 2.865 8.19 6.839 9.516.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.071 1.532 1.031 1.532 1.031.892 1.529 2.341 1.088 2.913.832.091-.647.349-1.088.636-1.339-2.22-.253-4.555-1.112-4.555-4.947 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 11.998 2z" />
+                        </svg> Open Source</span>
+                    <span class="trust-sep">&middot;</span>
+                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M12,2 a15.3,15.3 0 0,1 0,20" />
+                            <path d="M12,2 a15.3,15.3 0 0,0 0,20" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                        </svg> Electron</span>
+                    <span class="trust-sep">&middot;</span>
+                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            style="color:var(--text-3)">
+                            <path
+                                d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236z"
+                                fill="currentColor" />
+                            <path
+                                d="M12 6.545c3.636 0 6.742 1.847 8.186 4.459C18.742 13.612 15.636 15.46 12 15.46s-6.742-1.848-8.186-4.456C5.258 8.392 8.364 6.545 12 6.545z"
+                                stroke="currentColor" stroke-width="1.5" />
+                        </svg> React</span>
+                    <span class="trust-sep">&middot;</span>
+                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg> Local-first</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── FOOTER ────────────────────────────────── -->
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <a href="/" class="footer-logo" aria-label="Deskly home">
+                        <div class="fl-icon">
+                            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
+                                <g transform="translate(256,256)">
+                                    <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
+                                        stroke-width="28" />
+                                    <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white"
+                                        stroke-width="28" stroke-linecap="round" opacity="0.9" />
+                                    <path
+                                        d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
+                                        fill="white" opacity="0.95" />
+                                    <circle cx="95" cy="-95" r="18" fill="#4ade80" />
+                                    <circle cx="95" cy="-95" r="10" fill="#22c55e" />
+                                </g>
+                            </svg>
+                        </div>
+                        Deskly
+                    </a>
+                    <div class="footer-sep"></div>
+                    <span class="footer-copy">
+                        <div class="footer-links">
+                            <a href="/features">Features</a>
+                            <a href="/privacy">Privacy</a>
+                            <a href="/terms">Terms</a>
+                            <a href="/account">Account</a>
+                            <a href="mailto:hello@deskly.in">Contact</a>
+                        </div>
+                </div>
+            </div>
+    </footer>
+
+    <!-- ── JS ────────────────────────────────────── -->
+    <script>
+        (function () {
+            'use strict';
+
+            // ── Mobile menu (burger + close + nav links) ──
+            const mobMenu = document.querySelector('.mob-menu');
+            const burger = document.querySelector('.burger');
+            const mobClose = document.querySelector('.mob-close');
+
+            if (burger && mobMenu) {
+                burger.addEventListener('click', () => {
+                    mobMenu.classList.add('open');
+                    document.body.classList.add('mob-menu-open');
                 });
-                numObserver.unobserve(entry.target);
             }
-        });
-    }, { threshold: 0.3 });
-
-    const numGrid = document.querySelector('.numbers-grid');
-    if (numGrid) numObserver.observe(numGrid);
-
-    // ── Parallax mockup scroll ──
-    const windowEl = document.querySelector('.window');
-    const mockupSec = document.querySelector('.mockup-section');
-    const prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (windowEl && mockupSec && window.innerWidth > 960 && !prefersRM) {
-        let pTick = false;
-        window.addEventListener('scroll', () => {
-            if (!pTick) {
-                requestAnimationFrame(() => {
-                    if (!windowEl.classList.contains('visible')) { pTick = false; return; }
-                    const rect = mockupSec.getBoundingClientRect();
-                    const vh = window.innerHeight;
-                    if (rect.top < vh && rect.bottom > 0) {
-                        const p = (vh - rect.top) / (vh + rect.height);
-                        windowEl.style.transform = `translateY(${(p - 0.5) * -24}px)`;
-                    }
-                    pTick = false;
+            if (mobClose && mobMenu) {
+                mobClose.addEventListener('click', () => {
+                    mobMenu.classList.remove('open');
+                    document.body.classList.remove('mob-menu-open');
                 });
-                pTick = true;
             }
-        }, { passive: true });
-    }
-
-    // ── Feature card spotlight ──
-    const fgEl = document.querySelector('.fg');
-    if (fgEl) {
-        fgEl.addEventListener('mousemove', (e) => {
-            fgEl.querySelectorAll('.fc').forEach(card => {
-                const r = card.getBoundingClientRect();
-                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+            // Close mobile menu when any in-page link is tapped
+            mobMenu?.querySelectorAll('a[href^="#"]').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobMenu.classList.remove('open');
+                    document.body.classList.remove('mob-menu-open');
+                });
             });
-        });
-    }
 
-    // ── Prefers reduced motion ──
-    if (prefersRM) {
-        document.querySelectorAll('.hero-anim').forEach(el => {
-            el.style.animation = 'none';
-            el.style.opacity = '1';
-        });
-        document.querySelectorAll('.reveal').forEach(el => {
-            el.classList.add('visible');
-        });
-        if (ticker) ticker.style.animationPlayState = 'paused';
-    }
-})();
-</script>
+            // ── Nav scroll ──
+            const nav = document.getElementById('nav');
+            let lastY = 0;
+            let ticking = false;
+
+            function onScroll() {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        nav.classList.toggle('scrolled', window.scrollY > 8);
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+            onScroll();
+
+            // ── Intersection Observer reveal ──
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+            // ── Smooth anchor scrolling ──
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', e => {
+                    const target = document.querySelector(anchor.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+
+            // ── Escape closes mobile menu ──
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    document.querySelector('.mob-menu')?.classList.remove('open');
+                }
+            });
+
+            // ── Pause ticker on hover ──
+            const ticker = document.querySelector('.ticker');
+            if (ticker) {
+                ticker.addEventListener('mouseenter', () => ticker.style.animationPlayState = 'paused');
+                ticker.addEventListener('mouseleave', () => ticker.style.animationPlayState = 'running');
+            }
+
+            // ── Animated number counters ──
+            const numObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const vals = entry.target.querySelectorAll('.num-val[data-target]');
+                        vals.forEach(el => {
+                            const target = parseInt(el.dataset.target);
+                            const suffix = el.dataset.suffix || '';
+                            const duration = 1400;
+                            const start = performance.now();
+                            function tick(now) {
+                                const elapsed = now - start;
+                                const progress = Math.min(elapsed / duration, 1);
+                                const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+                                const current = Math.round(eased * target);
+                                el.textContent = current + suffix;
+                                if (progress < 1) requestAnimationFrame(tick);
+                            }
+                            requestAnimationFrame(tick);
+                        });
+                        numObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.3 });
+
+            const numGrid = document.querySelector('.numbers-grid');
+            if (numGrid) numObserver.observe(numGrid);
+
+            // ── Parallax mockup scroll ──
+            const windowEl = document.querySelector('.window');
+            const mockupSec = document.querySelector('.mockup-section');
+            const prefersRM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (windowEl && mockupSec && window.innerWidth > 960 && !prefersRM) {
+                let pTick = false;
+                window.addEventListener('scroll', () => {
+                    if (!pTick) {
+                        requestAnimationFrame(() => {
+                            if (!windowEl.classList.contains('visible')) { pTick = false; return; }
+                            const rect = mockupSec.getBoundingClientRect();
+                            const vh = window.innerHeight;
+                            if (rect.top < vh && rect.bottom > 0) {
+                                const p = (vh - rect.top) / (vh + rect.height);
+                                windowEl.style.transform = `translateY(${(p - 0.5) * -24}px)`;
+                            }
+                            pTick = false;
+                        });
+                        pTick = true;
+                    }
+                }, { passive: true });
+            }
+
+            // ── Feature card spotlight ──
+            const fgEl = document.querySelector('.fg');
+            if (fgEl) {
+                fgEl.addEventListener('mousemove', (e) => {
+                    fgEl.querySelectorAll('.fc').forEach(card => {
+                        const r = card.getBoundingClientRect();
+                        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+                    });
+                });
+            }
+
+            // ── Prefers reduced motion ──
+            if (prefersRM) {
+                document.querySelectorAll('.hero-anim').forEach(el => {
+                    el.style.animation = 'none';
+                    el.style.opacity = '1';
+                });
+                document.querySelectorAll('.reveal').forEach(el => {
+                    el.classList.add('visible');
+                });
+                if (ticker) ticker.style.animationPlayState = 'paused';
+            }
+        })();
+    </script>
 
 </body>
+
 </html>

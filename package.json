@@ -6,10 +6,16 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node --watch server.js",
-    "generate:favicons": "node scripts/generate-favicons.js"
+    "generate:favicons": "node scripts/generate-favicons.js",
+    "test": "node test-qa.js",
+    "load-test": "node ../scripts/load-test.js",
+    "core-web-vitals": "node ../scripts/core-web-vitals.js",
+    "optimize:images": "node ../scripts/optimize-images.js",
+    "build": "node ../scripts/build.js"
   },
   "dependencies": {
     "@workos-inc/node": "^8.0.0",
+    "compression": "^1.7.4",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",

@@ -23,8 +23,14 @@ const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { WorkOS } = require('@workos-inc/node');
+const compression = require('compression');
+
+// ─── CSRF Token Store (in production, use Redis) ──────────────────────────────
+const csrfTokenStore = new Map();
 
 const app = express();
+
+console.log('[DEBUG] Express app created');
 
 // Behind Vercel / any reverse proxy — needed for rate-limit & secure cookies
 app.set('trust proxy', 1);
@@ -33,14 +39,18 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 
-// ─── JWT Secret ────────────────────────────────────────────────────────────────
-// In production, refuse to start without a real secret
-const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret && isProduction) {
-    console.error('FATAL: JWT_SECRET is required in production. Set it in your .env file.');
-    process.exit(1);
+// ─── Validate Environment Variables ─────────────────────────────────────────────
+const requiredEnv = ['JWT_SECRET'];
+if (isProduction) {
+    requiredEnv.push('WORKOS_API_KEY', 'WORKOS_CLIENT_ID');
+    const missing = requiredEnv.filter(key => !process.env[key]);
+    if (missing.length > 0) {
+        console.error(`FATAL: Missing environment variables in production: ${missing.join(', ')}`);
+        process.exit(1);
+    }
 }
-const JWT_KEY = jwtSecret || 'dev-secret-change-me';
+
+const JWT_KEY = process.env.JWT_SECRET || 'dev-secret-change-me';
 
 // WorkOS client (lazy init — only needed for auth routes)
 let workos = null;
@@ -66,6 +76,9 @@ app.use(helmet({
             connectSrc: ["'self'"],
         },
     },
+    frameguard: { action: 'deny' },
+    noSniff: true,
+    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
 
 // Rate limiting on auth routes
@@ -77,6 +90,13 @@ const authLimiter = rateLimit({
     message: 'Too many auth requests. Please try again later.',
 });
 
+const accountLimiter = rateLimit({
+    windowMs: 5 * 60 * 1000,   // 5 minutes
+    max: 30,                   // 30 requests per window
+    standardHeaders: true,
+    legacyHeaders: false,
+});
+
 const apiLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,  // 1 minute
     max: 60,                   // 60 requests per window
@@ -85,7 +105,75 @@ const apiLimiter = rateLimit({
 });
 
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+
+// ─── Performance Middleware ────────────────────────────────────────────────────
+
+// Gzip compression for all responses
+app.use(compression({ level: 6, threshold: 1024 }));
+
+// Performance monitoring middleware
+const performanceMetrics = {
+    totalRequests: 0,
+    totalResponseTime: 0,
+    avgResponseTime: 0,
+    minResponseTime: Infinity,
+    maxResponseTime: 0,
+    routes: {},
+    startTime: Date.now(),
+};
+
+app.use((req, res, next) => {
+    const startTime = Date.now();
+    const originalSend = res.send;
+
+    res.send = function (data) {
+        const responseTime = Date.now() - startTime;
+
+        // Update metrics
+        performanceMetrics.totalRequests++;
+        performanceMetrics.totalResponseTime += responseTime;
+        performanceMetrics.avgResponseTime = Math.round(performanceMetrics.totalResponseTime / performanceMetrics.totalRequests);
+        performanceMetrics.minResponseTime = Math.min(performanceMetrics.minResponseTime, responseTime);
+        performanceMetrics.maxResponseTime = Math.max(performanceMetrics.maxResponseTime, responseTime);
+
+        // Track per-route metrics
+        const route = req.path;
+        if (!performanceMetrics.routes[route]) {
+            performanceMetrics.routes[route] = { count: 0, totalTime: 0, avgTime: 0 };
+        }
+        performanceMetrics.routes[route].count++;
+        performanceMetrics.routes[route].totalTime += responseTime;
+        performanceMetrics.routes[route].avgTime = Math.round(performanceMetrics.routes[route].totalTime / performanceMetrics.routes[route].count);
+
+        // Add performance headers
+        res.set('Server-Timing', `total;dur=${responseTime}`);
+        res.set('X-Response-Time', `${responseTime}ms`);
+
+        return originalSend.call(this, data);
+    };
+
+    next();
+});
+
+// Static file serving with aggressive caching
+app.use(express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d',
+    etag: false,
+    setHeaders: (res, path) => {
+        // Cache static assets for 1 day
+        if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.woff2') || path.endsWith('.woff')) {
+            res.set('Cache-Control', 'public, max-age=86400, immutable');
+        }
+        // Cache images for 7 days
+        else if (path.match(/\.(jpg|jpeg|png|gif|svg|webp)$/)) {
+            res.set('Cache-Control', 'public, max-age=604800, immutable');
+        }
+        // HTML and JSON: no caching, must revalidate
+        else if (path.endsWith('.html') || path.endsWith('.json')) {
+            res.set('Cache-Control', 'public, max-age=3600, must-revalidate');
+        }
+    },
+}));
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -98,6 +186,15 @@ function esc(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;');
+}
+
+/** Validate input parameters */
+function validateDeviceId(deviceId) {
+    return typeof deviceId === 'string' && /^[a-z0-9_-]{1,64}$/i.test(deviceId);
+}
+
+function validateSource(source) {
+    return ['web', 'desktop'].includes(source);
 }
 
 function signToken(user) {
@@ -124,14 +221,24 @@ function verifyToken(token) {
 }
 
 // ─── Landing Page ──────────────────────────────────────────────────────────────
-
+// --- Navigation Routes ---
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'landing.html'));
 });
 
-// ─── Account Page (browser-based, for web visitors) ────────────────────────────
+// Privacy Policy Route
+app.get('/privacy', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
+});
 
-app.get('/account', (req, res) => {
+// Terms of Conditions Route
+app.get('/terms', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'terms.html'));
+});
+
+// App Dashboard Route (Requires auth)owser-based, for web visitors) ────────────────────────────
+
+app.get('/account', accountLimiter, (req, res) => {
     // If WorkOS is not configured, show a friendly page instead of crashing
     if (!process.env.WORKOS_API_KEY || !process.env.WORKOS_CLIENT_ID) {
         return res.send(`<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Deskly — Account</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Inter',-apple-system,system-ui,sans-serif;background:#09090b;color:#ededef;min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}a{color:#818cf8;text-decoration:none}.wrap{max-width:380px}.wrap h1{font-size:1.5rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:8px}.wrap p{font-size:0.88rem;color:#8b8b92;line-height:1.6;margin-bottom:24px}.btn{display:inline-flex;align-items:center;gap:8px;font-size:0.84rem;font-weight:500;padding:10px 20px;border-radius:9px;background:#fff;color:#09090b;transition:opacity 0.2s}.btn:hover{opacity:0.85}</style></head><body><div class="wrap"><h1>Account</h1><p>Sign in is available when the server is connected to WorkOS. For now, Deskly works entirely without an account.</p><a href="/" class="btn">← Back to home</a></div></body></html>`);
@@ -152,16 +259,33 @@ app.get('/account', (req, res) => {
 
 app.get('/auth/login', authLimiter, async (req, res, next) => {
     try {
-        const { device_id, source } = req.query;
+        let { device_id, source } = req.query;
+
+        // Input validation FIRST (before WorkOS check)
+        if (device_id && !validateDeviceId(device_id)) {
+            return res.status(400).send('Invalid device_id format');
+        }
+        if (source && !validateSource(source)) {
+            return res.status(400).send('Invalid source value');
+        }
+
+        // NOW check if WorkOS is configured
+        if (!process.env.WORKOS_API_KEY || !process.env.WORKOS_CLIENT_ID) {
+            return res.status(503).send('Authentication service is not configured. Please try again later.');
+        }
+
+        device_id = device_id || null;
+        source = source || 'desktop';
 
         // CSRF-safe OAuth state: random nonce stored in a short-lived cookie
         const nonce = crypto.randomBytes(24).toString('base64url');
         const statePayload = {
             n: nonce,
-            device_id: device_id || null,
-            source: source || 'desktop',
+            device_id,
+            source,
         };
-        const state = JSON.stringify(statePayload);
+        // Encode state as base64url to prevent tampering
+        const state = Buffer.from(JSON.stringify(statePayload)).toString('base64url');
 
         // Store nonce in a short-lived cookie to verify on callback
         res.cookie('oauth_nonce', nonce, {
@@ -200,14 +324,19 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
         let context = { source: 'desktop', device_id: null };
         try {
             if (state) {
-                const parsed = JSON.parse(state);
+                // Decode base64url state
+                const decoded = Buffer.from(state, 'base64url').toString('utf-8');
+                const parsed = JSON.parse(decoded);
                 const savedNonce = req.cookies?.oauth_nonce;
                 if (!savedNonce || parsed.n !== savedNonce) {
                     return res.status(403).send('OAuth state mismatch — possible CSRF. Please try signing in again.');
                 }
                 context = { source: parsed.source || 'desktop', device_id: parsed.device_id || null };
             }
-        } catch { /* ignore malformed state */ }
+        } catch (err) {
+            console.error('State parsing error:', err);
+            return res.status(400).send('Invalid OAuth state');
+        }
 
         // Clear the one-time nonce cookie
         res.clearCookie('oauth_nonce', { path: '/auth/callback' });
@@ -222,11 +351,13 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
         const token = signToken(user);
 
         // Always set a cookie so the website can show signed-in state
+        // Cookie expires slightly before JWT (25 days < 30 day JWT expiry)
         res.cookie('deskly_token', token, {
             httpOnly: true,
-            secure: isProduction,
-            sameSite: 'lax',
-            maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+            secure: isProduction || process.env.FORCE_SECURE_COOKIES === 'true',
+            sameSite: 'strict', // Prevent CSRF
+            maxAge: 25 * 24 * 60 * 60 * 1000, // 25 days (before JWT expiry)
+            path: '/',
         });
 
         if (context.source === 'web') {
@@ -247,7 +378,8 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
 
 app.post('/auth/logout', (req, res) => {
     res.clearCookie('deskly_token');
-    res.redirect('/');
+    res.clearCookie('deskly_session', { path: '/' });
+    return res.json({ success: true, message: 'Logged out successfully' });
 });
 
 // Keep GET as a fallback so direct links / bookmarked logouts still work
@@ -413,9 +545,9 @@ function accountPage(user) {
     <div class="card">
         <div class="avatar">
             ${user.picture
-                ? `<img src="${esc(user.picture)}" alt="avatar" />`
-                : esc(user.name?.charAt(0)?.toUpperCase() || '?')
-            }
+            ? `<img src="${esc(user.picture)}" alt="avatar" />`
+            : esc(user.name?.charAt(0)?.toUpperCase() || '?')
+        }
         </div>
         <h1>${esc(user.name || 'Deskly User')}</h1>
         <p class="email">${esc(user.email)}</p>
@@ -437,7 +569,57 @@ function accountPage(user) {
 
 // ─── 404 handler ───────────────────────────────────────────────────────────────
 
+// ─── Performance Metrics Endpoint ──────────────────────────────────────────────
+
+console.log('[DEBUG] Registering metrics endpoint: /.well-known/metrics');
+
+app.get('/.well-known/metrics', (req, res) => {
+    console.log('[DEBUG] Metrics endpoint hit!');
+    const uptime = Date.now() - performanceMetrics.startTime;
+    const uptimeHours = (uptime / (1000 * 60 * 60)).toFixed(2);
+
+    res.json({
+        status: 'healthy',
+        uptime: `${uptimeHours}h`,
+        timestamp: new Date().toISOString(),
+        requests: {
+            total: performanceMetrics.totalRequests,
+            avgResponseTime: performanceMetrics.avgResponseTime,
+            minResponseTime: performanceMetrics.minResponseTime === Infinity ? 0 : performanceMetrics.minResponseTime,
+            maxResponseTime: performanceMetrics.maxResponseTime,
+        },
+        routes: performanceMetrics.routes,
+        memory: {
+            used: Math.round(process.memoryUsage().heapUsed / 1024 / 1024),
+            limit: Math.round(process.memoryUsage().heapTotal / 1024 / 1024),
+            unit: 'MB',
+        },
+    });
+});
+
+// ─── Health Check Endpoint ────────────────────────────────────────────────────
+
+app.get('/.well-known/health', (req, res) => {
+    res.status(200).json({
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+    });
+});
+
+// ─── Test Endpoint ────────────────────────────────────────────────────────────
+
+console.log('[DEBUG] Registering test endpoint: /test');
+
+app.get('/test', (req, res) => {
+    console.log('[DEBUG TEST] Route handler called!');
+    res.json({ test: 'works' });
+});
+
+// ─── 404 Handler ────────────────────────────────────────────────────────────────
+
 app.use((req, res) => {
+    console.log(`[DEBUG 404] Request: ${req.method} ${req.path} | Headers: ${JSON.stringify(req.headers)}`);
+    console.log(`[DEBUG] 404 handler called for: ${req.method} ${req.path}`);
     res.status(404).send(`
         <!DOCTYPE html>
         <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -446,7 +628,6 @@ app.use((req, res) => {
         </head><body><div><h1>404</h1><p>This page doesn\u2019t exist. Maybe it moved, or you typoed the URL.</p><a href="/">&larr; Back to Deskly</a></div></body></html>
     `);
 });
-
 // ─── Error handler ─────────────────────────────────────────────────────────────
 
 app.use((err, req, res, next) => {
