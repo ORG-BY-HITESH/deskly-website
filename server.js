@@ -30,9 +30,6 @@ const csrfTokenStore = new Map();
 
 const app = express();
 
-console.log('[DEBUG] Express app created');
-
-// Behind Vercel / any reverse proxy — needed for rate-limit & secure cookies
 app.set('trust proxy', 1);
 const port = process.env.PORT || 4000;
 const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
@@ -136,14 +133,16 @@ app.use((req, res, next) => {
         performanceMetrics.minResponseTime = Math.min(performanceMetrics.minResponseTime, responseTime);
         performanceMetrics.maxResponseTime = Math.max(performanceMetrics.maxResponseTime, responseTime);
 
-        // Track per-route metrics
+        // Track per-route metrics — cap map size to prevent memory growth from scanner/crawler paths
         const route = req.path;
-        if (!performanceMetrics.routes[route]) {
-            performanceMetrics.routes[route] = { count: 0, totalTime: 0, avgTime: 0 };
+        if (Object.keys(performanceMetrics.routes).length < 200 || performanceMetrics.routes[route]) {
+            if (!performanceMetrics.routes[route]) {
+                performanceMetrics.routes[route] = { count: 0, totalTime: 0, avgTime: 0 };
+            }
+            performanceMetrics.routes[route].count++;
+            performanceMetrics.routes[route].totalTime += responseTime;
+            performanceMetrics.routes[route].avgTime = Math.round(performanceMetrics.routes[route].totalTime / performanceMetrics.routes[route].count);
         }
-        performanceMetrics.routes[route].count++;
-        performanceMetrics.routes[route].totalTime += responseTime;
-        performanceMetrics.routes[route].avgTime = Math.round(performanceMetrics.routes[route].totalTime / performanceMetrics.routes[route].count);
 
         // Add performance headers
         res.set('Server-Timing', `total;dur=${responseTime}`);
@@ -164,9 +163,9 @@ app.use(express.static(path.join(__dirname, 'public'), {
         if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.woff2') || path.endsWith('.woff')) {
             res.set('Cache-Control', 'public, max-age=86400, immutable');
         }
-        // Cache images for 7 days
+        // Cache images for 7 days — no immutable since filenames aren't content-hashed
         else if (path.match(/\.(jpg|jpeg|png|gif|svg|webp)$/)) {
-            res.set('Cache-Control', 'public, max-age=604800, immutable');
+            res.set('Cache-Control', 'public, max-age=604800');
         }
         // HTML and JSON: no caching, must revalidate
         else if (path.endsWith('.html') || path.endsWith('.json')) {
@@ -569,12 +568,14 @@ function accountPage(user) {
 
 // ─── 404 handler ───────────────────────────────────────────────────────────────
 
-// ─── Performance Metrics Endpoint ──────────────────────────────────────────────
-
-console.log('[DEBUG] Registering metrics endpoint: /.well-known/metrics');
+// ─── Performance Metrics Endpoint (protected) ─────────────────────────────────
 
 app.get('/.well-known/metrics', (req, res) => {
-    console.log('[DEBUG] Metrics endpoint hit!');
+    // Require a secret token so this endpoint isn't publicly accessible
+    const secret = process.env.METRICS_SECRET;
+    if (secret && req.headers['x-metrics-secret'] !== secret) {
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
     const uptime = Date.now() - performanceMetrics.startTime;
     const uptimeHours = (uptime / (1000 * 60 * 60)).toFixed(2);
 
@@ -606,20 +607,17 @@ app.get('/.well-known/health', (req, res) => {
     });
 });
 
-// ─── Test Endpoint ────────────────────────────────────────────────────────────
+// ─── Test Endpoint (dev only) ────────────────────────────────────────────────
 
-console.log('[DEBUG] Registering test endpoint: /test');
-
-app.get('/test', (req, res) => {
-    console.log('[DEBUG TEST] Route handler called!');
-    res.json({ test: 'works' });
-});
+if (!isProduction) {
+    app.get('/test', (req, res) => {
+        res.json({ test: 'works' });
+    });
+}
 
 // ─── 404 Handler ────────────────────────────────────────────────────────────────
 
 app.use((req, res) => {
-    console.log(`[DEBUG 404] Request: ${req.method} ${req.path} | Headers: ${JSON.stringify(req.headers)}`);
-    console.log(`[DEBUG] 404 handler called for: ${req.method} ${req.path}`);
     res.status(404).send(`
         <!DOCTYPE html>
         <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
