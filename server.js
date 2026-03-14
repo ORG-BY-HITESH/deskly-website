@@ -37,7 +37,7 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 const enablePerfMetrics = process.env.ENABLE_PERF_METRICS === 'true';
-const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly/releases/latest';
+const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly-updates/releases/latest';
 
 const WEBSITE_POSTHOG_API_KEY = process.env.POSTHOG_API_KEY || '';
 const WEBSITE_POSTHOG_HOST = process.env.POSTHOG_HOST || 'https://us.i.posthog.com';
