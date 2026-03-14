@@ -699,15 +699,56 @@ function accountPage(user) {
             color: #ededef;
             min-height: 100vh;
         }
-        /* Aurora glow */
-        body::before {
-            content: '';
+        /* ── Aurora (exact copy from Deskly setup wizard) ── */
+        :root {
+            --aurora-bg: #000000;
+            --aurora-transparent: rgba(0,0,0,0);
+            --aurora-1: #3b82f6;
+            --aurora-2: #a5b4fc;
+            --aurora-3: #93c5fd;
+            --aurora-4: #ddd6fe;
+            --aurora-5: #60a5fa;
+        }
+        .aurora-container {
             position: fixed;
             inset: 0;
-            background: radial-gradient(circle at 50% 30%, rgba(129,140,248,0.18) 0%, rgba(52,211,153,0.06) 40%, transparent 68%);
-            filter: blur(72px);
+            overflow: hidden;
             pointer-events: none;
             z-index: 0;
+        }
+        .aurora-effect {
+            --dark-gradient: repeating-linear-gradient(100deg,
+                var(--aurora-bg) 0%, var(--aurora-bg) 7%,
+                var(--aurora-transparent) 10%, var(--aurora-transparent) 12%,
+                var(--aurora-bg) 16%);
+            --aurora-gradient: repeating-linear-gradient(100deg,
+                var(--aurora-1) 10%, var(--aurora-2) 15%,
+                var(--aurora-3) 20%, var(--aurora-4) 25%,
+                var(--aurora-5) 30%);
+            position: absolute;
+            top: -10px; right: -10px; bottom: -10px; left: -10px;
+            background-image: var(--dark-gradient), var(--aurora-gradient);
+            background-size: 300% 200%;
+            background-position: 50% 50%, 50% 50%;
+            filter: blur(10px);
+            opacity: 0.5;
+            transform: translateZ(0);
+            will-change: transform;
+            mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+        }
+        .aurora-effect::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: var(--dark-gradient), var(--aurora-gradient);
+            background-size: 200% 100%;
+            mix-blend-mode: difference;
+            animation: aurora-move 60s linear infinite;
+        }
+        @keyframes aurora-move {
+            from { background-position: 50% 50%, 50% 50%; }
+            to   { background-position: 350% 50%, 350% 50%; }
         }
         /* Top nav */
         .topnav {
@@ -850,6 +891,11 @@ function accountPage(user) {
     </style>
 </head>
 <body>
+    <!-- Aurora background (exact setup wizard copy) -->
+    <div class="aurora-container">
+        <div class="aurora-effect"></div>
+    </div>
+
     <nav class="topnav">
         <a href="/" class="topnav-brand">
             <span class="topnav-brand-icon">
