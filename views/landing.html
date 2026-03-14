@@ -2196,6 +2196,216 @@
         }
 
         /* ═══════════════════════════════════════════════════
+           SWITCH LAB (EXPERIMENT)
+           ═══════════════════════════════════════════════════ */
+        .switch-lab {
+            padding: 40px 0 90px;
+        }
+
+        .switch-lab-head {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .switch-lab-head h3 {
+            font-size: clamp(1.35rem, 2.5vw, 2rem);
+            letter-spacing: -0.03em;
+            margin-bottom: 6px;
+        }
+
+        .switch-lab-head p {
+            color: var(--text-2);
+            font-size: 0.92rem;
+        }
+
+        .exp-switch-stage {
+            width: 100%;
+            min-height: 380px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: radial-gradient(circle at 75% 18%, rgba(16, 185, 129, 0.14), transparent 36%), #090b10;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .exp-switch-grid {
+            position: absolute;
+            inset: 0;
+            opacity: 0.15;
+            pointer-events: none;
+            background-image: linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        .exp-switch-vignette {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(circle at center, transparent 8%, rgba(0, 0, 0, 0.85) 100%);
+        }
+
+        .exp-switch-shell {
+            position: relative;
+            z-index: 1;
+            transform: scale(1.08);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .exp-switch-housing {
+            position: relative;
+            width: 112px;
+            height: 224px;
+            border-radius: 24px;
+            background: #111318;
+            border: 2px solid #262b34;
+            box-shadow: 0 24px 46px rgba(0, 0, 0, 0.58), inset 0 2px 6px rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            padding: 8px;
+        }
+
+        .exp-switch-rail {
+            position: absolute;
+            top: 24px;
+            bottom: 24px;
+            width: 24px;
+            background: #06070a;
+            border-radius: 999px;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.95);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .exp-switch-led {
+            position: absolute;
+            top: -11px;
+            width: 62px;
+            height: 10px;
+            border-radius: 999px;
+            border: 1px solid #111827;
+            z-index: 20;
+            transition: background-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .exp-switch-handle {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 94px;
+            height: 128px;
+            border-radius: 12px;
+            border: 1px solid #3f4551;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.12);
+            cursor: grab;
+            touch-action: none;
+            transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .exp-switch-handle:active {
+            cursor: grabbing;
+        }
+
+        .exp-switch-text {
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+
+        .exp-switch-label {
+            position: absolute;
+            bottom: 18px;
+            left: 16px;
+            right: 16px;
+            text-align: center;
+            color: rgba(226, 232, 240, 0.85);
+            font-size: 12px;
+            z-index: 1;
+        }
+
+        .exp-switch-help {
+            margin-top: 16px;
+            text-align: center;
+            color: var(--text-3);
+            font-size: 0.8rem;
+        }
+
+        .switch-story {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 18px;
+            align-items: center;
+        }
+
+        .story-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 18px;
+            background: rgba(15, 15, 18, 0.66);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .story-card h4 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
+        }
+
+        .story-card p {
+            color: var(--text-2);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .story-list {
+            list-style: none;
+            display: grid;
+            gap: 7px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .story-list li {
+            font-size: 0.84rem;
+            color: var(--text-2);
+            display: flex;
+            gap: 8px;
+            line-height: 1.45;
+        }
+
+        .story-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            margin-top: 7px;
+            flex: 0 0 auto;
+            background: var(--text-3);
+        }
+
+        .story-card.active {
+            border-color: rgba(16, 185, 129, 0.55);
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.35), 0 12px 28px rgba(0, 0, 0, 0.28);
+            transform: translateY(-2px);
+        }
+
+        .story-card.active h4 {
+            color: #d1fae5;
+        }
+
+        .story-card.active .story-list li::before {
+            background: #34d399;
+        }
+
+        /* ═══════════════════════════════════════════════════
            FOOTER
            ═══════════════════════════════════════════════════ */
         footer {
@@ -2969,6 +3179,56 @@
         </div>
     </section>
 
+    <!-- ── SWITCH LAB (EXPERIMENT) ───────────────── -->
+    <section class="switch-lab" id="switch-lab">
+        <div class="container">
+            <div class="switch-lab-head reveal" data-d="1">
+                <h3>From scattered attention to healthier control</h3>
+                <p>A simple visual story of what Deskly helps improve day by day.</p>
+            </div>
+
+            <div class="switch-story reveal" data-d="2">
+                <article class="story-card active" data-story-current>
+                    <h4>Current condition</h4>
+                    <p>Without clear visibility, focus can slip without notice.</p>
+                    <ul class="story-list">
+                        <li>Frequent app switching drains momentum.</li>
+                        <li>Screen time rises without clear boundaries.</li>
+                        <li>End-of-day fatigue with low clarity on why.</li>
+                    </ul>
+                </article>
+
+                <div class="exp-switch-stage" aria-label="Current vs after Deskly switch">
+                    <div class="exp-switch-grid"></div>
+                    <div class="exp-switch-vignette"></div>
+
+                    <div class="exp-switch-shell" data-exp-switch>
+                        <div class="exp-switch-housing">
+                            <div class="exp-switch-rail"></div>
+                            <div class="exp-switch-led" data-exp-led></div>
+                            <div class="exp-switch-handle" data-exp-handle>
+                                <span class="exp-switch-text" data-exp-text>STANDBY</span>
+                            </div>
+                        </div>
+                        <div class="exp-switch-label" data-exp-status>Current condition: Scattered focus</div>
+                    </div>
+                </div>
+
+                <article class="story-card" data-story-after>
+                    <h4>After Deskly</h4>
+                    <p>With awareness and limits, attention becomes more intentional.</p>
+                    <ul class="story-list">
+                        <li>Clear app and website patterns every day.</li>
+                        <li>Better control through practical limits.</li>
+                        <li>Healthier routines that compound over time.</li>
+                    </ul>
+                </article>
+            </div>
+
+            <p class="exp-switch-help reveal" data-d="3" data-exp-caption>Switch OFF = current condition, switch ON = after Deskly. Drag or click to toggle.</p>
+        </div>
+    </section>
+
     <!-- ── APP WINDOW ────────────────────────────── -->
     <section class="mockup-section">
         <div class="container">
@@ -3682,7 +3942,7 @@
     <section class="cta">
         <div class="container">
             <h2 class="reveal">See where your time<br><span class="serif-em">actually goes.</span></h2>
-            <p class="sub reveal" data-d="1">Free. Private. No sign-up. Just install<br>and get honest answers about
+            <p class="sub reveal" data-d="1">Free. Private. Account required. Just install<br>and get honest answers about
                 your screen time.</p>
 
             <div class="reveal" data-d="2">
@@ -3860,6 +4120,105 @@
                 referrer: document.referrer ? 'external' : 'direct',
             });
             syncReleaseBadge();
+
+            const initExperimentalSwitch = () => {
+                const shell = document.querySelector('[data-exp-switch]');
+                const handle = document.querySelector('[data-exp-handle]');
+                const led = document.querySelector('[data-exp-led]');
+                const text = document.querySelector('[data-exp-text]');
+                const status = document.querySelector('[data-exp-status]');
+                const caption = document.querySelector('[data-exp-caption]');
+                const currentCard = document.querySelector('[data-story-current]');
+                const afterCard = document.querySelector('[data-story-after]');
+                if (!shell || !handle || !led || !text || !status || !caption || !currentCard || !afterCard) return;
+
+                const MAX_TRAVEL = 80;
+                let isOn = false;
+                let isDragging = false;
+                let dragStartY = 0;
+                let dragBaseY = 0;
+                let currentY = 0;
+                let moved = false;
+
+                const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+
+                const paint = () => {
+                    const normalized = currentY / MAX_TRAVEL;
+                    handle.style.transform = `translateY(${currentY}px)`;
+
+                    const isOnline = normalized > 0.5;
+                    if (isOnline) {
+                        const glow = 6 + normalized * 18;
+                        led.style.backgroundColor = '#10b981';
+                        led.style.boxShadow = `0 0 ${glow}px rgba(16, 185, 129, 0.55)`;
+                        text.textContent = 'ONLINE';
+                        text.style.color = '#34d399';
+                        text.style.textShadow = '0 0 8px rgba(16, 185, 129, 0.75)';
+                        handle.style.background = 'linear-gradient(180deg, #2d4f40 0%, #153025 100%)';
+                        status.textContent = 'After Deskly: Structured and calmer focus';
+                        caption.textContent = 'Switch ON = Deskly outcomes: clearer patterns, healthier boundaries, steadier focus.';
+                        currentCard.classList.remove('active');
+                        afterCard.classList.add('active');
+                    } else {
+                        led.style.backgroundColor = '#451a1a';
+                        led.style.boxShadow = '0 0 0 rgba(0,0,0,0)';
+                        text.textContent = 'STANDBY';
+                        text.style.color = '#6b7280';
+                        text.style.textShadow = 'none';
+                        handle.style.background = 'linear-gradient(180deg, #404040 0%, #262626 100%)';
+                        status.textContent = 'Current condition: Scattered focus';
+                        caption.textContent = 'Switch OFF = current condition: reactive usage, frequent context switching, and fatigue.';
+                        currentCard.classList.add('active');
+                        afterCard.classList.remove('active');
+                    }
+                };
+
+                const settle = (nextOn) => {
+                    isOn = nextOn;
+                    currentY = isOn ? MAX_TRAVEL : 0;
+                    handle.style.transition = 'transform 200ms cubic-bezier(0.16, 1, 0.3, 1), background 200ms ease';
+                    paint();
+                    captureAnalytics('web.cta.clicked', {
+                        source: 'switch_lab',
+                        state: isOn ? 'on' : 'off',
+                    });
+                };
+
+                paint();
+
+                handle.addEventListener('pointerdown', (event) => {
+                    isDragging = true;
+                    moved = false;
+                    dragStartY = event.clientY;
+                    dragBaseY = currentY;
+                    handle.style.transition = 'none';
+                    handle.setPointerCapture(event.pointerId);
+                });
+
+                handle.addEventListener('pointermove', (event) => {
+                    if (!isDragging) return;
+                    const delta = event.clientY - dragStartY;
+                    if (Math.abs(delta) > 3) moved = true;
+                    currentY = clamp(dragBaseY + delta, 0, MAX_TRAVEL);
+                    paint();
+                });
+
+                const endDrag = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    settle(currentY > MAX_TRAVEL / 2);
+                };
+
+                handle.addEventListener('pointerup', endDrag);
+                handle.addEventListener('pointercancel', endDrag);
+
+                shell.addEventListener('click', () => {
+                    if (isDragging || moved) return;
+                    settle(!isOn);
+                });
+            };
+
+            initExperimentalSwitch();
 
             const updateAuthLinks = (user) => {
                 const authLinks = document.querySelectorAll('[data-auth-link]');
