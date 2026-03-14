@@ -63,17 +63,6 @@ if (authCookieDomain) {
     authCookieBaseOptions.domain = authCookieDomain;
 }
 
-let canonicalHost = null;
-let canonicalOrigin = null;
-try {
-    const parsedBaseUrl = new URL(baseUrl);
-    canonicalHost = parsedBaseUrl.hostname.toLowerCase();
-    canonicalOrigin = parsedBaseUrl.origin;
-} catch (_) {
-    canonicalHost = null;
-    canonicalOrigin = null;
-}
-
 const WEBSITE_POSTHOG_API_KEY = process.env.POSTHOG_API_KEY || '';
 const WEBSITE_POSTHOG_HOST = process.env.POSTHOG_HOST || 'https://us.i.posthog.com';
 const websiteAnalyticsEnabled = Boolean(WEBSITE_POSTHOG_API_KEY);
@@ -160,17 +149,6 @@ const apiLimiter = rateLimit({
 
 app.use(cookieParser());
 app.use(express.json({ limit: '32kb' }));
-
-// Keep auth/session cookies on a single host variant (e.g., deskly.in over www.deskly.in).
-if (isProduction && canonicalHost && canonicalOrigin) {
-    app.use((req, res, next) => {
-        const requestHost = String(req.hostname || '').toLowerCase();
-        if (requestHost && requestHost !== canonicalHost && requestHost === `www.${canonicalHost}`) {
-            return res.redirect(301, `${canonicalOrigin}${req.originalUrl}`);
-        }
-        return next();
-    });
-}
 
 // ─── Performance Middleware ────────────────────────────────────────────────────
 
