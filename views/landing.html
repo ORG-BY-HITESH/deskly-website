@@ -2727,7 +2727,7 @@
                 <a href="/#features" aria-label="View features">Features</a>
                 <a href="#privacy" aria-label="Privacy and security">Privacy</a>
                 <a href="/account" aria-label="Sign in to your account">Sign in</a>
-                <span class="nav-cta is-disabled" aria-label="Deskly is available soon" aria-disabled="true">Available soon</span>
+                <a href="/download/windows?source=nav" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav">Download for Windows</a>
             </div>
 
             <button class="burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"
@@ -2754,7 +2754,7 @@
         <a href="/#features" aria-label="View features">Features</a>
         <a href="#privacy" aria-label="Privacy and security">Privacy</a>
         <a href="/account" aria-label="Sign in to your account">Sign in</a>
-        <span class="is-disabled" aria-label="Deskly is available soon" aria-disabled="true">Available soon</span>
+        <a href="/download/windows?source=mobile_menu" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu">Download for Windows</a>
     </div>
 
     <main id="main-content">
@@ -2773,15 +2773,15 @@
                 website. All data stays local.</p>
 
             <div class="hero-actions hero-anim" data-d="4">
-                <button type="button" class="btn btn-primary is-disabled" aria-label="Deskly is available soon" disabled>
+                <a href="/download/windows?source=hero" class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="hero">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                    Available soon
-                </button>
+                    Download for Windows
+                </a>
                 <a href="#how" class="btn btn-ghost" aria-label="Learn how it works">See how it works</a>
             </div>
 
@@ -3484,15 +3484,15 @@
                 your screen time.</p>
 
             <div class="reveal" data-d="2">
-                <button type="button" class="btn btn-primary is-disabled" aria-label="Deskly is available soon" disabled>
+                <a href="/download/windows?source=final_cta" class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="final_cta">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                         <polyline points="7 10 12 15 17 10" />
                         <line x1="12" y1="15" x2="12" y2="3" />
                     </svg>
-                    Available soon
-                </button>
+                    Download for Windows
+                </a>
             </div>
 
             <div class="pills reveal" data-d="3">
@@ -3582,6 +3582,51 @@
         (function () {
             'use strict';
 
+            const analyticsIdStorageKey = 'deskly_web_analytics_id';
+
+            const getAnalyticsId = () => {
+                try {
+                    let existing = localStorage.getItem(analyticsIdStorageKey);
+                    if (existing && existing.length >= 8) return existing;
+
+                    const freshId = `web_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
+                    localStorage.setItem(analyticsIdStorageKey, freshId);
+                    return freshId;
+                } catch (_) {
+                    return `web_${Date.now().toString(36)}_fallback`;
+                }
+            };
+
+            const analyticsDistinctId = getAnalyticsId();
+
+            const captureAnalytics = (eventName, properties = {}) => {
+                const payload = JSON.stringify({
+                    event: eventName,
+                    distinctId: analyticsDistinctId,
+                    properties: {
+                        path: window.location.pathname,
+                        ...properties,
+                    },
+                });
+
+                if (navigator.sendBeacon) {
+                    const blob = new Blob([payload], { type: 'application/json' });
+                    navigator.sendBeacon('/api/analytics/capture', blob);
+                    return;
+                }
+
+                fetch('/api/analytics/capture', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: payload,
+                    keepalive: true,
+                }).catch(() => {});
+            };
+
+            captureAnalytics('web.landing.viewed', {
+                referrer: document.referrer ? 'external' : 'direct',
+            });
+
             // ── Mobile menu (burger + close + nav links) ──
             const mobMenu = document.querySelector('.mob-menu');
             const burger = document.querySelector('.burger');
@@ -3623,6 +3668,7 @@
                 document.body.classList.add('mob-menu-open');
                 burger?.setAttribute('aria-expanded', 'true');
                 setBackgroundInert(true);
+                captureAnalytics('web.nav.opened', { source: 'burger' });
 
                 const [firstFocusable] = getMenuFocusable();
                 (firstFocusable || mobMenu).focus();
@@ -3635,6 +3681,7 @@
                 document.body.classList.remove('mob-menu-open');
                 burger?.setAttribute('aria-expanded', 'false');
                 setBackgroundInert(false);
+                captureAnalytics('web.nav.closed', { source: 'mobile_menu' });
 
                 if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
                     lastFocusedElement.focus();
@@ -3685,10 +3732,19 @@
             onScroll();
 
             // ── Intersection Observer reveal ──
+            const seenSections = new Set();
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
+
+                        const section = entry.target.closest('section');
+                        const sectionId = section?.id || section?.className?.split(' ')[0];
+                        if (sectionId && !seenSections.has(sectionId)) {
+                            seenSections.add(sectionId);
+                            captureAnalytics('web.section.viewed', { section: sectionId });
+                        }
+
                         observer.unobserve(entry.target);
                     }
                 });
@@ -3704,6 +3760,11 @@
                 anchor.addEventListener('click', e => {
                     const href = anchor.getAttribute('href');
                     if (!href || href === '#') return;
+
+                    captureAnalytics('web.nav.link_clicked', {
+                        href,
+                        source: 'anchor',
+                    });
 
                     const target = document.querySelector(href);
                     if (target) {
@@ -3863,6 +3924,27 @@
                 });
                 if (ticker) ticker.style.animationPlayState = 'paused';
             }
+
+            document.querySelectorAll('[data-analytics-event]').forEach((el) => {
+                el.addEventListener('click', () => {
+                    const eventName = el.getAttribute('data-analytics-event');
+                    if (!eventName) return;
+
+                    captureAnalytics(eventName, {
+                        source: el.getAttribute('data-analytics-source') || 'unknown',
+                        href: el.getAttribute('href') || null,
+                    });
+                });
+            });
+
+            document.querySelectorAll('nav a[href], .mob-menu a[href], .footer-links a[href]').forEach((link) => {
+                link.addEventListener('click', () => {
+                    captureAnalytics('web.nav.link_clicked', {
+                        href: link.getAttribute('href') || '/',
+                        source: link.closest('nav') ? 'top_nav' : (link.closest('.mob-menu') ? 'mobile_nav' : 'footer_nav'),
+                    });
+                });
+            });
         })();
     </script>
 

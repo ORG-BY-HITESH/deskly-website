@@ -24,6 +24,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { WorkOS } = require('@workos-inc/node');
 const compression = require('compression');
+const { PostHog } = require('posthog-node');
 
 // ─── CSRF Token Store (in production, use Redis) ──────────────────────────────
 const csrfTokenStore = new Map();
@@ -36,6 +37,18 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 const enablePerfMetrics = process.env.ENABLE_PERF_METRICS === 'true';
+const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly/releases/latest';
+
+const WEBSITE_POSTHOG_API_KEY = process.env.POSTHOG_API_KEY || '';
+const WEBSITE_POSTHOG_HOST = process.env.POSTHOG_HOST || 'https://us.i.posthog.com';
+const websiteAnalyticsEnabled = Boolean(WEBSITE_POSTHOG_API_KEY);
+const websitePosthog = websiteAnalyticsEnabled
+    ? new PostHog(WEBSITE_POSTHOG_API_KEY, {
+        host: WEBSITE_POSTHOG_HOST,
+        flushAt: 1,
+        flushInterval: 10000,
+    })
+    : null;
 
 // ─── Validate Environment Variables ─────────────────────────────────────────────
 const requiredEnv = ['JWT_SECRET'];
@@ -63,6 +76,14 @@ function getWorkOS() {
 }
 
 // ─── Security middleware ───────────────────────────────────────────────────────
+const cspConnectSources = ["'self'"];
+try {
+    const analyticsHost = new URL(WEBSITE_POSTHOG_HOST).origin;
+    cspConnectSources.push(analyticsHost);
+} catch (_) {
+    // Keep strict default when host is invalid.
+}
+
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -71,7 +92,7 @@ app.use(helmet({
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             imgSrc: ["'self'", "https://cdn.simpleicons.org", "data:", "https:"],
-            connectSrc: ["'self'"],
+            connectSrc: cspConnectSources,
         },
     },
     frameguard: { action: 'deny' },
@@ -103,6 +124,7 @@ const apiLimiter = rateLimit({
 });
 
 app.use(cookieParser());
+app.use(express.json({ limit: '32kb' }));
 
 // ─── Performance Middleware ────────────────────────────────────────────────────
 
@@ -222,6 +244,51 @@ function verifyToken(token) {
     }
 }
 
+const WEBSITE_EVENT_ALLOWLIST = new Set([
+    'web.landing.viewed',
+    'web.section.viewed',
+    'web.nav.opened',
+    'web.nav.closed',
+    'web.nav.link_clicked',
+    'web.cta.clicked',
+    'web.download.requested',
+    'web.account.page_opened',
+]);
+
+function sanitizeAnalyticsProperties(properties = {}) {
+    const result = {};
+    if (!properties || typeof properties !== 'object') return result;
+
+    const entries = Object.entries(properties).slice(0, 30);
+    for (const [key, value] of entries) {
+        if (!/^[a-z0-9_]+$/i.test(key)) continue;
+
+        if (typeof value === 'string') {
+            result[key] = value.slice(0, 200);
+        } else if (typeof value === 'number' || typeof value === 'boolean') {
+            result[key] = value;
+        }
+    }
+
+    return result;
+}
+
+function trackWebsiteEvent(eventName, distinctId, properties = {}) {
+    if (!websitePosthog || !websiteAnalyticsEnabled) return;
+    if (!WEBSITE_EVENT_ALLOWLIST.has(eventName)) return;
+    if (!distinctId || typeof distinctId !== 'string') return;
+
+    websitePosthog.capture({
+        distinctId: distinctId.slice(0, 128),
+        event: eventName,
+        properties: {
+            source: 'website',
+            environment: process.env.NODE_ENV || 'development',
+            ...sanitizeAnalyticsProperties(properties),
+        },
+    });
+}
+
 // ─── Landing Page ──────────────────────────────────────────────────────────────
 // --- Navigation Routes ---
 app.get('/', (req, res) => {
@@ -236,6 +303,39 @@ app.get('/privacy', (req, res) => {
 // Terms of Conditions Route
 app.get('/terms', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'terms.html'));
+});
+
+app.get('/download/windows', apiLimiter, (req, res) => {
+    const source = typeof req.query.source === 'string' ? req.query.source.slice(0, 60) : 'website';
+    const distinctId = typeof req.query.aid === 'string' && req.query.aid.trim()
+        ? req.query.aid.trim()
+        : `web_${req.ip || 'unknown'}`;
+
+    trackWebsiteEvent('web.download.requested', distinctId, {
+        source,
+        target: 'windows_installer',
+    });
+
+    return res.redirect(302, desktopDownloadUrl);
+});
+
+app.post('/api/analytics/capture', apiLimiter, (req, res) => {
+    const { event, distinctId, properties } = req.body || {};
+
+    if (!websiteAnalyticsEnabled || !websitePosthog) {
+        return res.status(202).json({ success: true, skipped: 'analytics_disabled' });
+    }
+
+    if (typeof event !== 'string' || !WEBSITE_EVENT_ALLOWLIST.has(event)) {
+        return res.status(400).json({ success: false, error: 'Invalid event' });
+    }
+
+    if (typeof distinctId !== 'string' || distinctId.length < 8 || distinctId.length > 128) {
+        return res.status(400).json({ success: false, error: 'Invalid distinctId' });
+    }
+
+    trackWebsiteEvent(event, distinctId, properties);
+    return res.status(202).json({ success: true });
 });
 
 // App Dashboard Route (Requires auth)owser-based, for web visitors) ────────────────────────────
@@ -268,6 +368,10 @@ app.get('/account', accountLimiter, (req, res) => {
         // Not signed in — redirect to login (web mode, not desktop)
         return res.redirect('/auth/login?source=web');
     }
+
+    trackWebsiteEvent('web.account.page_opened', `account_${user.sub}`, {
+        source: 'account_page',
+    });
 
     res.send(accountPage(user));
 });
@@ -598,6 +702,23 @@ app.use((err, req, res, next) => {
 
 // Export for Vercel serverless deployment
 module.exports = app;
+
+async function flushWebsiteAnalytics() {
+    if (!websitePosthog) return;
+    try {
+        await websitePosthog.shutdown();
+    } catch (_) {
+        // Ignore flush failures on shutdown.
+    }
+}
+
+process.on('SIGTERM', () => {
+    flushWebsiteAnalytics().finally(() => process.exit(0));
+});
+
+process.on('SIGINT', () => {
+    flushWebsiteAnalytics().finally(() => process.exit(0));
+});
 
 // Start locally if run directly (not imported by Vercel)
 if (require.main === module) {
