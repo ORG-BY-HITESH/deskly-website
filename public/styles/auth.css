@@ -4,23 +4,23 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body.auth-page {
   margin: 0;
   font-family: "Inter", system-ui, -apple-system, sans-serif;
   background: #09090b;
   color: #ededef;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   min-height: 100vh;
-  padding: 80px 24px 48px;
-  position: relative;
-  overflow: hidden;
+  display: grid;
+  grid-template-rows: 56px 1fr;
 }
 
 /* Aurora glow — same as Deskly setup wizard */
-.auth-glow {
+body.auth-page::before {
+  content: '';
   position: fixed;
   top: -15%;
   left: -10%;
@@ -32,34 +32,20 @@ body.auth-page {
   filter: blur(72px);
 }
 
-/* Noise grain overlay */
-.auth-glow::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 256px;
-}
-
 /* Top navigation bar */
 .auth-topnav {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 28px;
   height: 56px;
-  background: rgba(9, 9, 11, 0.7);
+  background: rgba(9, 9, 11, 0.8);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  z-index: 100;
 }
 
 .auth-topnav-logo {
@@ -77,6 +63,7 @@ body.auth-page {
   width: 28px;
   height: 28px;
   flex-shrink: 0;
+  display: block;
 }
 
 .auth-topnav-back {
@@ -98,6 +85,17 @@ body.auth-page {
   width: 14px;
   height: 14px;
   flex-shrink: 0;
+  display: block;
+}
+
+/* Content area below nav */
+.auth-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
 }
 
 .auth-card {

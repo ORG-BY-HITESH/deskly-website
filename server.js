@@ -691,9 +691,6 @@ function accountPage(user) {
     <link rel="stylesheet" href="/styles/auth.css" />
 </head>
 <body class="auth-page">
-    <!-- Aurora background -->
-    <div class="auth-glow"></div>
-
     <!-- Top navigation -->
     <nav class="auth-topnav">
         <a href="/" class="auth-topnav-logo">
@@ -723,6 +720,7 @@ function accountPage(user) {
         </a>
     </nav>
 
+    <div class="auth-content">
     <div class="auth-card">
         <div class="auth-avatar">
             ${user.picture
@@ -747,6 +745,7 @@ function accountPage(user) {
         <form action="/auth/logout" method="post">
             <button type="submit" class="auth-logout">Sign Out</button>
         </form>
+    </div>
     </div>
 </body>
 </html>`;
