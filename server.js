@@ -38,6 +38,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 const enablePerfMetrics = process.env.ENABLE_PERF_METRICS === 'true';
 const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly-updates/releases/latest';
+const desktopUpdatesRepo = process.env.DESKTOP_UPDATES_REPO || 'ORG-BY-HITESH/deskly-updates';
 
 function resolveCookieDomain(urlString) {
     try {
@@ -73,6 +74,39 @@ const websitePosthog = websiteAnalyticsEnabled
         flushInterval: 10000,
     })
     : null;
+
+const latestReleaseCache = {
+    tag: null,
+    fetchedAt: 0,
+};
+
+async function getLatestReleaseTag() {
+    const now = Date.now();
+    if (latestReleaseCache.tag && now - latestReleaseCache.fetchedAt < 5 * 60 * 1000) {
+        return latestReleaseCache.tag;
+    }
+
+    const response = await fetch(`https://api.github.com/repos/${desktopUpdatesRepo}/releases/latest`, {
+        headers: {
+            Accept: 'application/vnd.github+json',
+            'User-Agent': 'Deskly-Website',
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error(`Failed to fetch latest release tag: ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const tag = String(payload?.tag_name || '').trim();
+    if (!tag) {
+        throw new Error('Latest release tag missing from GitHub response.');
+    }
+
+    latestReleaseCache.tag = tag;
+    latestReleaseCache.fetchedAt = now;
+    return tag;
+}
 
 // ─── Validate Environment Variables ─────────────────────────────────────────────
 const requiredEnv = ['JWT_SECRET'];
@@ -599,6 +633,17 @@ app.get('/api/me', apiLimiter, (req, res) => {
     }
 
     res.json({ user });
+});
+
+app.get('/api/release-version', apiLimiter, async (req, res) => {
+    try {
+        const tag = await getLatestReleaseTag();
+        res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
+        return res.json({ tag });
+    } catch (error) {
+        console.error('Failed to resolve latest release version:', error);
+        return res.status(503).json({ error: 'Release version unavailable' });
+    }
 });
 
 // ─── HTML Templates ────────────────────────────────────────────────────────────
