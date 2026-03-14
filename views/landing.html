@@ -3776,6 +3776,7 @@
             'use strict';
 
             const analyticsIdStorageKey = 'deskly_web_analytics_id';
+            const authHintStorageKey = 'deskly_web_auth_hint_v1';
 
             const getAnalyticsId = () => {
                 try {
@@ -3840,6 +3841,35 @@
                 });
             };
 
+            const readAuthHint = () => {
+                try {
+                    const raw = localStorage.getItem(authHintStorageKey);
+                    if (!raw) return null;
+                    const parsed = JSON.parse(raw);
+                    if (!parsed || typeof parsed !== 'object') return null;
+                    const ts = Number(parsed.ts || 0);
+                    if (!Number.isFinite(ts) || Date.now() - ts > 14 * 24 * 60 * 60 * 1000) {
+                        localStorage.removeItem(authHintStorageKey);
+                        return null;
+                    }
+                    return parsed.user || null;
+                } catch (_) {
+                    return null;
+                }
+            };
+
+            const writeAuthHint = (user) => {
+                try {
+                    if (!user) {
+                        localStorage.removeItem(authHintStorageKey);
+                        return;
+                    }
+                    localStorage.setItem(authHintStorageKey, JSON.stringify({ user, ts: Date.now() }));
+                } catch (_) {
+                    // Ignore storage failures.
+                }
+            };
+
             const syncAuthState = async () => {
                 try {
                     const response = await fetch('/api/me', {
@@ -3849,18 +3879,26 @@
                     });
 
                     if (!response.ok) {
-                        updateAuthLinks(null);
+                        const hintedUser = readAuthHint();
+                        updateAuthLinks(hintedUser);
                         return;
                     }
 
                     const payload = await response.json();
-                    updateAuthLinks(payload?.user || null);
+                    const activeUser = payload?.user || null;
+                    writeAuthHint(activeUser);
+                    updateAuthLinks(activeUser);
                 } catch (_) {
-                    updateAuthLinks(null);
+                    const hintedUser = readAuthHint();
+                    updateAuthLinks(hintedUser);
                 }
             };
 
             syncAuthState();
+            window.addEventListener('focus', syncAuthState);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) syncAuthState();
+            });
 
             // ── Mobile menu (burger + close + nav links) ──
             const mobMenu = document.querySelector('.mob-menu');

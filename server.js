@@ -39,6 +39,41 @@ const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 const enablePerfMetrics = process.env.ENABLE_PERF_METRICS === 'true';
 const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly-updates/releases/latest';
 
+function resolveCookieDomain(urlString) {
+    try {
+        const hostname = new URL(urlString).hostname.toLowerCase();
+        if (!hostname || hostname === 'localhost') return null;
+        if (/^\d+\.\d+\.\d+\.\d+$/.test(hostname)) return null;
+        if (hostname.endsWith('.localhost')) return null;
+        if (hostname.startsWith('www.')) return `.${hostname.slice(4)}`;
+        return `.${hostname}`;
+    } catch {
+        return null;
+    }
+}
+
+const authCookieDomain = resolveCookieDomain(baseUrl);
+const authCookieBaseOptions = {
+    httpOnly: true,
+    secure: isProduction || process.env.FORCE_SECURE_COOKIES === 'true',
+    sameSite: 'lax',
+    path: '/',
+};
+if (authCookieDomain) {
+    authCookieBaseOptions.domain = authCookieDomain;
+}
+
+let canonicalHost = null;
+let canonicalOrigin = null;
+try {
+    const parsedBaseUrl = new URL(baseUrl);
+    canonicalHost = parsedBaseUrl.hostname.toLowerCase();
+    canonicalOrigin = parsedBaseUrl.origin;
+} catch (_) {
+    canonicalHost = null;
+    canonicalOrigin = null;
+}
+
 const WEBSITE_POSTHOG_API_KEY = process.env.POSTHOG_API_KEY || '';
 const WEBSITE_POSTHOG_HOST = process.env.POSTHOG_HOST || 'https://us.i.posthog.com';
 const websiteAnalyticsEnabled = Boolean(WEBSITE_POSTHOG_API_KEY);
@@ -125,6 +160,17 @@ const apiLimiter = rateLimit({
 
 app.use(cookieParser());
 app.use(express.json({ limit: '32kb' }));
+
+// Keep auth/session cookies on a single host variant (e.g., deskly.in over www.deskly.in).
+if (isProduction && canonicalHost && canonicalOrigin) {
+    app.use((req, res, next) => {
+        const requestHost = String(req.hostname || '').toLowerCase();
+        if (requestHost && requestHost !== canonicalHost && requestHost === `www.${canonicalHost}`) {
+            return res.redirect(301, `${canonicalOrigin}${req.originalUrl}`);
+        }
+        return next();
+    });
+}
 
 // ─── Performance Middleware ────────────────────────────────────────────────────
 
@@ -451,9 +497,7 @@ app.get('/auth/login', authLimiter, async (req, res, next) => {
 
         // Store nonce in a short-lived cookie to verify on callback
         res.cookie('oauth_nonce', nonce, {
-            httpOnly: true,
-            secure: isProduction,
-            sameSite: 'lax',
+            ...authCookieBaseOptions,
             maxAge: 10 * 60 * 1000, // 10 minutes — plenty for OAuth round-trip
             path: '/auth/callback',
         });
@@ -501,7 +545,10 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
         }
 
         // Clear the one-time nonce cookie
-        res.clearCookie('oauth_nonce', { path: '/auth/callback' });
+        res.clearCookie('oauth_nonce', {
+            ...authCookieBaseOptions,
+            path: '/auth/callback',
+        });
 
         // Exchange code for user
         const { user } = await getWorkOS().userManagement.authenticateWithCode({
@@ -515,11 +562,8 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
         // Always set a cookie so the website can show signed-in state
         // Cookie expires slightly before JWT (25 days < 30 day JWT expiry)
         res.cookie('deskly_token', token, {
-            httpOnly: true,
-            secure: isProduction || process.env.FORCE_SECURE_COOKIES === 'true',
-            sameSite: 'strict', // Prevent CSRF
+            ...authCookieBaseOptions,
             maxAge: 25 * 24 * 60 * 60 * 1000, // 25 days (before JWT expiry)
-            path: '/',
         });
 
         if (context.source === 'web') {
@@ -539,14 +583,17 @@ app.get('/auth/callback', authLimiter, async (req, res, next) => {
 // ─── Auth: Sign Out ────────────────────────────────────────────────────────────
 
 app.post('/auth/logout', (req, res) => {
-    res.clearCookie('deskly_token');
-    res.clearCookie('deskly_session', { path: '/' });
+    res.clearCookie('deskly_token', authCookieBaseOptions);
+    res.clearCookie('deskly_session', {
+        ...authCookieBaseOptions,
+        httpOnly: false,
+    });
     return res.json({ success: true, message: 'Logged out successfully' });
 });
 
 // Keep GET as a fallback so direct links / bookmarked logouts still work
 app.get('/auth/logout', (req, res) => {
-    res.clearCookie('deskly_token');
+    res.clearCookie('deskly_token', authCookieBaseOptions);
     res.redirect('/');
 });
 
