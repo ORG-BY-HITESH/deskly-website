@@ -600,7 +600,7 @@ app.post('/auth/logout', (req, res) => {
         ...authCookieBaseOptions,
         httpOnly: false,
     });
-    return res.json({ success: true, message: 'Logged out successfully' });
+    return res.redirect('/');
 });
 
 // Keep GET as a fallback so direct links / bookmarked logouts still work
@@ -707,6 +707,10 @@ function accountPage(user) {
         <div class="auth-info-row">
             <span class="auth-info-label">Auth Provider</span>
             <span class="auth-info-value">WorkOS</span>
+        </div>
+        <div class="auth-download-section">
+            <p class="auth-download-hint">Don't have the app yet?</p>
+            <a href="/download/windows" class="auth-btn">Download Deskly for Windows</a>
         </div>
         <form action="/auth/logout" method="post">
             <button type="submit" class="auth-logout">Sign Out</button>
