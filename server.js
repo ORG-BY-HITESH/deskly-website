@@ -776,6 +776,7 @@ function accountPage(user) {
             font-size: 0.95rem;
             letter-spacing: -0.01em;
         }
+        .topnav-brand-text { white-space: nowrap; }
         .topnav-brand-icon {
             width: 26px;
             height: 26px;
@@ -799,6 +800,7 @@ function accountPage(user) {
             text-decoration: none;
             transition: color 0.15s;
         }
+        .topnav-back-text { white-space: nowrap; }
         .topnav-back:hover { color: #ededef; }
         .topnav-back svg { width: 13px; height: 13px; flex-shrink: 0; }
         /* Main content */
@@ -888,6 +890,110 @@ function accountPage(user) {
             transition: background 0.15s;
         }
         .signout-btn:hover { background: rgba(239,68,68,0.1); }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            .topnav {
+                height: 52px;
+                padding: 0 14px;
+            }
+
+            .topnav-brand {
+                font-size: 0.9rem;
+            }
+
+            .topnav-back {
+                font-size: 0.78rem;
+                gap: 4px;
+            }
+
+            .page-body {
+                min-height: calc(100vh - 52px);
+                padding: 18px 12px;
+            }
+
+            .card {
+                border-radius: 16px;
+                padding: 24px 16px 18px;
+                max-width: 100%;
+            }
+
+            .avatar {
+                width: 56px;
+                height: 56px;
+                margin-bottom: 12px;
+            }
+
+            .uname {
+                font-size: 1.15rem;
+            }
+
+            .uemail {
+                font-size: 0.85rem;
+                margin-bottom: 18px;
+                word-break: break-word;
+            }
+
+            .row {
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .row-val.small {
+                max-width: 62%;
+                font-size: 0.75rem;
+            }
+
+            .dl-btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .topnav {
+                padding: 0 10px;
+            }
+
+            .topnav-brand-icon,
+            .topnav-brand-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .topnav-brand {
+                font-size: 0.86rem;
+                gap: 6px;
+            }
+
+            .topnav-back-text {
+                display: none;
+            }
+
+            .topnav-back svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .page-body {
+                padding: 14px 10px;
+            }
+
+            .card {
+                padding: 18px 12px 14px;
+            }
+
+            .row {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .row-val,
+            .row-val.small {
+                max-width: 100%;
+                text-align: left;
+            }
+        }
     </style>
 </head>
 <body>
@@ -916,13 +1022,13 @@ function accountPage(user) {
                     </g>
                 </svg>
             </span>
-            Deskly
+            <span class="topnav-brand-text">Deskly</span>
         </a>
-        <a href="/" class="topnav-back">
+        <a href="/" class="topnav-back" title="Back to home" aria-label="Back to home">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"/>
             </svg>
-            Back to home
+            <span class="topnav-back-text">Back to home</span>
         </a>
     </nav>
 
