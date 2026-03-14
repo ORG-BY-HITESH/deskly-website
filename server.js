@@ -688,64 +688,224 @@ function accountPage(user) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Account — Deskly</title>
-    <link rel="stylesheet" href="/styles/auth.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: #09090b;
+            color: #ededef;
+            min-height: 100vh;
+        }
+        /* Aurora glow */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(129,140,248,0.18) 0%, rgba(52,211,153,0.06) 40%, transparent 68%);
+            filter: blur(72px);
+            pointer-events: none;
+            z-index: 0;
+        }
+        /* Top nav */
+        .topnav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: rgba(9,9,11,0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            z-index: 50;
+        }
+        .topnav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+        .topnav-brand-icon {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            border-radius: 7px;
+            overflow: hidden;
+            display: block;
+        }
+        .topnav-brand-icon svg {
+            width: 26px;
+            height: 26px;
+            display: block;
+        }
+        .topnav-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .topnav-back:hover { color: #ededef; }
+        .topnav-back svg { width: 13px; height: 13px; flex-shrink: 0; }
+        /* Main content */
+        .page-body {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 56px);
+            padding: 32px 20px;
+        }
+        /* Card */
+        .card {
+            background: rgba(15,15,18,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 20px;
+            padding: 40px 32px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(129,140,248,0.07);
+        }
+        .avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #818cf8, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+        .avatar img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .uname { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+        .uemail { color: #9ca3af; font-size: 0.9rem; margin-bottom: 24px; }
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            font-size: 0.88rem;
+        }
+        .row-label { color: #8a93a5; }
+        .row-val { font-weight: 500; }
+        .row-val.small { font-size: 0.78rem; color: #6b7280; max-width: 220px; text-align: right; word-break: break-all; }
+        /* Download section */
+        .dl-section {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            text-align: center;
+        }
+        .dl-hint { font-size: 0.82rem; color: #6b7280; margin-bottom: 12px; }
+        .dl-btn {
+            display: inline-block;
+            padding: 11px 22px;
+            border-radius: 10px;
+            background: #fff;
+            color: #09090b;
+            font-weight: 600;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: opacity 0.15s;
+        }
+        .dl-btn:hover { opacity: 0.85; }
+        /* Sign out */
+        .signout-form { margin-top: 20px; }
+        .signout-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 0;
+            border-radius: 12px;
+            border: 1px solid #ef4444;
+            background: transparent;
+            color: #ef4444;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.15s;
+        }
+        .signout-btn:hover { background: rgba(239,68,68,0.1); }
+    </style>
 </head>
-<body class="auth-page">
-    <!-- Top navigation -->
-    <nav class="auth-topnav">
-        <a href="/" class="auth-topnav-logo">
-            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="lbg" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#7c3aed" />
-                        <stop offset="100%" stop-color="#a78bfa" />
-                    </linearGradient>
-                </defs>
-                <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#lbg)" />
-                <g transform="translate(256,256)">
-                    <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28" />
-                    <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9" />
-                    <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95" />
-                    <circle cx="95" cy="-95" r="18" fill="#4ade80" />
-                    <circle cx="95" cy="-95" r="10" fill="#22c55e" />
-                </g>
-            </svg>
+<body>
+    <nav class="topnav">
+        <a href="/" class="topnav-brand">
+            <span class="topnav-brand-icon">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7c3aed"/>
+                            <stop offset="100%" stop-color="#a78bfa"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#lg)"/>
+                    <g transform="translate(256,256)">
+                        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
+                        <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
+                        <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
+                        <circle cx="95" cy="-95" r="18" fill="#4ade80"/>
+                        <circle cx="95" cy="-95" r="10" fill="#22c55e"/>
+                    </g>
+                </svg>
+            </span>
             Deskly
         </a>
-        <a href="/" class="auth-topnav-back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <a href="/" class="topnav-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"/>
             </svg>
             Back to home
         </a>
     </nav>
 
-    <div class="auth-content">
-    <div class="auth-card">
-        <div class="auth-avatar">
-            ${user.picture
-            ? `<img src="${esc(user.picture)}" alt="avatar" />`
-            : esc(user.name?.charAt(0)?.toUpperCase() || '?')
-        }
+    <div class="page-body">
+        <div class="card">
+            <div class="avatar">
+                ${user.picture
+                    ? `<img src="${esc(user.picture)}" alt="avatar" />`
+                    : esc(user.name?.charAt(0)?.toUpperCase() || '?')
+                }
+            </div>
+            <div class="uname">${esc(user.name || 'Deskly User')}</div>
+            <div class="uemail">${esc(user.email)}</div>
+            <div class="row">
+                <span class="row-label">User ID</span>
+                <span class="row-val small">${esc(user.sub)}</span>
+            </div>
+            <div class="row">
+                <span class="row-label">Auth Provider</span>
+                <span class="row-val">WorkOS</span>
+            </div>
+            <div class="dl-section">
+                <p class="dl-hint">Don't have the app yet?</p>
+                <a href="/download/windows" class="dl-btn">Download Deskly for Windows</a>
+            </div>
+            <form class="signout-form" action="/auth/logout" method="post">
+                <button type="submit" class="signout-btn">Sign Out</button>
+            </form>
         </div>
-        <h1 class="auth-name">${esc(user.name || 'Deskly User')}</h1>
-        <p class="auth-email">${esc(user.email)}</p>
-        <div class="auth-info-row">
-            <span class="auth-info-label">User ID</span>
-            <span class="auth-info-value small">${esc(user.sub)}</span>
-        </div>
-        <div class="auth-info-row">
-            <span class="auth-info-label">Auth Provider</span>
-            <span class="auth-info-value">WorkOS</span>
-        </div>
-        <div class="auth-download-section">
-            <p class="auth-download-hint">Don't have the app yet?</p>
-            <a href="/download/windows" class="auth-btn">Download Deskly for Windows</a>
-        </div>
-        <form action="/auth/logout" method="post">
-            <button type="submit" class="auth-logout">Sign Out</button>
-        </form>
-    </div>
     </div>
 </body>
 </html>`;
