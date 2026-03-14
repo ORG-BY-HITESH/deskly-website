@@ -157,6 +157,8 @@
             scroll-behavior: smooth;
             scrollbar-width: thin;
             scrollbar-color: var(--surface-3) transparent;
+            width: 100%;
+            overflow-x: clip;
         }
 
         body {
@@ -167,7 +169,8 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-            overflow-x: hidden;
+            overflow-x: clip;
+            width: 100%;
             text-rendering: optimizeLegibility;
         }
 
@@ -263,6 +266,7 @@
             height: 56px;
             display: flex;
             align-items: center;
+            overflow-x: clip;
             border-bottom: 1px solid transparent;
             transition: all 0.5s var(--ease);
         }
@@ -408,6 +412,7 @@
             padding: 180px 0 64px;
             text-align: center;
             position: relative;
+            overflow-x: clip;
         }
 
         /* Subtle top glow */
@@ -1798,6 +1803,11 @@
             opacity: 0.035;
         }
 
+        .how,
+        .features {
+            overflow-x: clip;
+        }
+
         .how::before {
             top: 10%;
             right: -200px;
@@ -2850,6 +2860,17 @@
 
             .float-card {
                 animation: none;
+            }
+        }
+
+        @supports not (overflow: clip) {
+            html,
+            body,
+            nav,
+            .hero,
+            .how,
+            .features {
+                overflow-x: hidden;
             }
         }
 
