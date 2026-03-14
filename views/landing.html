@@ -2199,13 +2199,15 @@
         .footer-inner {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 28px;
         }
 
         .footer-left {
             display: flex;
             align-items: center;
             gap: 16px;
+            flex: 0 0 auto;
         }
 
         .footer-logo {
@@ -2246,13 +2248,19 @@
 
         .footer-links {
             display: flex;
-            gap: 24px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 12px 20px;
+            margin-left: auto;
+            max-width: 760px;
         }
 
         .footer-links a {
             font-size: 0.8rem;
             color: var(--text-3);
             transition: color 0.2s;
+            white-space: nowrap;
+            line-height: 1.45;
         }
 
         .footer-links a:hover {
@@ -2611,7 +2619,13 @@
                 text-align: center;
             }
 
+            .footer-left {
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+
             .footer-links {
+                width: 100%;
                 justify-content: center;
                 flex-wrap: wrap;
             }
