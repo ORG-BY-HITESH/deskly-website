@@ -282,6 +282,73 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            min-width: 0;
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.96rem;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            min-width: 0;
+            flex-shrink: 1;
+        }
+
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            overflow: hidden;
+            flex-shrink: 0;
+            display: block;
+        }
+
+        .logo-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            min-width: 0;
+        }
+
+        .nav-links a {
+            color: var(--text-2);
+            text-decoration: none;
+            font-size: 0.84rem;
+            font-weight: 500;
+            letter-spacing: 0.01em;
+            white-space: nowrap;
+            transition: color 0.2s var(--ease);
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        .nav-links .nav-cta {
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 8px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            font-weight: 600;
+            transition: border-color 0.25s var(--ease), background 0.25s var(--ease), transform 0.2s var(--ease);
+        }
+
+        .nav-links .nav-cta:hover {
+            border-color: rgba(255, 255, 255, 0.22);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-1px);
         }
 
         .burger {
@@ -2401,6 +2468,22 @@
                 padding: 0 16px;
             }
 
+            nav .inner {
+                padding: 0 12px;
+                min-width: 0;
+            }
+
+            .logo {
+                font-size: 0.9rem;
+                gap: 8px;
+            }
+
+            .logo-icon {
+                width: 24px;
+                height: 24px;
+                border-radius: 7px;
+            }
+
             /* Nav: compact + show burger */
             nav {
                 height: 52px;
@@ -2652,6 +2735,21 @@
 
         /* ── Small phones ≤480px ── */
         @media (max-width: 480px) {
+            nav .inner {
+                padding: 0 10px;
+            }
+
+            .logo {
+                font-size: 0.86rem;
+                gap: 7px;
+            }
+
+            .logo-icon {
+                width: 22px;
+                height: 22px;
+                border-radius: 6px;
+            }
+
             .hero {
                 padding: 96px 0 28px;
             }
