@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -8,19 +10,108 @@ body.auth-page {
   background: #09090b;
   color: #ededef;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 24px;
+  padding: 80px 24px 48px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Aurora glow — same as Deskly setup wizard */
+.auth-glow {
+  position: fixed;
+  top: -15%;
+  left: -10%;
+  width: 120%;
+  height: 130%;
+  background: radial-gradient(circle at 50% 30%, rgba(129, 140, 248, 0.18) 0%, rgba(52, 211, 153, 0.06) 40%, transparent 68%);
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(72px);
+}
+
+/* Noise grain overlay */
+.auth-glow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px;
+}
+
+/* Top navigation bar */
+.auth-topnav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 56px;
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  z-index: 100;
+}
+
+.auth-topnav-logo {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+}
+
+.auth-topnav-logo svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.auth-topnav-back {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #9ca3af;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.auth-topnav-back:hover {
+  color: #ededef;
+}
+
+.auth-topnav-back svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 .auth-card {
-  background: #0f0f12;
+  position: relative;
+  z-index: 10;
+  background: rgba(15, 15, 18, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
+  border-radius: 20px;
   padding: 40px 32px;
   max-width: 440px;
   width: 100%;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(129, 140, 248, 0.06);
 }
 
 .auth-card.centered {
