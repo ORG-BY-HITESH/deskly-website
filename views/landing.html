@@ -4,19 +4,98 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Deskly — Know where your time goes</title>
+        <title>Deskly - Windows Screen Time Tracker & Digital Wellbeing App</title>
     <meta name="description"
-        content="The screen time tracker that actually respects you. 1-second precision. 56 browsers. Zero data leaves your machine." />
+                content="Deskly is a native Windows digital wellbeing app for screen time tracking, app and website limits, focus insights, and healthier daily habits. Private, local-first, and practical." />
+        <meta name="keywords"
+                content="windows screen time tracker, digital wellbeing windows, app usage tracker windows, website blocker windows, focus app windows, productivity tracker, windows parental screen time alternative" />
+        <meta name="author" content="Deskly" />
+        <meta name="application-name" content="Deskly" />
     <meta name="theme-color" content="#0a0a0b" />
+        <meta name="robots" content="index, follow, max-image-preview:large" />
+        <link rel="canonical" href="https://deskly.in/" />
 
-    <meta property="og:title" content="Deskly — Know where your time goes" />
+        <meta property="og:title" content="Deskly - Native Windows Digital Wellbeing" />
     <meta property="og:description"
-        content="Smart screen time tracking for Windows. 1-second precision. All data stays local." />
+                content="Understand where your time goes, reduce distraction, and build healthier focus habits on Windows with Deskly." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
+        <meta property="og:site_name" content="Deskly" />
+        <meta name="twitter:title" content="Deskly - Native Windows Digital Wellbeing" />
+        <meta name="twitter:description" content="Windows screen time tracking and digital wellbeing with local-first privacy." />
+        <meta name="twitter:image" content="https://deskly.in/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="robots" content="index, follow" />
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Deskly",
+            "applicationCategory": "ProductivityApplication",
+            "operatingSystem": "Windows 10, Windows 11",
+            "description": "Native Windows digital wellbeing software that tracks app and website usage, provides limits, and helps users build healthier focus habits.",
+            "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+            },
+            "downloadUrl": "https://deskly.in/download/windows",
+            "url": "https://deskly.in/",
+            "publisher": {
+                "@type": "Organization",
+                "name": "Deskly"
+            },
+            "featureList": [
+                "Windows app and website usage tracking",
+                "Screen time insights and trend reports",
+                "App and website limits",
+                "Break reminders and focus support",
+                "Local-first private data vault"
+            ]
+        }
+        </script>
+
+        <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "What is Deskly for?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Deskly helps Windows users understand screen habits, reduce distractions, and build healthier focus routines through tracking, limits, and reports."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does Deskly track website usage?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Deskly tracks website activity across supported browsers without requiring browser extensions."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can I set app limits on Windows?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Deskly includes app limits so you can reduce overuse and stay focused during work or study sessions."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Where is my data stored?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Deskly stores usage data locally in a folder you control, so your digital wellbeing history stays on your machine."
+                    }
+                }
+            ]
+        }
+        </script>
 
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -501,6 +580,25 @@
             width: 4px;
             height: 4px;
             border-radius: 50%;
+        }
+
+        .intent-links {
+            margin-top: 14px;
+            font-size: 0.78rem;
+            color: var(--text-3);
+            line-height: 1.6;
+        }
+
+        .intent-links a {
+            color: var(--text-2);
+            text-decoration: underline;
+            text-decoration-color: rgba(255, 255, 255, 0.22);
+            text-underline-offset: 3px;
+        }
+
+        .intent-links a:hover {
+            color: var(--text);
+            text-decoration-color: rgba(255, 255, 255, 0.42);
         }
 
         /* ═══════════════════════════════════════════════════
@@ -1658,6 +1756,47 @@
         }
 
         /* ═══════════════════════════════════════════════════
+           AUDIENCE / USE CASES
+           ═══════════════════════════════════════════════════ */
+        .audience {
+            padding: 76px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .audience-grid {
+            margin-top: 34px;
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .aud-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 18px 16px;
+            transition: border-color 0.22s var(--ease), transform 0.22s var(--ease);
+        }
+
+        .aud-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .aud-card h3 {
+            font-size: 0.94rem;
+            letter-spacing: -0.01em;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+
+        .aud-card p {
+            font-size: 0.82rem;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════════════
            PRIVACY
            ═══════════════════════════════════════════════════ */
         .privacy {
@@ -2385,7 +2524,8 @@
             /* Sections: tighter padding */
             .features,
             .privacy,
-            .how {
+            .how,
+            .audience {
                 padding: 64px 0;
             }
 
@@ -2411,6 +2551,10 @@
             .steps {
                 grid-template-columns: 1fr;
                 gap: 20px;
+            }
+
+            .audience-grid {
+                grid-template-columns: 1fr;
             }
 
             /* Privacy */
@@ -2724,9 +2868,10 @@
 
             <div class="nav-links">
                 <a href="#how" aria-label="Learn how it works">How it works</a>
+                <a href="#use-cases" aria-label="Who Deskly is for">Who it's for</a>
                 <a href="/#features" aria-label="View features">Features</a>
                 <a href="#privacy" aria-label="Privacy and security">Privacy</a>
-                <a href="/account" aria-label="Sign in to your account">Sign in</a>
+                <a href="/account" data-auth-link data-auth-label aria-label="Sign in to your account">Sign in</a>
                 <a href="/download/windows?source=nav" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav">Download for Windows</a>
             </div>
 
@@ -2751,9 +2896,10 @@
             </svg>
         </button>
         <a href="#how" aria-label="Learn how it works">How it works</a>
+        <a href="#use-cases" aria-label="Who Deskly is for">Who it's for</a>
         <a href="/#features" aria-label="View features">Features</a>
         <a href="#privacy" aria-label="Privacy and security">Privacy</a>
-        <a href="/account" aria-label="Sign in to your account">Sign in</a>
+        <a href="/account" data-auth-link data-auth-label aria-label="Sign in to your account">Sign in</a>
         <a href="/download/windows?source=mobile_menu" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu">Download for Windows</a>
     </div>
 
@@ -2766,11 +2912,11 @@
                 v1.0 — Free for Windows
             </div>
 
-            <h1 class="hero-anim" data-d="2">Know where your<br><span class="gradient serif-em">time actually
-                    goes</span></h1>
+                <h1 class="hero-anim" data-d="2">Take control of your<br><span class="gradient serif-em">digital
+                    habits</span></h1>
 
-            <p class="sub hero-anim" data-d="3">Screen time tracking with 1-second precision.<br>Every app, every
-                website. All data stays local.</p>
+            <p class="sub hero-anim" data-d="3">A native Windows digital wellbeing companion for focus, awareness,
+                and healthier habits. Track app and website usage, set limits, and review trends that actually help.</p>
 
             <div class="hero-actions hero-anim" data-d="4">
                 <a href="/download/windows?source=hero" class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="hero">
@@ -2797,6 +2943,14 @@
                     Open source
                 </a>
             </div>
+
+            <p class="intent-links hero-anim" data-d="5">
+                Looking for <a href="/windows-screen-time-tracker">screen time for Windows</a> or
+                <a href="/digital-wellbeing-windows">digital wellbeing for Windows</a>,
+                <a href="/windows-app-usage-tracker">app usage tracking</a>,
+                <a href="/windows-app-and-website-limits">app and website limits</a>, or a
+                <a href="/focus-app-for-windows">focus app for Windows</a>? Deskly is built specifically for that.
+            </p>
         </div>
     </section>
 
@@ -3350,6 +3504,39 @@
         </div>
     </section>
 
+    <!-- ── WHO IT HELPS ─────────────────────────── -->
+    <section class="audience" id="use-cases">
+        <div class="container">
+            <div class="s-eyebrow reveal">Who it's for</div>
+            <h2 class="s-heading reveal" data-d="1">A real digital wellbeing system for daily Windows life</h2>
+            <p class="s-sub reveal" data-d="2">Deskly is built for people who want more than raw numbers. It helps you
+                understand patterns, reduce distraction, and make healthier screen decisions every day.</p>
+
+            <div class="audience-grid reveal" data-d="3">
+                <article class="aud-card">
+                    <h3>Students trying to stay focused</h3>
+                    <p>Understand exactly where study time leaks, then use app and website limits to protect your
+                        learning blocks.</p>
+                </article>
+                <article class="aud-card">
+                    <h3>Professionals building deep-work habits</h3>
+                    <p>Track switching between tools, uncover your biggest attention drains, and build stronger focus
+                        routines with daily awareness.</p>
+                </article>
+                <article class="aud-card">
+                    <h3>People reducing unhealthy browsing cycles</h3>
+                    <p>See browsing behavior clearly, set practical boundaries, and replace mindless usage with
+                        intentional time.</p>
+                </article>
+                <article class="aud-card">
+                    <h3>Anyone improving digital wellbeing</h3>
+                    <p>Use weekly and monthly reports to reflect, adjust, and improve over time. Deskly is designed as
+                        a long-term companion, not a one-time utility.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- ── PRIVACY ───────────────────────────────── -->
     <section class="privacy" id="privacy">
         <div class="container">
@@ -3567,10 +3754,16 @@
                     <span class="footer-copy">© 2026 Deskly</span>
                 </div>
                 <div class="footer-links">
+                    <a href="/#use-cases">Who it's for</a>
+                    <a href="/windows-screen-time-tracker">Windows screen time tracker</a>
+                    <a href="/digital-wellbeing-windows">Digital wellbeing for Windows</a>
+                    <a href="/windows-app-usage-tracker">Windows app usage tracker</a>
+                    <a href="/windows-app-and-website-limits">Windows app & website limits</a>
+                    <a href="/focus-app-for-windows">Focus app for Windows</a>
                     <a href="/#features">Features</a>
                     <a href="/privacy">Privacy</a>
                     <a href="/terms">Terms</a>
-                    <a href="/account">Account</a>
+                    <a href="/account" data-auth-link data-auth-label>Account</a>
                     <a href="mailto:hello@deskly.in">Contact</a>
                 </div>
             </div>
@@ -3626,6 +3819,48 @@
             captureAnalytics('web.landing.viewed', {
                 referrer: document.referrer ? 'external' : 'direct',
             });
+
+            const updateAuthLinks = (user) => {
+                const authLinks = document.querySelectorAll('[data-auth-link]');
+                if (!authLinks.length) return;
+
+                authLinks.forEach((link) => {
+                    if (!(link instanceof HTMLAnchorElement)) return;
+                    link.setAttribute('href', '/account');
+
+                    if (user) {
+                        const displayName = (user.name || user.email || 'Account').trim();
+                        const shortName = displayName.split(' ')[0].slice(0, 18);
+                        link.textContent = `Account (${shortName})`;
+                        link.setAttribute('aria-label', 'Open your account');
+                    } else {
+                        link.textContent = 'Sign in';
+                        link.setAttribute('aria-label', 'Sign in to your account');
+                    }
+                });
+            };
+
+            const syncAuthState = async () => {
+                try {
+                    const response = await fetch('/api/me', {
+                        method: 'GET',
+                        credentials: 'include',
+                        headers: { 'Accept': 'application/json' },
+                    });
+
+                    if (!response.ok) {
+                        updateAuthLinks(null);
+                        return;
+                    }
+
+                    const payload = await response.json();
+                    updateAuthLinks(payload?.user || null);
+                } catch (_) {
+                    updateAuthLinks(null);
+                }
+            };
+
+            syncAuthState();
 
             // ── Mobile menu (burger + close + nav links) ──
             const mobMenu = document.querySelector('.mob-menu');

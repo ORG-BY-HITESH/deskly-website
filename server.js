@@ -295,6 +295,47 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'landing.html'));
 });
 
+app.get('/windows-screen-time-tracker', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'windows-screen-time-tracker.html'));
+});
+
+app.get('/digital-wellbeing-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'digital-wellbeing-windows.html'));
+});
+
+app.get('/windows-app-usage-tracker', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'windows-app-usage-tracker.html'));
+});
+
+app.get('/windows-app-and-website-limits', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'windows-app-and-website-limits.html'));
+});
+
+app.get('/focus-app-for-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'focus-app-for-windows.html'));
+});
+
+// Common intent phrase aliases redirected to canonical keyword landing pages.
+app.get('/screen-time-for-windows', (req, res) => {
+    res.redirect(301, '/windows-screen-time-tracker');
+});
+
+app.get('/windows-digital-wellbeing', (req, res) => {
+    res.redirect(301, '/digital-wellbeing-windows');
+});
+
+app.get('/app-usage-tracker-windows', (req, res) => {
+    res.redirect(301, '/windows-app-usage-tracker');
+});
+
+app.get('/windows-app-limits', (req, res) => {
+    res.redirect(301, '/windows-app-and-website-limits');
+});
+
+app.get('/windows-focus-app', (req, res) => {
+    res.redirect(301, '/focus-app-for-windows');
+});
+
 // Privacy Policy Route
 app.get('/privacy', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
