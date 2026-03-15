@@ -663,7 +663,41 @@ function desktopCallbackPage(user, deepLink) {
     <link rel="stylesheet" href="/styles/auth.css" />
 </head>
 <body class="auth-page desktop-callback">
-    <header class="auth-topnav auth-topnav-minimal" aria-hidden="true"></header>
+    <div class="aurora-container" aria-hidden="true">
+        <div class="aurora-effect"></div>
+    </div>
+
+    <header class="auth-topnav">
+        <a href="/" class="auth-topnav-logo" title="Deskly home" aria-label="Deskly home">
+            <span class="auth-topnav-logo-icon" aria-hidden="true">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="lg-auth-callback" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#7c3aed"/>
+                            <stop offset="100%" stop-color="#a78bfa"/>
+                        </linearGradient>
+                    </defs>
+                    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#lg-auth-callback)"/>
+                    <g transform="translate(256,256)">
+                        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
+                        <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
+                        <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
+                        <circle cx="95" cy="-95" r="18" fill="#4ade80"/>
+                        <circle cx="95" cy="-95" r="10" fill="#22c55e"/>
+                    </g>
+                </svg>
+            </span>
+            <span class="auth-topnav-logo-text">Deskly</span>
+        </a>
+
+        <a href="/" class="auth-topnav-back" title="Back to home" aria-label="Back to home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="15 18 9 12 15 6"/>
+            </svg>
+            <span class="auth-topnav-back-text">Back to home</span>
+        </a>
+    </header>
+
     <main class="auth-content">
         <div class="auth-card centered auth-callback-card">
             <div class="auth-check">✓</div>
