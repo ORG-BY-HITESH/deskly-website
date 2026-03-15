@@ -660,16 +660,291 @@ function desktopCallbackPage(user, deepLink) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Signed In — Deskly</title>
-    <link rel="stylesheet" href="/styles/auth.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: #09090b;
+            color: #ededef;
+            min-height: 100vh;
+        }
+        :root {
+            --aurora-bg: #000000;
+            --aurora-transparent: rgba(0,0,0,0);
+            --aurora-1: #3b82f6;
+            --aurora-2: #a5b4fc;
+            --aurora-3: #93c5fd;
+            --aurora-4: #ddd6fe;
+            --aurora-5: #60a5fa;
+        }
+        .aurora-container {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .aurora-effect {
+            --dark-gradient: repeating-linear-gradient(100deg,
+                var(--aurora-bg) 0%, var(--aurora-bg) 7%,
+                var(--aurora-transparent) 10%, var(--aurora-transparent) 12%,
+                var(--aurora-bg) 16%);
+            --aurora-gradient: repeating-linear-gradient(100deg,
+                var(--aurora-1) 10%, var(--aurora-2) 15%,
+                var(--aurora-3) 20%, var(--aurora-4) 25%,
+                var(--aurora-5) 30%);
+            position: absolute;
+            top: -10px; right: -10px; bottom: -10px; left: -10px;
+            background-image: var(--dark-gradient), var(--aurora-gradient);
+            background-size: 300% 200%;
+            background-position: 50% 50%, 50% 50%;
+            filter: blur(10px);
+            opacity: 0.5;
+            transform: translateZ(0);
+            will-change: transform;
+            mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse at 100% 0%, black 10%, transparent 70%);
+        }
+        .aurora-effect::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: var(--dark-gradient), var(--aurora-gradient);
+            background-size: 200% 100%;
+            mix-blend-mode: difference;
+            animation: aurora-move 60s linear infinite;
+        }
+        @keyframes aurora-move {
+            from { background-position: 50% 50%, 50% 50%; }
+            to   { background-position: 350% 50%, 350% 50%; }
+        }
+        .topnav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            background: rgba(9,9,11,0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            z-index: 50;
+        }
+        .topnav-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: -0.01em;
+        }
+        .topnav-brand-text { white-space: nowrap; }
+        .topnav-brand-icon {
+            width: 26px;
+            height: 26px;
+            flex-shrink: 0;
+            border-radius: 7px;
+            overflow: hidden;
+            display: block;
+        }
+        .topnav-brand-icon svg {
+            width: 26px;
+            height: 26px;
+            display: block;
+        }
+        .topnav-back {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        .topnav-back-text { white-space: nowrap; }
+        .topnav-back:hover { color: #ededef; }
+        .topnav-back svg { width: 13px; height: 13px; flex-shrink: 0; }
+        .page-body {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 56px);
+            padding: 32px 20px;
+        }
+        .card {
+            background: rgba(15,15,18,0.88);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 20px;
+            padding: 40px 32px 32px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(129,140,248,0.07);
+        }
+
+        .cb-check {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(255,255,255,0.03);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 16px;
+        }
+        .cb-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .cb-email {
+            color: #818cf8;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-align: center;
+            margin-bottom: 16px;
+            word-break: break-word;
+        }
+        .cb-hint {
+            color: #9ca3af;
+            text-align: center;
+            font-size: 0.94rem;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        .cb-cta-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+        .cb-btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            background: #fff;
+            color: #09090b;
+            font-weight: 600;
+            font-size: 0.92rem;
+            text-decoration: none;
+            cursor: pointer;
+            font-family: inherit;
+            transition: opacity 0.15s, background 0.15s;
+        }
+        .cb-btn:hover { opacity: 0.85; }
+        .cb-btn.secondary {
+            background: rgba(255,255,255,0.06);
+            color: #ededef;
+            border-color: rgba(255,255,255,0.14);
+        }
+        .cb-btn.secondary:hover {
+            opacity: 1;
+            background: rgba(255,255,255,0.1);
+        }
+        .cb-manual {
+            text-align: center;
+            font-size: 0.82rem;
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .cb-manual a { color: #818cf8; }
+        .cb-details {
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.02);
+            padding: 10px 12px;
+        }
+        .cb-details summary {
+            cursor: pointer;
+            user-select: none;
+            color: #9ca3af;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        .cb-details code {
+            display: block;
+            margin-top: 8px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.07);
+            background: rgba(0,0,0,0.35);
+            color: #8d96a8;
+            font-size: 0.73rem;
+            word-break: break-all;
+            max-height: 140px;
+            overflow: auto;
+        }
+
+        @media (max-width: 768px) {
+            .topnav {
+                height: 52px;
+                padding: 0 14px;
+            }
+            .topnav-brand { font-size: 0.9rem; }
+            .topnav-back { font-size: 0.78rem; gap: 4px; }
+            .page-body {
+                min-height: calc(100vh - 52px);
+                padding: 18px 12px;
+            }
+            .card {
+                border-radius: 16px;
+                padding: 24px 16px 18px;
+                max-width: 100%;
+            }
+            .cb-title { font-size: 1.5rem; }
+            .cb-cta-row { flex-direction: column; }
+            .cb-btn { width: 100%; text-align: center; }
+        }
+
+        @media (max-width: 480px) {
+            .topnav {
+                padding: 0 10px;
+            }
+            .topnav-brand-icon,
+            .topnav-brand-icon svg {
+                width: 22px;
+                height: 22px;
+            }
+            .topnav-brand {
+                font-size: 0.86rem;
+                gap: 6px;
+            }
+            .topnav-back-text { display: none; }
+            .topnav-back svg {
+                width: 16px;
+                height: 16px;
+            }
+            .page-body { padding: 14px 10px; }
+            .card { padding: 18px 12px 14px; }
+        }
+    </style>
 </head>
-<body class="auth-page desktop-callback">
-    <div class="aurora-container" aria-hidden="true">
+<body>
+    <div class="aurora-container">
         <div class="aurora-effect"></div>
     </div>
 
-    <header class="auth-topnav">
-        <a href="/" class="auth-topnav-logo" title="Deskly home" aria-label="Deskly home">
-            <span class="auth-topnav-logo-icon" aria-hidden="true">
+    <nav class="topnav">
+        <a href="/" class="topnav-brand" title="Deskly home" aria-label="Deskly home">
+            <span class="topnav-brand-icon" aria-hidden="true">
                 <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="lg-auth-callback" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -687,39 +962,39 @@ function desktopCallbackPage(user, deepLink) {
                     </g>
                 </svg>
             </span>
-            <span class="auth-topnav-logo-text">Deskly</span>
+            <span class="topnav-brand-text">Deskly</span>
         </a>
 
-        <a href="/" class="auth-topnav-back" title="Back to home" aria-label="Back to home">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <a href="/" class="topnav-back" title="Back to home" aria-label="Back to home">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <polyline points="15 18 9 12 15 6"/>
             </svg>
-            <span class="auth-topnav-back-text">Back to home</span>
+            <span class="topnav-back-text">Back to home</span>
         </a>
-    </header>
+    </nav>
 
-    <main class="auth-content">
-        <div class="auth-card centered auth-callback-card">
-            <div class="auth-check">✓</div>
-            <h1 class="auth-title">Welcome, ${esc(displayName)}!</h1>
-            <p class="auth-subtitle">${esc(user.email)}</p>
-            <p class="auth-hint">You're all set. Click below to return to the Deskly app.</p>
+    <div class="page-body">
+        <div class="card">
+            <div class="cb-check">✓</div>
+            <div class="cb-title">Welcome, ${esc(displayName)}!</div>
+            <div class="cb-email">${esc(user.email)}</div>
+            <p class="cb-hint">You're all set. Click below to return to the Deskly app.</p>
 
-            <div class="auth-cta-stack">
-                <a href="${safeDeepLink}" class="auth-btn">Open Deskly App</a>
-                <button type="button" class="auth-btn auth-btn-secondary" id="copy-link-btn">Copy Link</button>
+            <div class="cb-cta-row">
+                <a href="${safeDeepLink}" class="cb-btn">Open Deskly App</a>
+                <button type="button" class="cb-btn secondary" id="copy-link-btn">Copy Link</button>
             </div>
 
-            <p class="auth-manual">
+            <p class="cb-manual">
                 If your browser blocks the app prompt, use <a href="${safeDeepLink}">this direct link</a>.
             </p>
 
-            <details class="auth-link-details">
+            <details class="cb-details">
                 <summary>Show manual link</summary>
-                <code id="deep-link-code">${safeDeepLink}</code>
+                <code>${safeDeepLink}</code>
             </details>
         </div>
-    </main>
+    </div>
     <script>
         // Auto-redirect to the deep link
         setTimeout(() => { window.location.href = "${safeDeepLink}"; }, 1500);
