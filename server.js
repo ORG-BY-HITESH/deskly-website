@@ -652,6 +652,7 @@ function desktopCallbackPage(user, deepLink) {
     const displayName = user.firstName
         ? `${user.firstName}${user.lastName ? ' ' + user.lastName : ''}`
         : user.email;
+    const safeDeepLink = esc(deepLink);
 
     return `<!DOCTYPE html>
 <html lang="en">
@@ -661,21 +662,49 @@ function desktopCallbackPage(user, deepLink) {
     <title>Signed In — Deskly</title>
     <link rel="stylesheet" href="/styles/auth.css" />
 </head>
-<body class="auth-page">
-    <div class="auth-card centered">
-        <div class="auth-check">✓</div>
-        <h1 class="auth-title">Welcome, ${esc(displayName)}!</h1>
-        <p class="auth-subtitle">${esc(user.email)}</p>
-        <p class="auth-hint">You're all set. Click below to return to the Deskly app.</p>
-        <a href="${esc(deepLink)}" class="auth-btn">Open Deskly App</a>
-        <p class="auth-manual">
-            Button not working? <a href="${esc(deepLink)}">Click here</a> or copy this link:<br/>
-            <code>${esc(deepLink)}</code>
-        </p>
-    </div>
+<body class="auth-page desktop-callback">
+    <header class="auth-topnav auth-topnav-minimal" aria-hidden="true"></header>
+    <main class="auth-content">
+        <div class="auth-card centered auth-callback-card">
+            <div class="auth-check">✓</div>
+            <h1 class="auth-title">Welcome, ${esc(displayName)}!</h1>
+            <p class="auth-subtitle">${esc(user.email)}</p>
+            <p class="auth-hint">You're all set. Click below to return to the Deskly app.</p>
+
+            <div class="auth-cta-stack">
+                <a href="${safeDeepLink}" class="auth-btn">Open Deskly App</a>
+                <button type="button" class="auth-btn auth-btn-secondary" id="copy-link-btn">Copy Link</button>
+            </div>
+
+            <p class="auth-manual">
+                If your browser blocks the app prompt, use <a href="${safeDeepLink}">this direct link</a>.
+            </p>
+
+            <details class="auth-link-details">
+                <summary>Show manual link</summary>
+                <code id="deep-link-code">${safeDeepLink}</code>
+            </details>
+        </div>
+    </main>
     <script>
         // Auto-redirect to the deep link
-        setTimeout(() => { window.location.href = "${esc(deepLink)}"; }, 1500);
+        setTimeout(() => { window.location.href = "${safeDeepLink}"; }, 1500);
+
+        const copyBtn = document.getElementById('copy-link-btn');
+        const deepLink = ${JSON.stringify(deepLink)};
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    await navigator.clipboard.writeText(deepLink);
+                    copyBtn.textContent = 'Copied';
+                    setTimeout(() => { copyBtn.textContent = 'Copy Link'; }, 1400);
+                } catch {
+                    copyBtn.textContent = 'Copy failed';
+                    setTimeout(() => { copyBtn.textContent = 'Copy Link'; }, 1600);
+                }
+            });
+        }
     </script>
 </body>
 </html>`;
