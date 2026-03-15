@@ -25,6 +25,11 @@ body.auth-page {
   --aurora-5: #60a5fa;
 }
 
+/* Callback page should follow account-page flow (not CSS grid rows). */
+body.auth-page.desktop-callback {
+  display: block;
+}
+
 /* Aurora background — exact setup wizard / account style */
 .aurora-container {
   position: fixed;
@@ -250,7 +255,8 @@ body.auth-page {
 }
 
 .desktop-callback .auth-content {
-  padding-top: 20px;
+  min-height: calc(100vh - 56px);
+  padding: 32px 20px;
 }
 
 .auth-callback-card {
@@ -470,6 +476,11 @@ body.status-page {
     padding: 18px 12px;
   }
 
+  .desktop-callback .auth-content {
+    min-height: calc(100vh - 52px);
+    padding: 18px 12px;
+  }
+
   .auth-card {
     border-radius: 16px;
     padding: 24px 16px;
@@ -545,6 +556,10 @@ body.status-page {
   }
 
   .auth-content {
+    padding: 14px 10px;
+  }
+
+  .desktop-callback .auth-content {
     padding: 14px 10px;
   }
 
