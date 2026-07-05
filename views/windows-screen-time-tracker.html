@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,34 +9,25 @@
     <meta name="keywords" content="windows screen time tracker, screen time for windows, app usage tracker windows, website usage tracker windows" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://deskly.in/windows-screen-time-tracker" />
+    <meta name="theme-color" content="#0a0a0b" />
+
     <meta property="og:title" content="Windows Screen Time Tracker - Deskly" />
     <meta property="og:description" content="Track app and website usage on Windows and build healthier digital habits with Deskly." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in/windows-screen-time-tracker" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/styles/seo-pages.css" />
     <link rel="stylesheet" href="/styles/shared-ui.css" />
-    <style>
-        body { font-family: Inter, system-ui, sans-serif; margin: 0; background: #0a0a0b; color: #ededf0; }
-        .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 60px; }
-        .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .brand { font-weight: 700; letter-spacing: -0.02em; }
-        .btn { display: inline-block; padding: 10px 14px; border-radius: 10px; text-decoration: none; }
-        .btn.primary { background: #fff; color: #101012; font-weight: 600; }
-        .btn.ghost { border: 1px solid rgba(255,255,255,0.2); color: #d6d7dc; }
-        h1 { font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
-        .sub { color: #b2b5bf; line-height: 1.7; max-width: 760px; }
-        .grid { margin-top: 28px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-        .card { border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; background: #121216; }
-        .card h2 { margin: 0 0 8px; font-size: 1.02rem; }
-        .card p { margin: 0; color: #b9bcc6; line-height: 1.65; font-size: 0.95rem; }
-        .faq { margin-top: 34px; }
-        .faq h2 { font-size: 1.2rem; margin-bottom: 10px; }
-        .faq-item { padding: 12px 0; border-top: 1px solid rgba(255,255,255,0.1); }
-        .faq-item strong { display: block; margin-bottom: 4px; }
-        .faq-item p { margin: 0; color: #b9bcc6; }
-        .actions { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
-        @media (max-width: 780px) { .grid { grid-template-columns: 1fr; } }
-    </style>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,56 +43,368 @@
       }
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is Deskly a screen time tracker for Windows?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Deskly is designed as a native Windows screen time tracker for app and website usage awareness, with no browser extension or proxy required." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can Deskly help reduce distraction?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can use limits and visibility reports to reduce mindless switching and improve focus habits over time." }
+        },
+        {
+          "@type": "Question",
+          "name": "Where is my screen time data stored?",
+          "acceptedAnswer": { "@type": "Answer", "text": "All tracking data is stored locally in a folder you choose — human-readable JSON files that you fully control. Nothing is uploaded to any server." }
+        },
+        {
+          "@type": "Question",
+          "name": "Who is this useful for?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Students, professionals, and anyone who wants healthier digital wellbeing routines on Windows 10 or 11." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Deskly track individual websites, or just browser time?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Deskly tracks individual website visits inside 56 supported browsers, not just total browser time, so you can see time spent on specific sites." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it slow down my PC?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Deskly runs as a lightweight native Windows background process with minimal CPU and memory footprint — it is built to be always-on without being noticeable." }
+        },
+        {
+          "@type": "Question",
+          "name": "How far back can I see my screen time history?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Deskly keeps up to 5 years of usage history, so you can review weekly, monthly, and yearly trends, not just today." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account or internet connection to use it?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No internet connection is required for tracking — everything runs and is stored locally. An account is only needed if you choose to sync settings across devices." }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deskly.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Solutions", "item": "https://deskly.in/solutions" },
+        { "@type": "ListItem", "position": 3, "name": "Windows Screen Time Tracker", "item": "https://deskly.in/windows-screen-time-tracker" }
+      ]
+    }
+    </script>
+    <script src="/js/analytics.js"></script>
 </head>
+
 <body>
-    <main class="wrap">
-        <div class="top">
-            <a class="brand" href="/">Deskly</a>
-            <a class="btn ghost" href="/">Back to Home</a>
+
+    <nav aria-label="Main">
+        <div class="inner">
+            <a href="/" class="logo" aria-label="Deskly home">
+                <div class="logo-icon">
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
+                </div>
+                Deskly
+            </a>
+            <div class="nav-links">
+                <a href="/solutions">Solutions</a>
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How it works</a>
+                <a href="/blog">Blog</a>
+                <a href="/account">Sign in</a>
+                <a href="/download/windows?source=nav_screen_time" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav_screen_time">Download for Windows</a>
+            </div>
+            <details class="seo-mob-menu">
+                <summary class="seo-mob-toggle" aria-label="Open navigation menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></svg>
+                </summary>
+                <div class="seo-mob-panel">
+                    <a href="/solutions">Solutions</a>
+                    <a href="/features">Features</a>
+                    <a href="/how-it-works">How it works</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/account">Sign in</a>
+                    <a href="/download/windows?source=mobile_menu_screen_time" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu_screen_time">Download for Windows</a>
+                </div>
+            </details>
         </div>
+    </nav>
 
-        <h1>Windows screen time tracker that helps you build better digital habits</h1>
-        <p class="sub">Deskly tracks how you spend time across apps and websites on Windows. It helps you see where your day goes, reduce distractions, set healthy limits, and stay intentional with focus.</p>
-
-        <section class="grid" aria-label="Core capabilities">
-            <article class="card">
-                <h2>Track app and website usage</h2>
-                <p>See app and browser activity in one place with practical daily and weekly visibility.</p>
-            </article>
-            <article class="card">
-                <h2>Understand time patterns</h2>
-                <p>Reports and category insights make it easier to notice where focus is lost and what to change.</p>
-            </article>
-            <article class="card">
-                <h2>Set practical limits</h2>
-                <p>Use app and website limits to reduce unhealthy overuse and protect deep work sessions.</p>
-            </article>
-            <article class="card">
-                <h2>Stay private</h2>
-                <p>Local-first storage keeps your data on your own machine with no cloud dependency required.</p>
-            </article>
+    <main>
+        <section class="seo-header">
+            <div class="container">
+                <div class="seo-eyebrow">Screen Time Tracker · Windows</div>
+                <h1>Windows <em>screen time tracker</em> that helps you build better digital habits</h1>
+                <p class="lead">Deskly tracks how you spend time across apps and websites on Windows. See where your day goes, reduce distractions, set healthy limits, and stay intentional with focus.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="seo_windows_screen_time" href="/download/windows?source=seo_windows_screen_time">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download Deskly for Windows
+                    </a>
+                    <a class="btn btn-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
         </section>
 
-        <section class="faq" aria-label="FAQ">
-            <h2>Frequently asked questions</h2>
-            <div class="faq-item">
-                <strong>Is Deskly a screen time tracker for Windows?</strong>
-                <p>Yes. Deskly is designed as a native Windows screen time tracker for app and website usage awareness.</p>
-            </div>
-            <div class="faq-item">
-                <strong>Can Deskly help reduce distraction?</strong>
-                <p>Yes. You can use limits and visibility reports to reduce mindless switching and improve focus habits.</p>
-            </div>
-            <div class="faq-item">
-                <strong>Who is this useful for?</strong>
-                <p>Students, professionals, and anyone who wants healthier digital wellbeing routines on Windows.</p>
+        <section aria-label="Core capabilities">
+            <div class="container">
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h2>Track app and website usage</h2>
+                        <p>See app and browser activity in one place with practical daily and weekly visibility. 56 browsers tracked — no extension needed.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>Understand time patterns</h2>
+                        <p>Reports and category insights make it easier to notice where focus is lost. Week, month, year — up to 5 years of history.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>Set practical limits</h2>
+                        <p>Use app and website limits to reduce unhealthy overuse and protect deep work sessions without hard blocking.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h2>Stay private</h2>
+                        <p>Local-first storage keeps your data on your own machine. No cloud dependency required — your screen time never leaves your computer.</p>
+                    </article>
+                </div>
             </div>
         </section>
 
-        <div class="actions">
-            <a class="btn primary" href="/download/windows?source=seo_windows_screen_time">Download Deskly for Windows</a>
-            <a class="btn ghost" href="/digital-wellbeing-windows">See digital wellbeing page</a>
-        </div>
+        <section aria-label="How it works">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>How Deskly tracks your screen time</h2>
+                    <p>No setup ritual, no browser extension to babysit — install once and tracking runs quietly in the background from then on.</p>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        </div>
+                        <h2>1. Install and run in the background</h2>
+                        <p>Deskly starts with Windows and tracks the active app and browser tab automatically — nothing to remember to turn on each day.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                        </div>
+                        <h2>2. Usage is categorized automatically</h2>
+                        <p>Apps and sites are grouped into categories like Work, Social, and Entertainment so patterns are visible without manual tagging.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>3. Review daily, weekly, or yearly reports</h2>
+                        <p>Open the dashboard any time to see today's breakdown, or zoom out to spot trends across weeks, months, and years.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>4. Act on what you see</h2>
+                        <p>Turn insight into change with app and website limits, a focus session, or the app blocker — all built on the same usage data.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Totals vs timeline">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>A daily total tells you how much. A timeline tells you when.</h2>
+                    <p>Most screen time trackers stop at a single number: "4h 12m today." That's a start, but it doesn't explain <em>when</em> your attention drifted or <em>which</em> session ran long. Deskly's dashboard leads with clear daily and weekly totals, then lets you drop into the <a href="/screen-time-timeline-windows">screen time timeline</a> for a minute-by-minute view of the day — every app, every session, in order.</p>
+                    <ul>
+                        <li>See the exact moment you switched from work into a distraction.</li>
+                        <li>Spot which meetings or tasks reliably run over.</li>
+                        <li>Compare today's pattern against yesterday's, not just the totals.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Who uses a screen time tracker">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Built for anyone who has ever lost a day to their screen</h2>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <h2>Students</h2>
+                        <p>Separate study time from social apps and games, and see if screen time is actually shrinking around exams — or just moving to a different app.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <h2>Remote and hybrid workers</h2>
+                        <p>Understand how much of the workday is spent in meetings, messaging tools, and actual deep work — useful for your own habits, not employer monitoring.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <h2>Developers and knowledge workers</h2>
+                        <p>See how often context-switching between IDE, browser tabs, and chat apps breaks up long stretches of focused work.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <h2>Anyone rebuilding focus habits</h2>
+                        <p>Pair tracking with the <a href="/windows-app-and-website-limits">app and website limits</a> and <a href="/focus-app-for-windows">focus app</a> to turn awareness into an actual routine.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="FAQ">
+            <div class="container">
+                <div class="seo-faq">
+                    <h2>Frequently asked questions</h2>
+                    <div class="faq-item">
+                        <strong>Is Deskly a screen time tracker for Windows?</strong>
+                        <p>Yes. Deskly is designed as a native Windows screen time tracker for app and website usage awareness, with no browser extension or proxy required.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Can Deskly help reduce distraction?</strong>
+                        <p>Yes. You can use limits and visibility reports to reduce mindless switching and improve focus habits over time.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Where is my screen time data stored?</strong>
+                        <p>All tracking data is stored locally in a folder you choose — human-readable JSON files that you fully control. Nothing is uploaded to any server.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Who is this useful for?</strong>
+                        <p>Students, professionals, and anyone who wants healthier digital wellbeing routines on Windows 10 or 11.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Does Deskly track individual websites, or just browser time?</strong>
+                        <p>Deskly tracks individual website visits inside 56 supported browsers, not just total browser time, so you can see time spent on specific sites.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Does it slow down my PC?</strong>
+                        <p>No. Deskly runs as a lightweight native Windows background process with minimal CPU and memory footprint — it's built to be always-on without being noticeable.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>How far back can I see my screen time history?</strong>
+                        <p>Deskly keeps up to 5 years of usage history, so you can review weekly, monthly, and yearly trends, not just today.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Do I need an account or internet connection to use it?</strong>
+                        <p>No internet connection is required for tracking — everything runs and is stored locally. An account is only needed if you choose to sync settings across devices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-related" aria-label="Related pages">
+            <div class="container">
+                <div class="seo-related-label">Explore more</div>
+                <div class="seo-related-links">
+                    <a href="/digital-wellbeing-windows" class="seo-related-link">Digital wellbeing →</a>
+                    <a href="/windows-app-usage-tracker" class="seo-related-link">App usage tracker →</a>
+                    <a href="/windows-app-and-website-limits" class="seo-related-link">App &amp; website limits →</a>
+                    <a href="/focus-app-for-windows" class="seo-related-link">Focus app →</a>
+                    <a href="/app-blocker-for-windows" class="seo-related-link">App blocker →</a>
+                    <a href="/screen-time-timeline-windows" class="seo-related-link">Screen time timeline →</a>
+                    <a href="/desktop-widgets-for-windows" class="seo-related-link">Desktop widgets →</a>
+                    <a href="/blog/reduce-screen-time-windows" class="seo-related-link">Reduce screen time guide →</a>
+                </div>
+            </div>
+        </section>
     </main>
+
+        <footer class="site-footer">
+        <div class="container">
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
+                        </div>
+                        Deskly
+                    </a>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
+                </div>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Solutions</h4>
+                        <a href="/digital-wellbeing-windows">Digital wellbeing</a>
+                        <a href="/windows-app-and-website-limits">App &amp; website limits</a>
+                        <a href="/focus-app-for-windows">Focus app</a>
+                        <a href="/app-blocker-for-windows">App blocker</a>
+                        <a href="/screen-time-timeline-windows">Screen time timeline</a>
+                        <a href="/desktop-widgets-for-windows">Desktop widgets</a>
+                        <a href="/solutions">All solutions →</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Explore</h4>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/#use-cases">Who it's for</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+
+            // Scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
+
 </html>

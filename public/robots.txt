@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /account
+Disallow: /auth/
+Disallow: /api/
+Disallow: /download/
+Disallow: /.well-known/
 
 Sitemap: https://deskly.in/sitemap.xml

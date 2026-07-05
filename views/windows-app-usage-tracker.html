@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,60 +9,359 @@
     <meta name="keywords" content="windows app usage tracker, app usage monitor windows, app time tracker windows, productivity tracker windows" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://deskly.in/windows-app-usage-tracker" />
+    <meta name="theme-color" content="#0a0a0b" />
+
     <meta property="og:title" content="Windows App Usage Tracker - Deskly" />
     <meta property="og:description" content="See how much time each app takes on Windows and build healthier focus habits with Deskly." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in/windows-app-usage-tracker" />
-    <meta property="og:image" content="https://deskly.in/og-image.png" />
-    <style>
-        body { margin: 0; background: #0a0a0c; color: #ececf2; font-family: Inter, system-ui, sans-serif; }
-        .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 64px; }
-        .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .btn { display: inline-block; text-decoration: none; border-radius: 10px; padding: 10px 14px; }
-        .btn.primary { background: #fff; color: #111; font-weight: 600; }
-        .btn.ghost { border: 1px solid rgba(255,255,255,0.2); color: #d0d3dd; }
-        h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
-        p { color: #b8bcc7; line-height: 1.7; }
-        .grid { margin-top: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-        .card { border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; background: #121217; padding: 16px; }
-        .card h2 { margin: 0 0 8px; font-size: 1rem; color: #f2f3f8; }
-        .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
-        @media (max-width: 780px) { .grid { grid-template-columns: 1fr; } }
-    </style>
+    <meta property="og:image" content="https://deskly.in/og-logo.png?v=3" />
+    <meta property="og:image:secure_url" content="https://deskly.in/og-logo.png?v=3" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Deskly logo" />
+    <meta property="og:site_name" content="Deskly" />
+    <meta name="twitter:title" content="Windows App Usage Tracker - Deskly" />
+    <meta name="twitter:description" content="See how much time each app takes on Windows and build healthier focus habits with Deskly." />
+    <meta name="twitter:image" content="https://deskly.in/og-logo.png?v=3" />
+    <meta name="twitter:image:alt" content="Deskly logo" />
+    <meta name="twitter:url" content="https://deskly.in/windows-app-usage-tracker" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/styles/seo-pages.css" />
+    <link rel="stylesheet" href="/styles/shared-ui.css" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Windows App Usage Tracker",
+      "url": "https://deskly.in/windows-app-usage-tracker",
+      "description": "Deskly is a Windows app usage tracker that shows time spent per app, reduces context switching, and improves focus.",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Deskly",
+        "applicationCategory": "ProductivityApplication",
+        "operatingSystem": "Windows 10, Windows 11"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does Deskly measure time per app?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Deskly polls the foreground window every second using Windows UI Automation and accumulates time at sub-second precision, so no time is lost during quick app switches." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it track UWP apps and PWAs, not just traditional Win32 programs?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Win32 desktop apps, UWP Store apps, and installed PWAs are all tracked together in the same reports." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I see which apps cause the most context switching?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Reports highlight switch counts alongside total time, so you can tell apart an app you use for one long session versus one you keep flicking back to." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many apps show up in the reports?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The top 15 apps are shown per day, week, month, and year, with the option to drill into any single app's history." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is admin access required to track app usage?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Deskly does not require a kernel driver or administrator rights to track foreground app usage." }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deskly.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Solutions", "item": "https://deskly.in/solutions" },
+        { "@type": "ListItem", "position": 3, "name": "Windows App Usage Tracker", "item": "https://deskly.in/windows-app-usage-tracker" }
+      ]
+    }
+    </script>
+    <script src="/js/analytics.js"></script>
 </head>
+
 <body>
-    <main class="wrap">
-        <div class="top">
-            <a href="/" style="color:#ececf2;text-decoration:none;font-weight:700">Deskly</a>
-            <a class="btn ghost" href="/">Back to Home</a>
+
+    <nav aria-label="Main">
+        <div class="inner">
+            <a href="/" class="logo" aria-label="Deskly home">
+                <div class="logo-icon">
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
+                </div>
+                Deskly
+            </a>
+            <div class="nav-links">
+                <a href="/solutions">Solutions</a>
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How it works</a>
+                <a href="/blog">Blog</a>
+                <a href="/account">Sign in</a>
+                <a href="/download/windows?source=nav_app_usage" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav_app_usage">Download for Windows</a>
+            </div>
+            <details class="seo-mob-menu">
+                <summary class="seo-mob-toggle" aria-label="Open navigation menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></svg>
+                </summary>
+                <div class="seo-mob-panel">
+                    <a href="/solutions">Solutions</a>
+                    <a href="/features">Features</a>
+                    <a href="/how-it-works">How it works</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/account">Sign in</a>
+                    <a href="/download/windows?source=mobile_menu_app_usage" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu_app_usage">Download for Windows</a>
+                </div>
+            </details>
         </div>
+    </nav>
 
-        <h1>Track app usage on Windows with practical focus insights</h1>
-        <p>Deskly helps you see exactly where app time goes during work and study. Instead of guessing, you get clear visibility into your most-used tools and distraction patterns.</p>
-
-        <section class="grid" aria-label="Benefits of app usage tracking">
-            <article class="card">
-                <h2>See top time-consuming apps</h2>
-                <p>Identify which apps dominate your day so you can make better time decisions.</p>
-            </article>
-            <article class="card">
-                <h2>Reduce costly context switching</h2>
-                <p>Spot constant app hopping and create healthier focus windows.</p>
-            </article>
-            <article class="card">
-                <h2>Set app limits that matter</h2>
-                <p>Use boundaries to avoid mindless overuse and protect productive sessions.</p>
-            </article>
-            <article class="card">
-                <h2>Review trends over time</h2>
-                <p>Daily and weekly insights help you sustain improvements, not just one-day fixes.</p>
-            </article>
+    <main>
+        <section class="seo-header">
+            <div class="container">
+                <div class="seo-eyebrow">App Usage Tracker · Windows</div>
+                <h1>Track <em>app usage on Windows</em> with practical focus insights</h1>
+                <p class="lead">Deskly helps you see exactly where app time goes during work and study. Instead of guessing, you get clear visibility into your most-used tools and distraction patterns.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="seo_app_usage" href="/download/windows?source=seo_app_usage">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download Deskly for Windows
+                    </a>
+                    <a class="btn btn-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
         </section>
 
-        <div class="actions">
-            <a class="btn primary" href="/download/windows?source=seo_app_usage">Download Deskly for Windows</a>
-            <a class="btn ghost" href="/windows-screen-time-tracker">See screen time tracker page</a>
-        </div>
+        <section aria-label="Benefits of app usage tracking">
+            <div class="container">
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h2>See top time-consuming apps</h2>
+                        <p>Identify which apps dominate your day so you can make better time decisions. Win32, UWP, and PWAs — all tracked together.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>Reduce costly context switching</h2>
+                        <p>Spot constant app hopping and create healthier focus windows. Reports show you the pattern, limits help you break it.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>Set app limits that matter</h2>
+                        <p>Use daily time caps to avoid mindless overuse and protect productive sessions without hard blocking.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                        </div>
+                        <h2>Review trends over time</h2>
+                        <p>Daily and weekly insights help you sustain improvements, not just one-day fixes. Up to 5 years of history stored locally.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="How tracking works">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>How Deskly tracks app usage</h2>
+                    <ul>
+                        <li>Polls the foreground window every second using Windows UI Automation — no kernel driver or admin rights needed.</li>
+                        <li>Sub-second accumulator ensures zero time is lost when you switch between apps quickly.</li>
+                        <li>Data is written to a local JSON file in a folder you choose — readable, portable, and completely yours.</li>
+                        <li>Top 15 apps shown per day, week, month, and year in the Reports view.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="App usage vs total screen time">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>Per-app data beats a single screen time number</h2>
+                    <p>A total screen time figure tells you almost nothing about where the time actually went. Per-app tracking answers the follow-up questions that matter: which single app ate the afternoon, whether a "quick check" of chat or social media is really five minutes or fifty, and whether your top app changes on weekends versus workdays.</p>
+                    <p>Deskly pairs this per-app view with the <a href="/screen-time-timeline-windows">screen time timeline</a>, so you can see not just which apps ranked highest today, but the exact order and duration of every session between them.</p>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Who tracks app usage on Windows">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Why people track app usage on Windows</h2>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <h2>Freelancers and consultants</h2>
+                        <p>Get an honest, private record of which tools actually filled billable hours — without a corporate time-tracking suite watching every click.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <h2>Gamers managing playtime</h2>
+                        <p>See real per-game hours across a week or month, and set an <a href="/windows-app-and-website-limits">app limit</a> if one title is quietly taking over.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <h2>Students juggling coursework apps</h2>
+                        <p>Compare time in note-taking, research, and study tools against messaging and entertainment apps side by side.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <h2>Anyone who says "I don't even use that app much"</h2>
+                        <p>Replace assumptions with actual numbers — app usage tracking regularly surprises people about where their time really goes.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="FAQ">
+            <div class="container">
+                <div class="seo-faq">
+                    <h2>Frequently asked questions</h2>
+                    <div class="faq-item">
+                        <strong>How does Deskly measure time per app?</strong>
+                        <p>Deskly polls the foreground window every second using Windows UI Automation and accumulates time at sub-second precision, so no time is lost during quick app switches.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Does it track UWP apps and PWAs, not just traditional Win32 programs?</strong>
+                        <p>Yes. Win32 desktop apps, UWP Store apps, and installed PWAs are all tracked together in the same reports.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Can I see which apps cause the most context switching?</strong>
+                        <p>Yes. Reports highlight switch counts alongside total time, so you can tell apart an app you use for one long session versus one you keep flicking back to.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>How many apps show up in the reports?</strong>
+                        <p>The top 15 apps are shown per day, week, month, and year, with the option to drill into any single app's history.</p>
+                    </div>
+                    <div class="faq-item">
+                        <strong>Is admin access required to track app usage?</strong>
+                        <p>No. Deskly does not require a kernel driver or administrator rights to track foreground app usage.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-related" aria-label="Related pages">
+            <div class="container">
+                <div class="seo-related-label">Explore more</div>
+                <div class="seo-related-links">
+                    <a href="/windows-screen-time-tracker" class="seo-related-link">Screen time tracker →</a>
+                    <a href="/windows-app-and-website-limits" class="seo-related-link">App &amp; website limits →</a>
+                    <a href="/digital-wellbeing-windows" class="seo-related-link">Digital wellbeing →</a>
+                    <a href="/focus-app-for-windows" class="seo-related-link">Focus app →</a>
+                    <a href="/app-blocker-for-windows" class="seo-related-link">App blocker →</a>
+                    <a href="/screen-time-timeline-windows" class="seo-related-link">Screen time timeline →</a>
+                    <a href="/desktop-widgets-for-windows" class="seo-related-link">Desktop widgets →</a>
+                    <a href="/blog/reduce-screen-time-windows" class="seo-related-link">Reduce screen time guide →</a>
+                </div>
+            </div>
+        </section>
     </main>
+
+        <footer class="site-footer">
+        <div class="container">
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
+                        </div>
+                        Deskly
+                    </a>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
+                </div>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Solutions</h4>
+                        <a href="/windows-screen-time-tracker">Screen time tracker</a>
+                        <a href="/digital-wellbeing-windows">Digital wellbeing</a>
+                        <a href="/windows-app-and-website-limits">App &amp; website limits</a>
+                        <a href="/focus-app-for-windows">Focus app</a>
+                        <a href="/app-blocker-for-windows">App blocker</a>
+                        <a href="/screen-time-timeline-windows">Screen time timeline</a>
+                        <a href="/desktop-widgets-for-windows">Desktop widgets</a>
+                        <a href="/solutions">All solutions →</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Explore</h4>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/#use-cases">Who it's for</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+
+            // Scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
+
 </html>

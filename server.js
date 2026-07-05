@@ -135,9 +135,11 @@ function getWorkOS() {
 
 // ─── Security middleware ───────────────────────────────────────────────────────
 const cspConnectSources = ["'self'"];
+const cspScriptSources = ["'self'", "'unsafe-inline'"];
 try {
     const analyticsHost = new URL(WEBSITE_POSTHOG_HOST).origin;
     cspConnectSources.push(analyticsHost);
+    cspScriptSources.push(analyticsHost);
 } catch (_) {
     // Keep strict default when host is invalid.
 }
@@ -146,7 +148,7 @@ app.use(helmet({
     contentSecurityPolicy: {
         directives: {
             defaultSrc: ["'self'"],
-            scriptSrc: ["'self'", "'unsafe-inline'"],
+            scriptSrc: cspScriptSources,
             styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
             fontSrc: ["'self'", "https://fonts.gstatic.com"],
             imgSrc: ["'self'", "https://cdn.simpleicons.org", "data:", "https:"],
@@ -157,6 +159,27 @@ app.use(helmet({
     noSniff: true,
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
 }));
+
+// ─── SEO: force a single canonical host + protocol ─────────────────────────────
+// All canonical/og:url tags across the site point at the bare apex over https.
+// Without this, www.deskly.in and http:// requests serve duplicate content on a
+// different URL, splitting ranking signals between hosts. Redirect everything
+// else to the canonical host with a permanent (301) redirect before any route
+// or rate limiter runs, so crawlers only ever see one URL per page.
+const CANONICAL_HOST = 'deskly.in';
+if (isProduction) {
+    app.use((req, res, next) => {
+        const host = (req.headers.host || '').toLowerCase();
+        const proto = req.headers['x-forwarded-proto'] || req.protocol;
+        if (host && host !== CANONICAL_HOST) {
+            return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
+        }
+        if (proto !== 'https') {
+            return res.redirect(301, `https://${CANONICAL_HOST}${req.originalUrl}`);
+        }
+        next();
+    });
+}
 
 // Rate limiting on auth routes
 const authLimiter = rateLimit({
@@ -183,6 +206,17 @@ const apiLimiter = rateLimit({
 
 app.use(cookieParser());
 app.use(express.json({ limit: '32kb' }));
+
+// ─── SEO: keep non-marketing routes out of the index ───────────────────────────
+// robots.txt disallows crawling these paths, but an explicit X-Robots-Tag header
+// also stops indexing of any URL that gets discovered via an external link.
+const NOINDEX_PATH_PREFIXES = ['/account', '/auth/', '/api/', '/download/', '/.well-known/'];
+app.use((req, res, next) => {
+    if (NOINDEX_PATH_PREFIXES.some((prefix) => req.path.startsWith(prefix))) {
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+    }
+    next();
+});
 
 // ─── Performance Middleware ────────────────────────────────────────────────────
 
@@ -270,6 +304,12 @@ function esc(str) {
         .replace(/'/g, '&#39;');
 }
 
+// Safely embeds a JS value inside an inline <script> block: JSON-encodes it,
+// then neutralizes "</" so the value can never prematurely close the tag.
+function toScriptJSON(value) {
+    return JSON.stringify(value).replace(/</g, '\\u003c');
+}
+
 /** Validate input parameters */
 function validateDeviceId(deviceId) {
     return typeof deviceId === 'string' && /^[a-z0-9_-]{1,64}$/i.test(deviceId);
@@ -340,9 +380,9 @@ function trackWebsiteEvent(eventName, distinctId, properties = {}) {
         distinctId: distinctId.slice(0, 128),
         event: eventName,
         properties: {
+            ...sanitizeAnalyticsProperties(properties),
             source: 'website',
             environment: process.env.NODE_ENV || 'development',
-            ...sanitizeAnalyticsProperties(properties),
         },
     });
 }
@@ -373,6 +413,62 @@ app.get('/focus-app-for-windows', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'focus-app-for-windows.html'));
 });
 
+app.get('/app-blocker-for-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'app-blocker-for-windows.html'));
+});
+
+app.get('/solutions', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'solutions.html'));
+});
+
+app.get('/screen-time-timeline-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'screen-time-timeline-windows.html'));
+});
+
+app.get('/desktop-widgets-for-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'desktop-widgets-for-windows.html'));
+});
+
+app.get('/features', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'features.html'));
+});
+
+app.get('/how-it-works', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'how-it-works.html'));
+});
+
+app.get('/security', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'security.html'));
+});
+
+app.get('/blog', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'blog.html'));
+});
+
+app.get('/blog/reduce-screen-time-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'blog', 'reduce-screen-time-windows.html'));
+});
+
+app.get('/blog/digital-wellbeing-guide', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'blog', 'digital-wellbeing-guide.html'));
+});
+
+app.get('/blog/block-distracting-apps-windows', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'blog', 'block-distracting-apps-windows.html'));
+});
+
+app.get('/deskly-vs-rescuetime', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'deskly-vs-rescuetime.html'));
+});
+
+app.get('/deskly-vs-cold-turkey', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'deskly-vs-cold-turkey.html'));
+});
+
+app.get('/deskly-vs-freedom', (req, res) => {
+    res.sendFile(path.join(__dirname, 'views', 'deskly-vs-freedom.html'));
+});
+
 // Common intent phrase aliases redirected to canonical keyword landing pages.
 app.get('/screen-time-for-windows', (req, res) => {
     res.redirect(301, '/windows-screen-time-tracker');
@@ -394,6 +490,46 @@ app.get('/windows-focus-app', (req, res) => {
     res.redirect(301, '/focus-app-for-windows');
 });
 
+app.get('/windows-app-blocker', (req, res) => {
+    res.redirect(301, '/app-blocker-for-windows');
+});
+
+app.get('/app-lock-for-windows', (req, res) => {
+    res.redirect(301, '/app-blocker-for-windows');
+});
+
+app.get('/windows-timeline-app', (req, res) => {
+    res.redirect(301, '/screen-time-timeline-windows');
+});
+
+app.get('/windows-desktop-widgets', (req, res) => {
+    res.redirect(301, '/desktop-widgets-for-windows');
+});
+
+app.get('/rescuetime-alternative', (req, res) => {
+    res.redirect(301, '/deskly-vs-rescuetime');
+});
+
+app.get('/rescuetime-alternative-windows', (req, res) => {
+    res.redirect(301, '/deskly-vs-rescuetime');
+});
+
+app.get('/cold-turkey-alternative', (req, res) => {
+    res.redirect(301, '/deskly-vs-cold-turkey');
+});
+
+app.get('/cold-turkey-blocker-alternative', (req, res) => {
+    res.redirect(301, '/deskly-vs-cold-turkey');
+});
+
+app.get('/freedom-app-alternative', (req, res) => {
+    res.redirect(301, '/deskly-vs-freedom');
+});
+
+app.get('/freedom-alternative-windows', (req, res) => {
+    res.redirect(301, '/deskly-vs-freedom');
+});
+
 // Privacy Policy Route
 app.get('/privacy', (req, res) => {
     res.sendFile(path.join(__dirname, 'views', 'privacy.html'));
@@ -405,36 +541,17 @@ app.get('/terms', (req, res) => {
 });
 
 app.get('/download/windows', apiLimiter, (req, res) => {
-    const source = typeof req.query.source === 'string' ? req.query.source.slice(0, 60) : 'website';
+    const ctaSource = typeof req.query.source === 'string' ? req.query.source.slice(0, 60) : 'unknown';
     const distinctId = typeof req.query.aid === 'string' && req.query.aid.trim()
         ? req.query.aid.trim()
         : `web_${req.ip || 'unknown'}`;
 
     trackWebsiteEvent('web.download.requested', distinctId, {
-        source,
+        cta_source: ctaSource,
         target: 'windows_installer',
     });
 
     return res.redirect(302, desktopDownloadUrl);
-});
-
-app.post('/api/analytics/capture', apiLimiter, (req, res) => {
-    const { event, distinctId, properties } = req.body || {};
-
-    if (!websiteAnalyticsEnabled || !websitePosthog) {
-        return res.status(202).json({ success: true, skipped: 'analytics_disabled' });
-    }
-
-    if (typeof event !== 'string' || !WEBSITE_EVENT_ALLOWLIST.has(event)) {
-        return res.status(400).json({ success: false, error: 'Invalid event' });
-    }
-
-    if (typeof distinctId !== 'string' || distinctId.length < 8 || distinctId.length > 128) {
-        return res.status(400).json({ success: false, error: 'Invalid distinctId' });
-    }
-
-    trackWebsiteEvent(event, distinctId, properties);
-    return res.status(202).json({ success: true });
 });
 
 // App Dashboard Route (Requires auth)owser-based, for web visitors) ────────────────────────────
@@ -1397,6 +1514,13 @@ function accountPage(user) {
             </form>
         </div>
     </div>
+    <script src="/js/analytics.js"></script>
+    <script>
+        posthog.identify(
+            ${toScriptJSON(`account_${user.sub}`)},
+            ${toScriptJSON({ email: user.email, has_name: Boolean(user.name) })}
+        );
+    </script>
 </body>
 </html>`;
 }
@@ -1502,7 +1626,7 @@ module.exports = app;
 async function flushWebsiteAnalytics() {
     if (!websitePosthog) return;
     try {
-        await websitePosthog.shutdown();
+        await websitePosthog._shutdown(2000);
     } catch (_) {
         // Ignore flush failures on shutdown.
     }

@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Deskly - Digital Wellbeing for Windows</title>
     <meta name="description"
-                content="Deskly is a native Windows digital wellbeing app for screen time tracking, app and website limits, focus insights, and healthier daily habits. Private, local-first, and practical." />
+                content="Deskly is a native Windows digital wellbeing app with screen time tracking, app and website limits, app locks, focus mode, desktop widgets, and a visual timeline. Private, local-first, and practical." />
         <meta name="keywords"
-                content="windows screen time tracker, digital wellbeing windows, app usage tracker windows, website blocker windows, focus app windows, productivity tracker, windows parental screen time alternative" />
+                content="windows screen time tracker, digital wellbeing windows, app usage tracker windows, website blocker windows, app lock windows, focus app windows, desktop widgets windows, productivity tracker, windows parental screen time alternative" />
         <meta name="author" content="Deskly" />
         <meta name="application-name" content="Deskly" />
     <meta name="theme-color" content="#0a0a0b" />
@@ -17,7 +17,7 @@
 
         <meta property="og:title" content="Deskly - Digital Wellbeing for Windows" />
     <meta property="og:description"
-                content="Track screen time, reduce distraction, and build healthier focus habits on Windows." />
+                content="Track screen time, lock distracting apps, run focus sessions, and see your day on a visual timeline — a complete digital wellbeing system for Windows." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in/" />
     <meta property="og:image" content="https://deskly.in/og-logo.png?v=3" />
@@ -28,7 +28,7 @@
     <meta property="og:image:alt" content="Deskly logo" />
         <meta property="og:site_name" content="Deskly" />
         <meta name="twitter:title" content="Deskly - Digital Wellbeing for Windows" />
-        <meta name="twitter:description" content="Track screen time, reduce distraction, and build healthier focus habits on Windows." />
+        <meta name="twitter:description" content="Track screen time, lock distracting apps, run focus sessions, and see your day on a visual timeline — a complete digital wellbeing system for Windows." />
         <meta name="twitter:image" content="https://deskly.in/og-logo.png?v=3" />
         <meta name="twitter:image:alt" content="Deskly logo" />
         <meta name="twitter:url" content="https://deskly.in/" />
@@ -41,7 +41,7 @@
             "name": "Deskly",
             "applicationCategory": "ProductivityApplication",
             "operatingSystem": "Windows 10, Windows 11",
-            "description": "Native Windows digital wellbeing software that tracks app and website usage, provides limits, and helps users build healthier focus habits.",
+            "description": "Native Windows digital wellbeing software that tracks app and website usage, enforces limits and app locks, runs focus sessions, and visualizes your day with a timeline and live desktop widgets.",
             "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -57,6 +57,10 @@
                 "Windows app and website usage tracking",
                 "Screen time insights and trend reports",
                 "App and website limits",
+                "App locks for hard enforcement",
+                "Focus mode with distraction blocking",
+                "Visual hour-by-hour timeline",
+                "Live desktop widgets",
                 "Break reminders and focus support",
                 "Local-first private data vault"
             ]
@@ -99,6 +103,22 @@
                         "@type": "Answer",
                         "text": "Deskly stores usage data locally in a folder you control, so your digital wellbeing history stays on your machine."
                     }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Can Deskly lock apps completely, not just limit them?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. App locks go beyond soft limits — you can fully block distracting apps on a schedule or during focus sessions."
+                    }
+                },
+                {
+                    "@type": "Question",
+                    "name": "Does Deskly have a focus mode and desktop widgets?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Yes. Focus mode blocks distractions during dedicated work sessions, and live desktop widgets show your screen time, top apps, and top sites at a glance."
+                    }
                 }
             ]
         }
@@ -114,7 +134,7 @@
     <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin />
     <link rel="dns-prefetch" href="//cdn.simpleicons.org" />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block"
         rel="stylesheet" />
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,300,0,0&display=block"
@@ -143,8 +163,8 @@
             --text: #ededef;
             --text-2: #9CA3AF;
             --text-3: #717888;
-            --primary: #818cf8;
-            --primary-dim: rgba(129, 140, 248, 0.12);
+            --primary: #3d6bea;
+            --primary-dim: rgba(61, 107, 234, 0.12);
             --green: #34d399;
             --green-dim: rgba(52, 211, 153, 0.1);
             --amber: #fbbf24;
@@ -154,7 +174,6 @@
         }
 
         html {
-            scroll-behavior: smooth;
             scrollbar-width: thin;
             scrollbar-color: var(--surface-3) transparent;
             width: 100%;
@@ -180,7 +199,7 @@
         }
 
         [id] {
-            scroll-margin-top: 80px;
+            scroll-margin-top: 90px;
         }
 
         /* Focus indicators for keyboard navigation */
@@ -263,30 +282,56 @@
             left: 0;
             right: 0;
             z-index: 100;
-            height: 56px;
+            padding: 14px 24px;
             display: flex;
             align-items: center;
             overflow-x: clip;
-            border-bottom: 1px solid transparent;
-            transition: all 0.5s var(--ease);
+            transition: padding 0.5s var(--ease);
         }
 
-        nav.scrolled {
-            background: rgba(9, 9, 11, 0.8);
-            backdrop-filter: blur(16px) saturate(1.3);
-            -webkit-backdrop-filter: blur(16px) saturate(1.3);
-            border-bottom-color: var(--border);
+        nav.scrolled .inner {
+            background: rgba(9, 9, 11, 0.9);
+            box-shadow:
+                inset 0 1px 1px rgba(255, 255, 255, 0.12),
+                0 8px 32px rgba(0, 0, 0, 0.45);
         }
 
         nav .inner {
             max-width: 1080px;
             width: 100%;
             margin: 0 auto;
-            padding: 0 28px;
+            padding: 0 16px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             min-width: 0;
+            /* Liquid glass */
+            background: rgba(9, 9, 11, 0.58);
+            backdrop-filter: blur(12px) saturate(1.2);
+            -webkit-backdrop-filter: blur(12px) saturate(1.2);
+            border-radius: 14px;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.07);
+            position: relative;
+            overflow: hidden;
+            transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease);
+        }
+
+        nav .inner::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0.06) 25%,
+                rgba(255, 255, 255, 0) 50%,
+                rgba(255, 255, 255, 0.06) 80%, rgba(255, 255, 255, 0.18) 100%);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .logo {
@@ -299,6 +344,8 @@
             font-size: 0.96rem;
             letter-spacing: -0.01em;
             white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
             min-width: 0;
             flex-shrink: 1;
         }
@@ -312,10 +359,12 @@
             display: block;
         }
 
-        .logo-icon svg {
+        .logo-icon svg,
+        .logo-icon img {
             width: 100%;
             height: 100%;
             display: block;
+            object-fit: cover;
         }
 
         .nav-links {
@@ -380,36 +429,46 @@
             content: '';
             display: block;
             position: absolute;
+            left: 10px;
             width: 24px;
             height: 2px;
             background: var(--text);
-            transition: all 0.3s var(--ease);
             border-radius: 1px;
+            transition: top 0.3s var(--ease), transform 0.3s var(--ease), opacity 0.2s var(--ease);
         }
 
         .burger::before {
-            top: 12px;
+            top: 14px;
         }
 
         .burger span {
-            top: 50%;
-            transform: translateY(-50%);
+            top: 21px;
         }
 
         .burger::after {
-            bottom: 12px;
+            top: 28px;
         }
 
-        .burger svg {
-            width: 20px;
-            height: 20px;
+        .burger[aria-expanded="true"]::before {
+            top: 21px;
+            transform: rotate(45deg);
+        }
+
+        .burger[aria-expanded="true"] span {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .burger[aria-expanded="true"]::after {
+            top: 21px;
+            transform: rotate(-45deg);
         }
 
         /* ═══════════════════════════════════════════════════
            HERO
            ═══════════════════════════════════════════════════ */
         .hero {
-            padding: 180px 0 64px;
+            padding: 180px 0 16px;
             text-align: center;
             position: relative;
             overflow-x: clip;
@@ -425,7 +484,7 @@
             width: 1000px;
             height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.06) 0%, transparent 60%);
+            background: radial-gradient(ellipse, rgba(61, 107, 234, 0.06) 0%, transparent 60%);
             pointer-events: none;
         }
 
@@ -501,7 +560,7 @@
         }
 
         .hero h1 .gradient {
-            background: linear-gradient(135deg, var(--primary) 0%, #c084fc 50%, var(--primary) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, #7aa2ff 50%, var(--primary) 100%);
             background-size: 200% auto;
             -webkit-background-clip: text;
             background-clip: text;
@@ -535,7 +594,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin-bottom: 32px;
+            margin-bottom: 0;
         }
 
         .btn {
@@ -617,48 +676,6 @@
 
         .btn-ghost:active:not([aria-busy="true"]) {
             transform: translateY(0) scale(0.98);
-        }
-
-        .pills {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .pill {
-            font-size: 0.75rem;
-            color: var(--text-2);
-            padding: 3px 10px;
-            border-radius: 100px;
-            border: 1px solid var(--border);
-            background: rgba(255, 255, 255, 0.01);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s var(--ease);
-        }
-
-        .pill:not(a) {
-            cursor: default;
-        }
-
-        .pill[href]:hover {
-            border-color: rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
-            color: var(--text-2);
-        }
-
-        .pill[href]:focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        .pill .pd {
-            width: 4px;
-            height: 4px;
-            border-radius: 50%;
         }
 
         .intent-links {
@@ -748,6 +765,38 @@
         .mockup-section {
             padding: 80px 0 0;
             position: relative;
+            overflow-x: clip;
+        }
+
+        .mockup-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Covers the top padding seamlessly without overlapping the hero section above */
+        .mockup-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 96px; /* 80px solid + 16px spikes */
+            background-color: transparent;
+            /* Create the spikes at the bottom using a highly-optimized tiling background image instead of an expensive mask */
+            background-image: 
+                linear-gradient(#0a0a0b, #0a0a0b),
+                url("data:image/svg+xml,%3Csvg viewBox='0 0 32 16' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M 0 0 L 32 0 L 16 16 Z' fill='%230a0a0b'/%3E%3C/svg%3E");
+            background-size: 100% 80px, 32px 16px;
+            background-position: top, bottom;
+            background-repeat: no-repeat, repeat-x;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .mockup-section::after {
@@ -842,103 +891,81 @@
         }
 
         .wb {
-            display: grid;
-            grid-template-columns: 240px 1fr;
-            min-height: 460px;
+            display: block;
+            position: relative;
+            height: 521px;
+            overflow: hidden;
         }
 
-        /* Sidebar */
-        .sb {
-            background: #050505;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 0;
+        /* Mockup Cutout Tabs */
+        .mockup-tabs-wrapper {
             display: flex;
-            flex-direction: column;
-        }
-
-        .sb-header {
-            padding: 18px 16px 14px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .sb-logo-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .sb-robot {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.06);
-            display: flex;
-            align-items: center;
             justify-content: center;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 10;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .mockup-tabs-wrapper::-webkit-scrollbar {
+            display: none;
+        }
+
+        .mockup-tabs {
+            background: #0a0a0b;
+            border-radius: 0 0 24px 24px;
+            padding: 10px 24px 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            position: relative;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
             flex-shrink: 0;
         }
 
-        .sb-robot svg {
-            width: 16px;
-            height: 16px;
-            fill: rgba(255, 255, 255, 0.7);
-        }
-
-        .sb-brand {
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .sb-brand-name {
+        .mtab {
+            padding: 8px 20px;
+            border-radius: 100px;
             font-size: 0.8rem;
-            font-weight: 700;
-            color: #EDEDED;
-            letter-spacing: -0.01em;
-            line-height: 1;
-        }
-
-        .sb-brand-sub {
-            font-size: 0.62rem;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 0.01em;
-        }
-
-        .sb-nav {
-            flex: 1;
-            padding: 8px 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 1px;
-        }
-
-        .sb-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 7px 10px;
-            border-radius: 8px;
-            font-size: 0.74rem;
+            font-weight: 500;
             color: rgba(255, 255, 255, 0.55);
-            letter-spacing: 0.005em;
-            position: relative;
-        }
-
-        .sb-item.active {
-            background: rgba(156, 168, 184, 0.15);
-            color: #C5D0DE;
-        }
-
-        .sb-spacer {
-            flex: 1;
-        }
-
-        .sb-footer {
-            padding: 12px 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: all 0.2s var(--ease);
             display: flex;
             align-items: center;
             gap: 8px;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .mtab:hover {
+            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .mtab.active {
+            color: #111;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+        }
+
+        .mtab-icon {
+            font-family: 'Material Symbols Rounded';
+            font-size: 1.1rem;
+            line-height: 1;
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 20;
+        }
+
+        .sb-tracking-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 12px;
+            padding-left: 12px;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .sb-tracking-dot {
@@ -952,18 +979,43 @@
         }
 
         .sb-tracking-label {
-            font-size: 0.72rem;
+            font-size: 0.65rem;
+            font-weight: 600;
             color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
 
         /* Main dashboard */
         .dm {
             background: #000000;
-            padding: 20px 20px 16px;
+            padding: 24px 32px;
             display: flex;
             flex-direction: column;
             gap: 14px;
             overflow: hidden;
+        }
+
+        .mockup-pane {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transition: opacity 0.35s var(--ease);
+        }
+
+        .mockup-pane.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .mockup-pane {
+                transition: none;
+            }
         }
 
         .dm-header {
@@ -1254,6 +1306,24 @@
             background: rgba(255, 255, 255, 0.35);
         }
 
+        .app-pct {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            width: 32px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .app-tag {
+            font-size: 0.56rem;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 100px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
         /* Category items */
         .cat-item {
             display: flex;
@@ -1484,7 +1554,7 @@
             height: 28px;
             border-radius: 8px;
             background: var(--primary-dim);
-            border: 1px solid rgba(129, 140, 248, 0.15);
+            border: 1px solid rgba(61, 107, 234, 0.15);
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--primary);
@@ -1597,12 +1667,12 @@
 
         /* Feature icon accent colors */
         .fc:nth-child(1) .fc-icon {
-            background: rgba(129, 140, 248, 0.08);
-            border-color: rgba(129, 140, 248, 0.12);
+            background: rgba(61, 107, 234, 0.08);
+            border-color: rgba(61, 107, 234, 0.12);
         }
 
         .fc:nth-child(1) .fc-icon svg {
-            color: #818cf8;
+            color: #3d6bea;
         }
 
         .fc:nth-child(2) .fc-icon {
@@ -1638,7 +1708,7 @@
         }
 
         .fc:nth-child(5) .fc-icon svg {
-            color: #6366f1;
+            color: #4873f1;
         }
 
         .fc:nth-child(6) .fc-icon {
@@ -1682,7 +1752,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(129, 140, 248, 0.06), transparent 40%);
+            background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 0%), rgba(61, 107, 234, 0.06), transparent 40%);
             border-radius: inherit;
             opacity: 0;
             transition: opacity 0.4s var(--ease);
@@ -1811,7 +1881,7 @@
         .how::before {
             top: 10%;
             right: -200px;
-            background: radial-gradient(circle, #818cf8, transparent 70%);
+            background: radial-gradient(circle, #3d6bea, transparent 70%);
         }
 
         .features::before {
@@ -2151,7 +2221,7 @@
             width: 800px;
             height: 500px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.04) 0%, transparent 55%);
+            background: radial-gradient(ellipse, rgba(61, 107, 234, 0.04) 0%, transparent 55%);
             pointer-events: none;
         }
 
@@ -2205,7 +2275,7 @@
             width: 800px;
             height: 600px;
             border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(129, 140, 248, 0.05) 0%, transparent 55%);
+            background: radial-gradient(ellipse, rgba(61, 107, 234, 0.05) 0%, transparent 55%);
             pointer-events: none;
         }
 
@@ -2230,46 +2300,6 @@
             max-width: 400px;
             margin: 0 auto 40px;
             line-height: 1.6;
-        }
-
-        .cta .pills {
-            margin-top: 24px;
-        }
-
-        /* Trust / built-with row */
-        .trust-row {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .trust-label {
-            font-size: 0.68rem;
-            color: var(--text-2);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-        }
-
-        .trust-logos {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .trust-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.74rem;
-            color: var(--text-2);
-        }
-
-        .trust-sep {
-            color: var(--border-2);
-            font-size: 0.5rem;
         }
 
         /* ═══════════════════════════════════════════════════
@@ -2425,11 +2455,6 @@
 
         /* ── Tablet ≤960px ── */
         @media (max-width: 960px) {
-            .wb {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-
             .sb {
                 display: none;
             }
@@ -2496,7 +2521,7 @@
 
             /* Nav: compact + show burger */
             nav {
-                height: 52px;
+                padding: 10px 12px;
             }
 
             nav .nav-links {
@@ -2547,14 +2572,6 @@
                 font-size: 0.9rem;
             }
 
-            .pills {
-                gap: 6px;
-            }
-
-            .pill {
-                font-size: 0.68rem;
-            }
-
             /* Mockup section: trim top padding, shorten fade gradient */
             .mockup-section {
                 padding: 48px 0 0;
@@ -2562,6 +2579,31 @@
 
             .mockup-section::after {
                 height: 100px;
+            }
+
+            /* Tab switcher: bleed full-width and scroll instead of overflowing */
+            .mockup-tabs-wrapper {
+                justify-content: flex-start;
+                max-width: calc(100% + 32px);
+                margin: 0 -16px 20px;
+                padding: 0 16px;
+                mask-image: linear-gradient(to right, transparent, #000 16px, #000 calc(100% - 16px), transparent);
+                -webkit-mask-image: linear-gradient(to right, transparent, #000 16px, #000 calc(100% - 16px), transparent);
+            }
+
+            .mockup-tabs {
+                padding: 8px 16px 10px;
+                gap: 2px;
+            }
+
+            .mtab {
+                padding: 7px 14px;
+                font-size: 0.72rem;
+                gap: 6px;
+            }
+
+            .mtab-icon {
+                font-size: 1rem;
             }
 
             /* Dashboard panel: compact padding */
@@ -2730,13 +2772,6 @@
                 flex-wrap: wrap;
             }
 
-            /* Trust */
-            .trust-logos {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-
             /* Performance: disable grain overlay on mobile (saves a composite layer) */
             body::before {
                 display: none;
@@ -2793,6 +2828,10 @@
             }
 
             /* Numbers */
+            .numbers-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
             .num-cell {
                 padding: 24px 12px;
             }
@@ -2960,6 +2999,7 @@
             height: 22px;
         }
     </style>
+    <script src="/js/analytics.js"></script>
 </head>
 
 <body>
@@ -2974,10 +3014,6 @@
                 <stop offset="0%" stop-color="#FFFFFF" />
                 <stop offset="100%" stop-color="#9CA8B8" />
             </linearGradient>
-            <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#7c3aed" />
-                <stop offset="100%" stop-color="#a78bfa" />
-            </linearGradient>
         </defs>
     </svg>
 
@@ -2988,40 +3024,25 @@
         <div class="inner">
             <a href="/" class="logo" aria-label="Deskly home">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
-                        <g transform="translate(256,256)">
-                            <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
-                                stroke-width="28" />
-                            <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28"
-                                stroke-linecap="round" opacity="0.9" />
-                            <path
-                                d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
-                                fill="white" opacity="0.95" />
-                            <circle cx="95" cy="-95" r="18" fill="#4ade80" />
-                            <circle cx="95" cy="-95" r="10" fill="#22c55e" />
-                        </g>
-                    </svg>
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
                 </div>
                 Deskly
             </a>
 
             <div class="nav-links">
-                <a href="#how" aria-label="Learn how it works">How it works</a>
-                <a href="#use-cases" aria-label="Who Deskly is for">Who it's for</a>
-                <a href="/#features" aria-label="View features">Features</a>
-                <a href="#privacy" aria-label="Privacy and security">Privacy</a>
+                <a href="/how-it-works" aria-label="Learn how it works">How it works</a>
+                <a href="/#use-cases" aria-label="Who Deskly is for">Who it's for</a>
+                <a href="/features" aria-label="View features">Features</a>
+                <a href="/solutions" aria-label="Browse solutions">Solutions</a>
+                <a href="/security" aria-label="Privacy and security">Security</a>
+                <a href="/blog" aria-label="Deskly blog">Blog</a>
                 <a href="/account" data-auth-link data-auth-label aria-label="Sign in to your account">Sign in</a>
                 <a href="/download/windows?source=nav" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav">Download for Windows</a>
             </div>
 
             <button class="burger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu"
                 aria-haspopup="dialog">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <line x1="4" y1="7" x2="20" y2="7" />
-                    <line x1="4" y1="12" x2="20" y2="12" />
-                    <line x1="4" y1="17" x2="20" y2="17" />
-                </svg>
+                <span></span>
             </button>
         </div>
     </nav>
@@ -3035,10 +3056,12 @@
                 <line x1="6" y1="6" x2="18" y2="18" />
             </svg>
         </button>
-        <a href="#how" aria-label="Learn how it works">How it works</a>
-        <a href="#use-cases" aria-label="Who Deskly is for">Who it's for</a>
-        <a href="/#features" aria-label="View features">Features</a>
-        <a href="#privacy" aria-label="Privacy and security">Privacy</a>
+        <a href="/how-it-works" aria-label="Learn how it works">How it works</a>
+        <a href="/#use-cases" aria-label="Who Deskly is for">Who it's for</a>
+        <a href="/features" aria-label="View features">Features</a>
+        <a href="/solutions" aria-label="Browse solutions">Solutions</a>
+        <a href="/security" aria-label="Privacy and security">Security</a>
+        <a href="/blog" aria-label="Deskly blog">Blog</a>
         <a href="/account" data-auth-link data-auth-label aria-label="Sign in to your account">Sign in</a>
         <a href="/download/windows?source=mobile_menu" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu">Download for Windows</a>
     </div>
@@ -3047,16 +3070,9 @@
     <!-- ── HERO ──────────────────────────────────── -->
     <section class="hero">
         <div class="container">
-            <div class="hero-badge hero-anim" data-d="1">
-                <span class="dot"></span>
-                <span data-release-version>Latest</span> — Free for Windows
-            </div>
+            <h1 class="hero-anim" data-d="2">Your complete<br><span class="gradient serif-em">digital wellbeing</span> system</h1>
 
-                <h1 class="hero-anim" data-d="2">Take control of your<br><span class="gradient serif-em">digital
-                    habits</span></h1>
-
-            <p class="sub hero-anim" data-d="3">A native Windows digital wellbeing companion for focus, awareness,
-                and healthier habits. Track app and website usage, set limits, and review trends that actually help.</p>
+            <p class="sub hero-anim" data-d="3">Track everything. Understand patterns. Build better habits. App limits, app locks, widgets, focus mode, timeline view, and browser intelligence—all working together on Windows.</p>
 
             <div class="hero-actions hero-anim" data-d="4">
                 <a href="/download/windows?source=hero" class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="hero">
@@ -3068,33 +3084,57 @@
                     </svg>
                     Download for Windows
                 </a>
-                <a href="#how" class="btn btn-ghost" aria-label="Learn how it works">See how it works</a>
+                <a href="/how-it-works" class="btn btn-ghost" aria-label="Learn how it works">See how it works</a>
             </div>
 
-            <div class="pills hero-anim" data-d="5">
-                <span class="pill"><span class="pd" style="background:var(--green)"></span>Free for Windows</span>
-                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
-                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Account required</span>
-                <span class="pill"><span class="pd" style="background:var(--green)"></span>Privacy-first</span>
-            </div>
 
-            <p class="intent-links hero-anim" data-d="5">
-                Looking for <a href="/windows-screen-time-tracker">screen time for Windows</a> or
-                <a href="/digital-wellbeing-windows">digital wellbeing for Windows</a>,
-                <a href="/windows-app-usage-tracker">app usage tracking</a>,
-                <a href="/windows-app-and-website-limits">app and website limits</a>, or a
-                <a href="/focus-app-for-windows">focus app for Windows</a>? Deskly is built specifically for that.
-            </p>
         </div>
     </section>
 
     <!-- ── APP WINDOW ────────────────────────────── -->
     <section class="mockup-section">
-        <div class="container">
+        <video class="mockup-video" autoplay loop muted playsinline>
+            <source src="/videos/mockup-bg.mp4" type="video/mp4">
+        </video>
+        <div class="container" style="position: relative; z-index: 3;">
+            <!-- Cutout Tabs -->
+            <div class="mockup-tabs-wrapper reveal">
+                <div class="mockup-tabs">
+                    <div class="mtab active" data-target="pane-dashboard">
+                        <span class="mtab-icon">dashboard</span>
+                        <span>Dashboard</span>
+                    </div>
+                    <div class="mtab" data-target="pane-apps">
+                        <span class="mtab-icon">apps</span>
+                        <span>App usage</span>
+                    </div>
+                    <div class="mtab" data-target="pane-websites">
+                        <span class="mtab-icon">public</span>
+                        <span>Websites</span>
+                    </div>
+                    <div class="mtab" data-target="pane-limits">
+                        <span class="mtab-icon">timer</span>
+                        <span>Limits</span>
+                    </div>
+                    <div class="mtab" data-target="pane-timeline">
+                        <span class="mtab-icon">timeline</span>
+                        <span>Timeline</span>
+                    </div>
+                    <div class="mtab" data-target="pane-widgets">
+                        <span class="mtab-icon">widgets</span>
+                        <span>Widgets</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="window reveal" aria-hidden="true">
                 <div class="tb">
                     <div class="tb-drag">
                         <span class="tb-title-text">Deskly</span>
+                        <div class="sb-tracking-status">
+                            <span class="sb-tracking-dot"></span>
+                            <span class="sb-tracking-label">Tracking active</span>
+                        </div>
                     </div>
                     <div class="tb-win-controls">
                         <button class="tb-wbtn" aria-label="Minimize" tabindex="-1">
@@ -3109,67 +3149,8 @@
                     </div>
                 </div>
                 <div class="wb">
-                    <div class="sb">
-                        <div class="sb-header">
-                            <div class="sb-logo-row">
-                                <div class="sb-robot">
-                                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <rect x="5" y="8" width="14" height="10" rx="3"/>
-                                        <rect x="9" y="3" width="6" height="5" rx="1.5"/>
-                                        <line x1="12" y1="8" x2="12" y2="3" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-                                        <circle cx="9" cy="13" r="1.5"/>
-                                        <circle cx="15" cy="13" r="1.5"/>
-                                        <line x1="2" y1="12" x2="5" y2="12" stroke-width="1.5"/>
-                                        <line x1="19" y1="12" x2="22" y2="12" stroke-width="1.5"/>
-                                    </svg>
-                                </div>
-                                <div class="sb-brand">
-                                    <span class="sb-brand-name">Deskly</span>
-                                    <span class="sb-brand-sub">Digital Wellbeing</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="sb-nav">
-                            <div class="sb-item active">
-                                <span class="sb-item-icon">dashboard</span>
-                                Dashboard
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">apps</span>
-                                App Usage
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">language</span>
-                                Browser
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">label</span>
-                                Categories
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">timer</span>
-                                App Limits
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">bar_chart</span>
-                                Reports
-                            </div>
-                            <div class="sb-spacer"></div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">settings</span>
-                                Settings
-                            </div>
-                            <div class="sb-item">
-                                <span class="sb-item-icon">account_circle</span>
-                                Account
-                            </div>
-                        </div>
-                        <div class="sb-footer">
-                            <span class="sb-tracking-dot"></span>
-                            <span class="sb-tracking-label">Tracking active</span>
-                        </div>
-                    </div>
-                    <div class="dm">
+                    <!-- Dashboard Pane -->
+                    <div class="dm mockup-pane active" id="pane-dashboard">
                         <div class="dm-header">
                             <div class="dm-greeting">Good morning</div>
                             <div class="dm-date">Wednesday, January 15</div>
@@ -3205,7 +3186,7 @@
                                         <span class="cap-lbl">Day Streak</span>
                                     </div>
                                     <div class="cap">
-                                        <span class="cap-icon" style="color:#a78bfa">lock_open</span>
+                                        <span class="cap-icon" style="color:#7aa2ff">lock_open</span>
                                         <span class="cap-val">8</span>
                                         <span class="cap-lbl">Unlocks</span>
                                     </div>
@@ -3215,7 +3196,7 @@
                                         <span class="cap-lbl">3 active</span>
                                     </div>
                                     <div class="cap">
-                                        <span class="cap-icon" style="color:#a78bfa">label</span>
+                                        <span class="cap-icon" style="color:#7aa2ff">label</span>
                                         <span class="cap-val" style="font-size:0.75rem;color:rgba(255,255,255,0.5)">Categories</span>
                                         <span class="cap-lbl">4 set up</span>
                                     </div>
@@ -3315,28 +3296,459 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- App Usage Pane -->
+                    <div class="dm mockup-pane" id="pane-apps">
+                        <div class="dm-header">
+                            <div class="dm-greeting">App Usage Details</div>
+                            <div class="dm-date">Detailed breakdown of time spent across apps</div>
+                        </div>
+                        <div class="dm-grid" style="grid-template-columns: 1.3fr 1fr; grid-template-rows: auto 1fr; grid-template-areas: 'list stats' 'list cats';">
+                            <div class="dm-card" style="grid-area: list;">
+                                <div class="dm-card-label">Top Applications</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(66,133,244,0.12)">
+                                        <img src="https://cdn.simpleicons.org/googlechrome/4285F4" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Chrome</div>
+                                        <div class="app-time">2h 45m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:100%;background:rgba(255,255,255,0.5)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">38%</div>
+                                    <span class="app-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Browsing</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(0,122,204,0.12)">
+                                        <span style="font-size:0.55rem;font-weight:700;color:#60aee8">VS</span>
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">VS Code</div>
+                                        <div class="app-time">1h 30m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:60%;background:rgba(255,255,255,0.35)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">21%</div>
+                                    <span class="app-tag" style="background:rgba(34,197,94,0.12);color:#22c55e">Development</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(88,101,242,0.12)">
+                                        <img src="https://cdn.simpleicons.org/discord/5865F2" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Discord</div>
+                                        <div class="app-time">45m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:25%;background:rgba(255,255,255,0.25)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">11%</div>
+                                    <span class="app-tag" style="background:rgba(236,72,153,0.12);color:#ec4899">Social</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(29,185,84,0.12)">
+                                        <img src="https://cdn.simpleicons.org/spotify/1DB954" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Spotify</div>
+                                        <div class="app-time">32m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:18%;background:rgba(255,255,255,0.2)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">8%</div>
+                                    <span class="app-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Entertainment</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,255,255,0.08)">
+                                        <span style="font-size:0.55rem;font-weight:700;color:rgba(255,255,255,0.6)">SL</span>
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Slack</div>
+                                        <div class="app-time">22m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:12%;background:rgba(255,255,255,0.15)"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">6%</div>
+                                    <span class="app-tag" style="background:rgba(34,197,94,0.12);color:#22c55e">Work</span>
+                                </div>
+                            </div>
+                            <div class="dm-card" style="grid-area: stats; padding:12px">
+                                <div class="caps-grid" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr;">
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#7aa2ff">apps</span>
+                                        <span class="cap-val">12</span>
+                                        <span class="cap-lbl">Apps Tracked</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:rgba(255,255,255,0.5)">schedule</span>
+                                        <span class="cap-val">7h 14m</span>
+                                        <span class="cap-lbl">Total Time</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#22c55e">trending_up</span>
+                                        <span class="cap-val">Chrome</span>
+                                        <span class="cap-lbl">Most Used</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dm-card dm-area-cats" style="grid-area: cats;">
+                                <div class="dm-card-label">By Category</div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#38bdf8"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Browsing</div>
+                                        <div class="cat-time">2h 45m</div>
+                                    </div>
+                                    <span class="cat-pct">38%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#22c55e"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Development</div>
+                                        <div class="cat-time">1h 30m</div>
+                                    </div>
+                                    <span class="cat-pct">21%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#ec4899"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Social</div>
+                                        <div class="cat-time">45m</div>
+                                    </div>
+                                    <span class="cat-pct">11%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Websites Pane -->
+                    <div class="dm mockup-pane" id="pane-websites">
+                        <div class="dm-header">
+                            <div class="dm-greeting">Browser Intelligence</div>
+                            <div class="dm-date">Tracked across Chrome, Edge, and 54 other browsers</div>
+                        </div>
+                        <div class="dm-grid" style="grid-template-columns: 1.3fr 1fr; grid-template-rows: auto 1fr; grid-template-areas: 'list stats' 'list cats';">
+                            <div class="dm-card" style="grid-area: list;">
+                                <div class="dm-card-label">Most Visited Websites</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,255,255,0.1)">
+                                        <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">github.com</div>
+                                        <div class="app-time">1h 15m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:80%;background:#22c55e"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">33%</div>
+                                    <span class="app-tag" style="background:rgba(34,197,94,0.12);color:#22c55e">Development</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,0,0,0.1)">
+                                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">youtube.com</div>
+                                        <div class="app-time">55m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:50%;background:#ef4444"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">24%</div>
+                                    <span class="app-tag" style="background:rgba(251,191,36,0.12);color:#fbbf24">Entertainment</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(29,161,242,0.1)">
+                                        <img src="https://cdn.simpleicons.org/x/FFFFFF" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">x.com</div>
+                                        <div class="app-time">32m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:32%;background:#ec4899"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">14%</div>
+                                    <span class="app-tag" style="background:rgba(236,72,153,0.12);color:#ec4899">Social</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,255,255,0.1)">
+                                        <img src="https://cdn.simpleicons.org/stackoverflow/F58025" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">stackoverflow.com</div>
+                                        <div class="app-time">24m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:22%;background:#22c55e"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">10%</div>
+                                    <span class="app-tag" style="background:rgba(34,197,94,0.12);color:#22c55e">Development</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,69,0,0.1)">
+                                        <img src="https://cdn.simpleicons.org/reddit/FF4500" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">reddit.com</div>
+                                        <div class="app-time">18m</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:16%;background:#38bdf8"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-pct">8%</div>
+                                    <span class="app-tag" style="background:rgba(56,189,248,0.12);color:#38bdf8">Browsing</span>
+                                </div>
+                            </div>
+                            <div class="dm-card" style="grid-area: stats; padding:12px">
+                                <div class="caps-grid" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr;">
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#7aa2ff">public</span>
+                                        <span class="cap-val">28</span>
+                                        <span class="cap-lbl">Sites Tracked</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:rgba(255,255,255,0.5)">schedule</span>
+                                        <span class="cap-val">3h 49m</span>
+                                        <span class="cap-lbl">Total Time</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#22c55e">trending_up</span>
+                                        <span class="cap-val">github.com</span>
+                                        <span class="cap-lbl">Top Domain</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dm-card dm-area-cats" style="grid-area: cats;">
+                                <div class="dm-card-label">By Category</div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#22c55e"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Development</div>
+                                        <div class="cat-time">1h 39m</div>
+                                    </div>
+                                    <span class="cat-pct">43%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#fbbf24"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Entertainment</div>
+                                        <div class="cat-time">55m</div>
+                                    </div>
+                                    <span class="cat-pct">24%</span>
+                                </div>
+                                <div class="cat-item">
+                                    <div class="cat-dot" style="background:#ec4899"></div>
+                                    <div class="cat-info">
+                                        <div class="cat-name">Social</div>
+                                        <div class="cat-time">32m</div>
+                                    </div>
+                                    <span class="cat-pct">14%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Limits Pane -->
+                    <div class="dm mockup-pane" id="pane-limits">
+                        <div class="dm-header">
+                            <div class="dm-greeting">App & Website Limits</div>
+                            <div class="dm-date">Active restrictions for today</div>
+                        </div>
+                        <div class="dm-grid" style="grid-template-columns: 1fr 1.3fr; grid-template-rows: auto 1fr; grid-template-areas: 'hero list' 'stats list';">
+                            <div class="dm-card dm-ring-card dm-area-hero" style="padding: 16px 10px;">
+                                <div class="ring-wrap" style="width:82px;height:82px;">
+                                    <svg viewBox="0 0 110 110">
+                                        <circle class="ring-track" cx="55" cy="55" r="46" />
+                                        <circle class="ring-fill" cx="55" cy="55" r="46" style="stroke:#ef4444;stroke-dashoffset:0;" />
+                                    </svg>
+                                    <div class="ring-center">
+                                        <span class="ring-val" style="font-size:0.8rem;">100%</span>
+                                        <span class="ring-label">Reached</span>
+                                    </div>
+                                </div>
+                                <div class="ring-badge" style="color:#ef4444;border-color:rgba(239,68,68,0.3);background:rgba(239,68,68,0.1);">Social Media Blocked</div>
+                            </div>
+                            <div class="dm-card" style="grid-area: stats; padding:12px">
+                                <div class="caps-grid" style="grid-template-columns: repeat(3, 1fr); grid-template-rows: 1fr;">
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#7aa2ff">timer</span>
+                                        <span class="cap-val">5</span>
+                                        <span class="cap-lbl">Active Limits</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#ef4444">block</span>
+                                        <span class="cap-val">1</span>
+                                        <span class="cap-lbl">Blocked</span>
+                                    </div>
+                                    <div class="cap">
+                                        <span class="cap-icon" style="color:#22c55e">savings</span>
+                                        <span class="cap-val">2h 15m</span>
+                                        <span class="cap-lbl">Saved Today</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dm-card" style="grid-area: list;">
+                                <div class="dm-card-label">All Limits</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(239,68,68,0.12)">
+                                        <span style="font-family:'Material Symbols Rounded';font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20;font-size:14px;color:#ef4444">groups</span>
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Social Media Category</div>
+                                        <div class="app-time">30m / 30m limit</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:100%;background:#ef4444"></div>
+                                        </div>
+                                    </div>
+                                    <span class="app-tag" style="background:rgba(239,68,68,0.12);color:#ef4444">Blocked</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,0,0,0.1)">
+                                        <img src="https://cdn.simpleicons.org/youtube/FF0000" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">YouTube</div>
+                                        <div class="app-time">45m / 1h limit &middot; 15m left</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:75%;background:#eab308"></div>
+                                        </div>
+                                    </div>
+                                    <span class="app-tag" style="background:rgba(234,179,8,0.12);color:#eab308">Warning</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(225,48,108,0.1)">
+                                        <img src="https://cdn.simpleicons.org/instagram/E1306C" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Instagram</div>
+                                        <div class="app-time">20m / 45m limit &middot; 25m left</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:44%;background:#22c55e"></div>
+                                        </div>
+                                    </div>
+                                    <span class="app-tag" style="background:rgba(34,197,94,0.12);color:#22c55e">On track</span>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:rgba(255,255,255,0.1)">
+                                        <img src="https://cdn.simpleicons.org/steam/FFFFFF" alt="" width="14" height="14" loading="lazy">
+                                    </div>
+                                    <div class="app-info">
+                                        <div class="app-name">Steam</div>
+                                        <div class="app-time">0m / 2h limit &middot; paused until 6 PM</div>
+                                        <div class="app-bar">
+                                            <div class="app-prog" style="width:0%;background:#7aa2ff"></div>
+                                        </div>
+                                    </div>
+                                    <span class="app-tag" style="background:rgba(156,163,175,0.15);color:rgba(255,255,255,0.6)">Paused</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Pane -->
+                    <div class="dm mockup-pane" id="pane-timeline">
+                        <div class="dm-header">
+                            <div class="dm-greeting">Today's Timeline</div>
+                            <div class="dm-date">Hour-by-hour breakdown</div>
+                        </div>
+                        <div class="dm-card" style="padding: 20px; flex: 1;">
+                            <div style="display:flex; flex-direction:column; gap:10px;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:0.62rem; color:rgba(255,255,255,0.4); width:34px;">9 AM</span>
+                                    <div style="flex:1; height:14px; border-radius:4px; background:linear-gradient(90deg, #3d6bea 0%, #3d6bea 60%, transparent 60%);"></div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:0.62rem; color:rgba(255,255,255,0.4); width:34px;">10 AM</span>
+                                    <div style="flex:1; height:14px; border-radius:4px; background:linear-gradient(90deg, #34d399 0%, #34d399 85%, transparent 85%);"></div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:0.62rem; color:rgba(255,255,255,0.4); width:34px;">11 AM</span>
+                                    <div style="flex:1; height:14px; border-radius:4px; background:linear-gradient(90deg, #f472b6 0%, #f472b6 35%, transparent 35%);"></div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:0.62rem; color:rgba(255,255,255,0.4); width:34px;">12 PM</span>
+                                    <div style="flex:1; height:14px; border-radius:4px; background:linear-gradient(90deg, #3d6bea 0%, #3d6bea 70%, transparent 70%);"></div>
+                                </div>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span style="font-size:0.62rem; color:rgba(255,255,255,0.4); width:34px;">1 PM</span>
+                                    <div style="flex:1; height:14px; border-radius:4px; background:linear-gradient(90deg, #fbbf24 0%, #fbbf24 45%, transparent 45%);"></div>
+                                </div>
+                            </div>
+                            <div style="display:flex; gap:14px; margin-top:20px; flex-wrap:wrap;">
+                                <span style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:rgba(255,255,255,0.5)"><span style="width:8px;height:8px;border-radius:2px;background:#3d6bea;display:inline-block"></span>Work</span>
+                                <span style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:rgba(255,255,255,0.5)"><span style="width:8px;height:8px;border-radius:2px;background:#34d399;display:inline-block"></span>Dev</span>
+                                <span style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:rgba(255,255,255,0.5)"><span style="width:8px;height:8px;border-radius:2px;background:#f472b6;display:inline-block"></span>Social</span>
+                                <span style="display:flex;align-items:center;gap:5px;font-size:0.62rem;color:rgba(255,255,255,0.5)"><span style="width:8px;height:8px;border-radius:2px;background:#fbbf24;display:inline-block"></span>Entertainment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Widgets Pane -->
+                    <div class="dm mockup-pane" id="pane-widgets">
+                        <div class="dm-header">
+                            <div class="dm-greeting">Desktop Widgets</div>
+                            <div class="dm-date">Live, glanceable, always on</div>
+                        </div>
+                        <div class="dm-grid" style="grid-template-columns: 1fr 1fr 1fr; grid-template-rows: auto;">
+                            <div class="dm-card dm-ring-card" style="padding: 18px 10px;">
+                                <div class="ring-wrap" style="width:76px;height:76px;">
+                                    <svg viewBox="0 0 110 110">
+                                        <circle class="ring-track" cx="55" cy="55" r="46" />
+                                        <circle class="ring-fill" cx="55" cy="55" r="46" />
+                                    </svg>
+                                    <div class="ring-center">
+                                        <span class="ring-val" style="font-size:0.8rem;">3h 12m</span>
+                                    </div>
+                                </div>
+                                <div class="ring-badge" style="font-size:0.55rem;">Screen Time</div>
+                            </div>
+                            <div class="dm-card" style="padding: 14px;">
+                                <div class="dm-card-label">Top Apps</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:#5865F2;">D</div>
+                                    <div class="app-info">
+                                        <div class="app-name">Discord</div>
+                                        <div class="app-time">1h 20m</div>
+                                    </div>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:#181717;">C</div>
+                                    <div class="app-info">
+                                        <div class="app-name">VS Code</div>
+                                        <div class="app-time">55m</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dm-card" style="padding: 14px;">
+                                <div class="dm-card-label">Top Sites</div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:#FF0000;">Y</div>
+                                    <div class="app-info">
+                                        <div class="app-name">YouTube</div>
+                                        <div class="app-time">32m</div>
+                                    </div>
+                                </div>
+                                <div class="app-row">
+                                    <div class="app-ico" style="background:#1DA1F2;">X</div>
+                                    <div class="app-info">
+                                        <div class="app-name">X.com</div>
+                                        <div class="app-time">18m</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Floating UI cards (wide screens only) -->
-        <div class="float-card float-card-1">
-            <div class="fcard-top">
-                <span class="fcard-emoji">🏆</span>
-                <span class="fcard-title">Achievement unlocked</span>
-            </div>
-            <div class="fcard-desc">Weekly Warrior — hit your goal 7 days in a row</div>
-            <span class="fcard-badge fcard-badge-gold">+ 50 XP</span>
-        </div>
-
-        <div class="float-card float-card-2">
-            <div class="fcard-top">
-                <span class="fcard-emoji">🧘</span>
-                <span class="fcard-title">Time for a break</span>
-            </div>
-            <div class="fcard-desc">You've been focused for 45 minutes</div>
-            <span class="fcard-badge fcard-badge-green">Eye rest · 20-20-20</span>
-        </div>
     </section>
 
     <!-- ── BROWSER TICKER ────────────────────────── -->
@@ -3479,325 +3891,39 @@
     </section>
 
     <!-- ── HOW IT WORKS ──────────────────────────── -->
-    <section class="how" id="how">
-        <div class="container">
-            <div class="s-eyebrow reveal">How it works</div>
-            <h2 class="s-heading reveal" data-d="1">Install once.<br><em
-                    style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">It
-                    handles the rest.</em></h2>
-
-            <div class="steps">
-                <div class="step reveal" data-d="1">
-                    <div class="step-num">1</div>
-                    <div class="step-connector"></div>
-                    <h3>Install &amp; choose a vault</h3>
-                    <p>Pick any folder on your machine — Documents, a USB, your Dropbox. That's where your data lives.
-                        Human-readable JSON you can open in any editor.</p>
-                </div>
-                <div class="step reveal" data-d="2">
-                    <div class="step-num">2</div>
-                    <div class="step-connector"></div>
-                    <h3>It runs in the background</h3>
-                    <p>Every second, Deskly checks the foreground window using Windows UI Automation. No browser
-                        extension, no proxy, no kernel driver. Just reads the window title.</p>
-                </div>
-                <div class="step reveal" data-d="3">
-                    <div class="step-num">3</div>
-                    <h3>See exactly where time went</h3>
-                    <p>Dashboard shows today at a glance. Reports show week, month, year, all-time. Best day, worst day,
-                        weekday patterns, top apps, category breakdown — all yours.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ── FEATURES ──────────────────────────────── -->
-    <section class="features" id="features">
-        <div class="container">
-            <div class="s-eyebrow reveal">Features</div>
-            <h2 class="s-heading reveal" data-d="1">Everything you need.<br><em
-                    style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">Nothing
-                    you don't.</em></h2>
-            <p class="s-sub reveal" data-d="2">No bloat, no subscription, no upsell. A focused tool that does its job
-                well.</p>
-
-            <div class="fg reveal" data-d="3">
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <line x1="2" y1="12" x2="22" y2="12" />
-                            <path
-                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-                        </svg>
-                    </div>
-                    <h3>Browser intelligence</h3>
-                    <p>Knows which site you're on across 56 browsers. Chrome, Brave, Arc, Tor, Zen — no extension, no
-                        proxy. Detects 88 websites automatically.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="3" width="20" height="14" rx="2" />
-                            <line x1="8" y1="21" x2="16" y2="21" />
-                            <line x1="12" y1="17" x2="12" y2="21" />
-                        </svg>
-                    </div>
-                    <h3>Every app, every second</h3>
-                    <p>Win32, UWP, PWAs. 1-second polling via UI Automation API. Sub-second accumulator means zero time
-                        lost on app switches.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10" />
-                            <polyline points="12 6 12 12 16 14" />
-                        </svg>
-                    </div>
-                    <h3>App limits</h3>
-                    <p>Daily time caps with a soft overlay that follows the app. Three 5-minute extensions per day, then
-                        it's done. Respects your decision.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="20" x2="18" y2="10" />
-                            <line x1="12" y1="20" x2="12" y2="4" />
-                            <line x1="6" y1="20" x2="6" y2="14" />
-                        </svg>
-                    </div>
-                    <h3>Deep reports</h3>
-                    <p>Week, month, year, all-time up to 5 years. Best and worst days, weekday patterns, top 15 apps,
-                        category breakdown with percentages.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M12 20v-6M6 20V10M18 20V4" />
-                        </svg>
-                    </div>
-                    <h3>Goals &amp; streaks</h3>
-                    <p>Set a daily target. Build streaks. Unlock 10 achievements — First Step, Hat Trick, Weekly
-                        Warrior, all the way to Monthly Master.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                            <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                        </svg>
-                    </div>
-                    <h3>Break reminders</h3>
-                    <p>Five rotating types: eye rest (20-20-20), deep breathing, movement, hydration, mental reset.
-                        Configurable 20–60 minute intervals.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />
-                            <line x1="7" y1="7" x2="7.01" y2="7" />
-                        </svg>
-                    </div>
-                    <h3>Custom categories</h3>
-                    <p>Group apps and sites into Development, Social, Entertainment — or create your own. 12 colors,
-                        custom labels, AI-powered suggestions.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                            <polyline points="17 8 12 3 7 8" />
-                            <line x1="12" y1="3" x2="12" y2="15" />
-                        </svg>
-                    </div>
-                    <h3>Export everything</h3>
-                    <p>Full JSON dump or structured CSV with columns: date, app, category, duration. Your data is never
-                        locked in. Ever.</p>
-                </div>
-                <div class="fc">
-                    <div class="fc-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-                        </svg>
-                    </div>
-                    <h3>System tray native</h3>
-                    <p>Runs silently in the background. Shows today's time at a glance. Pause tracking, quick resume,
-                        double-click to open. Starts with Windows.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ── WHO IT HELPS ─────────────────────────── -->
     <section class="audience" id="use-cases">
         <div class="container">
             <div class="s-eyebrow reveal">Who it's for</div>
             <h2 class="s-heading reveal" data-d="1">A real digital wellbeing system for daily Windows life</h2>
             <p class="s-sub reveal" data-d="2">Deskly is built for people who want more than raw numbers. It helps you
-                understand patterns, reduce distraction, and make healthier screen decisions every day.</p>
+                understand patterns, lock down distractions, and make healthier screen decisions every day.</p>
 
             <div class="audience-grid reveal" data-d="3">
                 <article class="aud-card">
                     <h3>Students trying to stay focused</h3>
-                    <p>Understand exactly where study time leaks, then use app and website limits to protect your
-                        learning blocks.</p>
+                    <p>Understand exactly where study time leaks, then use app locks and focus mode to protect your
+                        learning blocks from distraction.</p>
                 </article>
                 <article class="aud-card">
                     <h3>Professionals building deep-work habits</h3>
-                    <p>Track switching between tools, uncover your biggest attention drains, and build stronger focus
-                        routines with daily awareness.</p>
+                    <p>See your day on a visual timeline, uncover your biggest attention drains, and run dedicated
+                        focus sessions to build stronger routines.</p>
                 </article>
                 <article class="aud-card">
                     <h3>People reducing unhealthy browsing cycles</h3>
-                    <p>See browsing behavior clearly, set practical boundaries, and replace mindless usage with
-                        intentional time.</p>
+                    <p>See browsing behavior clearly, set practical boundaries with limits and locks, and replace
+                        mindless usage with intentional time.</p>
                 </article>
                 <article class="aud-card">
                     <h3>Anyone improving digital wellbeing</h3>
-                    <p>Use weekly and monthly reports to reflect, adjust, and improve over time. Deskly is designed as
-                        a long-term companion, not a one-time utility.</p>
+                    <p>Use desktop widgets for at-a-glance awareness and weekly reports to reflect and improve.
+                        Deskly is designed as a long-term companion, not a one-time utility.</p>
                 </article>
             </div>
         </div>
     </section>
 
     <!-- ── PRIVACY ───────────────────────────────── -->
-    <section class="privacy" id="privacy">
-        <div class="container">
-            <div class="priv-layout">
-                <div class="priv-left">
-                    <div class="s-eyebrow reveal">Privacy</div>
-                    <h2 class="s-heading reveal" data-d="1">Your data never leaves<br><em
-                            style="font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.02em">your
-                            machine.</em></h2>
-                    <p class="s-sub reveal" data-d="2">Everything lives in a local folder you choose — like Obsidian for
-                        your screen time. Move it to a USB, sync it with Dropbox, or delete it entirely. Your call.</p>
-
-                    <div class="checks reveal" data-d="3">
-                        <div class="check-item">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg></div>
-                            <div class="check-text"><strong>Local vault storage</strong><span>Readable JSON files in a
-                                    folder you control</span></div>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg></div>
-                                    <div class="check-text"><strong>Account sign-in required</strong><span>No cloud sync required; your core data stays local from
-                                    the first second</span></div>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg></div>
-                            <div class="check-text"><strong>Export or delete anytime</strong><span>JSON, CSV, or full
-                                    reset — one click</span></div>
-                        </div>
-                        <div class="check-item">
-                            <div class="check-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                                    <polyline points="20 6 9 17 4 12" />
-                                </svg></div>
-                            <div class="check-text"><strong>Context isolation</strong><span>Sandboxed renderer, no node
-                                    integration, encrypted tokens</span></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="priv-visual reveal" data-d="2">
-                    <!-- Other apps -->
-                    <div class="priv-compare pc-others">
-                        <div class="pc-header">
-                            <span class="pc-badge pc-badge-muted">Other screen time apps</span>
-                        </div>
-                        <div class="pc-flow">
-                            <div class="pc-source">
-                                <div class="pc-source-icon"
-                                    style="background:rgba(255,255,255,0.04);border:1px solid var(--border)">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                                        style="color:var(--text-3)">
-                                        <rect x="2" y="3" width="20" height="14" rx="2" />
-                                        <line x1="8" y1="21" x2="16" y2="21" />
-                                        <line x1="12" y1="17" x2="12" y2="21" />
-                                    </svg>
-                                </div>
-                                <span>Your data</span>
-                            </div>
-                            <div class="pc-trail">
-                                <div class="pc-line">
-                                    <span class="ar">&rarr;</span>
-                                    <span class="pc-dest">Their cloud servers</span>
-                                </div>
-                                <div class="pc-line">
-                                    <span class="ar">&rarr;</span>
-                                    <span class="pc-dest">Analytics partners</span>
-                                </div>
-                                <div class="pc-line">
-                                    <span class="ar">&rarr;</span>
-                                    <span class="pc-dest">Ad networks</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Deskly -->
-                    <div class="priv-compare pc-deskly priv-deskly">
-                        <div class="pc-header">
-                            <span class="pc-badge pc-badge-green">Deskly</span>
-                        </div>
-                        <div class="pc-flow">
-                            <div class="pc-source">
-                                <div class="pc-source-icon"
-                                    style="background:var(--green-dim);border:1px solid rgba(52,211,153,0.12)">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-                                        style="color:var(--green)">
-                                        <rect x="2" y="3" width="20" height="14" rx="2" />
-                                        <line x1="8" y1="21" x2="16" y2="21" />
-                                        <line x1="12" y1="17" x2="12" y2="21" />
-                                    </svg>
-                                </div>
-                                <span>Your data</span>
-                            </div>
-                            <div class="pc-trail">
-                                <div class="pc-line">
-                                    <span class="ar">&rarr;</span>
-                                    <span class="pc-dest">A folder on your computer</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pc-bottom">
-                            <strong>That's it.</strong> Account is required for access, but no forced cloud sync for your core usage data. Your screen time data lives in
-                            a folder you choose — like saving a Word document. Move it, back it up, or delete it. You're
-                            in full control.
-                        </div>
-                        <div class="pc-tags">
-                            <span class="pc-tag">Works offline</span>
-                            <span class="pc-tag">Portable</span>
-                            <span class="pc-tag">Your folder</span>
-                            <span class="pc-tag">Delete anytime</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ── CTA ───────────────────────────────────── -->
     <section class="cta">
         <div class="container">
             <h2 class="reveal">See where your time<br><span class="serif-em">actually goes.</span></h2>
@@ -3816,90 +3942,54 @@
                 </a>
             </div>
 
-            <div class="pills reveal" data-d="3">
-                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>Windows 10 / 11</span>
-                <span class="pill"><span class="pd" style="background:var(--text-3)"></span>~85 MB</span>
-                <span class="pill"><span class="pd" style="background:var(--green)"></span>No telemetry</span>
-            </div>
-
-            <div class="trust-row reveal" data-d="4">
-                <span class="trust-label">Built with</span>
-                <div class="trust-logos">
-                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"
-                            style="color:var(--text-3)">
-                            <path
-                                d="M11.998 2C6.466 2 2 6.478 2 12.026c0 4.432 2.865 8.19 6.839 9.516.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.605-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.071 1.532 1.031 1.532 1.031.892 1.529 2.341 1.088 2.913.832.091-.647.349-1.088.636-1.339-2.22-.253-4.555-1.112-4.555-4.947 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 11.998 2z" />
-                        </svg> Privacy-first</span>
-                    <span class="trust-sep">&middot;</span>
-                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)">
-                            <circle cx="12" cy="12" r="10" />
-                            <path d="M12,2 a15.3,15.3 0 0,1 0,20" />
-                            <path d="M12,2 a15.3,15.3 0 0,0 0,20" />
-                            <line x1="2" y1="12" x2="22" y2="12" />
-                        </svg> Electron</span>
-                    <span class="trust-sep">&middot;</span>
-                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            style="color:var(--text-3)">
-                            <path
-                                d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236z"
-                                fill="currentColor" />
-                            <path
-                                d="M12 6.545c3.636 0 6.742 1.847 8.186 4.459C18.742 13.612 15.636 15.46 12 15.46s-6.742-1.848-8.186-4.456C5.258 8.392 8.364 6.545 12 6.545z"
-                                stroke="currentColor" stroke-width="1.5" />
-                        </svg> React</span>
-                    <span class="trust-sep">&middot;</span>
-                    <span class="trust-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="1.8" style="color:var(--text-3)">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg> Local-first</span>
-                </div>
-            </div>
         </div>
     </section>
 
     <!-- ── FOOTER ────────────────────────────────── -->
     </main>
 
-    <footer>
+        <footer class="site-footer">
         <div class="container">
-            <div class="footer-inner">
-                <div class="footer-left">
-                    <a href="/" class="footer-logo" aria-label="Deskly home">
-                        <div class="fl-icon">
-                            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
-                                <g transform="translate(256,256)">
-                                    <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
-                                        stroke-width="28" />
-                                    <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white"
-                                        stroke-width="28" stroke-linecap="round" opacity="0.9" />
-                                    <path
-                                        d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
-                                        fill="white" opacity="0.95" />
-                                    <circle cx="95" cy="-95" r="18" fill="#4ade80" />
-                                    <circle cx="95" cy="-95" r="10" fill="#22c55e" />
-                                </g>
-                            </svg>
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
                         </div>
                         Deskly
                     </a>
-                    <div class="footer-sep"></div>
-                    <span class="footer-copy">© 2026 Deskly</span>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="/#use-cases">Who it's for</a>
-                    <a href="/windows-screen-time-tracker">Windows screen time tracker</a>
-                    <a href="/digital-wellbeing-windows">Digital wellbeing for Windows</a>
-                    <a href="/windows-app-usage-tracker">Windows app usage tracker</a>
-                    <a href="/windows-app-and-website-limits">Windows app & website limits</a>
-                    <a href="/focus-app-for-windows">Focus app for Windows</a>
-                    <a href="/#features">Features</a>
-                    <a href="/privacy">Privacy</a>
-                    <a href="/terms">Terms</a>
-                    <a href="/account" data-auth-link data-auth-label>Account</a>
-                    <a href="mailto:hello@deskly.in">Contact</a>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Solutions</h4>
+                        <a href="/windows-screen-time-tracker">Screen time tracker</a>
+                        <a href="/digital-wellbeing-windows">Digital wellbeing</a>
+                        <a href="/windows-app-and-website-limits">App &amp; website limits</a>
+                        <a href="/focus-app-for-windows">Focus app</a>
+                        <a href="/app-blocker-for-windows">App blocker</a>
+                        <a href="/solutions">All solutions →</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Explore</h4>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/#use-cases">Who it's for</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
             </div>
         </div>
     </footer>
@@ -3909,47 +3999,11 @@
         (function () {
             'use strict';
 
-            const analyticsIdStorageKey = 'deskly_web_analytics_id';
             const authHintStorageKey = 'deskly_web_auth_hint_v1';
 
-            const getAnalyticsId = () => {
-                try {
-                    let existing = localStorage.getItem(analyticsIdStorageKey);
-                    if (existing && existing.length >= 8) return existing;
-
-                    const freshId = `web_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 10)}`;
-                    localStorage.setItem(analyticsIdStorageKey, freshId);
-                    return freshId;
-                } catch (_) {
-                    return `web_${Date.now().toString(36)}_fallback`;
-                }
-            };
-
-            const analyticsDistinctId = getAnalyticsId();
-
-            const captureAnalytics = (eventName, properties = {}) => {
-                const payload = JSON.stringify({
-                    event: eventName,
-                    distinctId: analyticsDistinctId,
-                    properties: {
-                        path: window.location.pathname,
-                        ...properties,
-                    },
-                });
-
-                if (navigator.sendBeacon) {
-                    const blob = new Blob([payload], { type: 'application/json' });
-                    navigator.sendBeacon('/api/analytics/capture', blob);
-                    return;
-                }
-
-                fetch('/api/analytics/capture', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: payload,
-                    keepalive: true,
-                }).catch(() => {});
-            };
+            // Delegates to the shared posthog-js wrapper loaded via /js/analytics.js.
+            const captureAnalytics = (eventName, properties = {}) =>
+                window.desklyAnalytics?.capture(eventName, properties);
 
             const syncReleaseBadge = async () => {
                 const versionNode = document.querySelector('[data-release-version]');
@@ -4100,7 +4154,7 @@
                 document.body.classList.add('mob-menu-open');
                 burger?.setAttribute('aria-expanded', 'true');
                 setBackgroundInert(true);
-                captureAnalytics('web.nav.opened', { source: 'burger' });
+                captureAnalytics('web.nav.opened', { nav_source: 'burger' });
 
                 const [firstFocusable] = getMenuFocusable();
                 (firstFocusable || mobMenu).focus();
@@ -4113,7 +4167,7 @@
                 document.body.classList.remove('mob-menu-open');
                 burger?.setAttribute('aria-expanded', 'false');
                 setBackgroundInert(false);
-                captureAnalytics('web.nav.closed', { source: 'mobile_menu' });
+                captureAnalytics('web.nav.closed', { nav_source: 'mobile_menu' });
 
                 if (restoreFocus && lastFocusedElement instanceof HTMLElement) {
                     lastFocusedElement.focus();
@@ -4195,7 +4249,7 @@
 
                     captureAnalytics('web.nav.link_clicked', {
                         href,
-                        source: 'anchor',
+                        nav_source: 'anchor',
                     });
 
                     const target = document.querySelector(href);
@@ -4357,29 +4411,174 @@
                 if (ticker) ticker.style.animationPlayState = 'paused';
             }
 
-            document.querySelectorAll('[data-analytics-event]').forEach((el) => {
-                el.addEventListener('click', () => {
-                    const eventName = el.getAttribute('data-analytics-event');
-                    if (!eventName) return;
+            // [data-analytics-event] clicks are handled globally by the shared
+            // /js/analytics.js delegated listener — no per-page handler needed.
 
-                    captureAnalytics(eventName, {
-                        source: el.getAttribute('data-analytics-source') || 'unknown',
-                        href: el.getAttribute('href') || null,
-                    });
-                });
-            });
-
-            document.querySelectorAll('nav a[href], .mob-menu a[href], .footer-links a[href]').forEach((link) => {
+            document.querySelectorAll('nav a[href]:not([data-analytics-event]), .mob-menu a[href]:not([data-analytics-event]), .footer-links a[href]:not([data-analytics-event])').forEach((link) => {
                 link.addEventListener('click', () => {
                     captureAnalytics('web.nav.link_clicked', {
                         href: link.getAttribute('href') || '/',
-                        source: link.closest('nav') ? 'top_nav' : (link.closest('.mob-menu') ? 'mobile_nav' : 'footer_nav'),
+                        nav_source: link.closest('nav') ? 'top_nav' : (link.closest('.mob-menu') ? 'mobile_nav' : 'footer_nav'),
                     });
                 });
             });
         })();
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const tabs = document.querySelectorAll('.mtab');
+            const panes = document.querySelectorAll('.mockup-pane');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    const targetId = tab.dataset.target;
+                    panes.forEach(p => p.classList.remove('active'));
+
+                    const targetPane = document.getElementById(targetId);
+                    if (targetPane) targetPane.classList.add('active');
+                });
+            });
+            // ── DYNAMIC HERO ARROW ──
+            // ── DYNAMIC HERO ARROW ──
+            (function() {
+                const targetBtn = document.querySelector('.hero .btn-primary');
+                const heroSection = document.querySelector('.hero');
+                if (!targetBtn || !heroSection) return;
+
+                const canvas = document.createElement('canvas');
+                canvas.style.position = 'absolute';
+                canvas.style.top = '0';
+                canvas.style.left = '0';
+                canvas.style.pointerEvents = 'none';
+                canvas.style.zIndex = '50';
+                heroSection.appendChild(canvas);
+
+                const ctx = canvas.getContext('2d');
+                let mousePos = { x: null, y: null };
+                let rafId = null;
+
+                let targetCenter = { cx: 0, cy: 0, width: 0, height: 0 };
+                let heroDocTop = 0;
+                let heroDocLeft = 0;
+                let heroRectHeight = 0;
+
+                const updatePositions = () => {
+                    canvas.width = heroSection.offsetWidth;
+                    canvas.height = heroSection.offsetHeight;
+
+                    const heroRect = heroSection.getBoundingClientRect();
+                    const targetRect = targetBtn.getBoundingClientRect();
+                    
+                    heroDocTop = heroRect.top + window.scrollY;
+                    heroDocLeft = heroRect.left + window.scrollX;
+                    heroRectHeight = heroRect.height;
+                    
+                    targetCenter.cx = targetRect.left - heroRect.left + targetRect.width / 2;
+                    targetCenter.cy = targetRect.top - heroRect.top + targetRect.height / 2;
+                    targetCenter.width = targetRect.width;
+                    targetCenter.height = targetRect.height;
+                };
+
+                const handleMouseMove = (e) => {
+                    // Use page coordinates for zero layout thrashing on scroll
+                    mousePos.x = e.pageX - heroDocLeft;
+                    mousePos.y = e.pageY - heroDocTop;
+                    
+                    if (mousePos.y > heroRectHeight || mousePos.y < 0) {
+                        mousePos.x = null;
+                        mousePos.y = null;
+                    }
+                };
+
+                window.addEventListener('resize', updatePositions);
+                window.addEventListener('mousemove', handleMouseMove);
+                updatePositions(); // Initial calculation
+
+                const drawArrow = () => {
+                    if (mousePos.x === null || mousePos.y === null) return;
+
+                    const { cx, cy, width, height } = targetCenter;
+
+                    const a = Math.atan2(cy - mousePos.y, cx - mousePos.x);
+                    const x1 = cx - Math.cos(a) * (width / 2 + 12);
+                    const y1 = cy - Math.sin(a) * (height / 2 + 12);
+
+                    const midX = (mousePos.x + x1) / 2;
+                    const midY = (mousePos.y + y1) / 2;
+                    const offset = Math.min(200, Math.hypot(x1 - mousePos.x, y1 - mousePos.y) * 0.5);
+                    const t = Math.max(-1, Math.min(1, (mousePos.y - y1) / 200));
+                    const controlX = midX;
+                    const controlY = midY + offset * t;
+
+                    const r = Math.sqrt((x1 - mousePos.x)**2 + (y1 - mousePos.y)**2);
+                    
+                    // Fades in as mouse moves further away
+                    const opacity = Math.min(1.0, (r - Math.max(width, height) / 2) / 400);
+
+                    if (opacity <= 0.01) return; // hide if very close
+
+                    // Deskly primary color: #3D6BEA
+                    ctx.strokeStyle = `rgba(61, 107, 234, ${opacity})`;
+                    ctx.lineWidth = 2;
+
+                    // Draw dashed curve
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(mousePos.x, mousePos.y);
+                    ctx.quadraticCurveTo(controlX, controlY, x1, y1);
+                    ctx.setLineDash([10, 8]);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // Draw arrowhead
+                    const angle = Math.atan2(y1 - controlY, x1 - controlX);
+                    const headLength = 10 * (ctx.lineWidth / 1.5);
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(
+                        x1 - headLength * Math.cos(angle - Math.PI / 6),
+                        y1 - headLength * Math.sin(angle - Math.PI / 6)
+                    );
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(
+                        x1 - headLength * Math.cos(angle + Math.PI / 6),
+                        y1 - headLength * Math.sin(angle + Math.PI / 6)
+                    );
+                    ctx.stroke();
+                };
+
+                const animateLoop = () => {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    drawArrow();
+                    rafId = requestAnimationFrame(animateLoop);
+                };
+
+                animateLoop();
+            })();
+        });
+    </script>
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+        });
+    </script>
 </body>
 
 </html>

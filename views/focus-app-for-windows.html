@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,60 +9,422 @@
     <meta name="keywords" content="focus app for windows, distraction blocker windows, focus tracker windows, productivity focus app" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://deskly.in/focus-app-for-windows" />
+    <meta name="theme-color" content="#0a0a0b" />
+
     <meta property="og:title" content="Focus App for Windows - Deskly" />
     <meta property="og:description" content="Improve focus on Windows by understanding usage patterns and reducing digital distractions." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in/focus-app-for-windows" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
-    <style>
-        body { margin: 0; background: #09090b; color: #ededf2; font-family: Inter, system-ui, sans-serif; }
-        .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 64px; }
-        .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .btn { display: inline-block; text-decoration: none; border-radius: 10px; padding: 10px 14px; }
-        .btn.primary { background: #fff; color: #121212; font-weight: 600; }
-        .btn.ghost { border: 1px solid rgba(255,255,255,0.2); color: #d0d3dd; }
-        h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
-        p { color: #b8bcc7; line-height: 1.7; }
-        .grid { margin-top: 26px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
-        .card { border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 16px; background: #121216; }
-        .card h2 { margin: 0 0 8px; font-size: 1.02rem; }
-        .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
-        @media (max-width: 780px) { .grid { grid-template-columns: 1fr; } }
-    </style>
+    <meta property="og:image:secure_url" content="https://deskly.in/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Deskly focus app for Windows" />
+    <meta property="og:site_name" content="Deskly" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Focus App for Windows - Deskly" />
+    <meta name="twitter:description" content="Improve focus on Windows by understanding usage patterns and reducing digital distractions." />
+    <meta name="twitter:image" content="https://deskly.in/og-image.png" />
+    <meta name="twitter:image:alt" content="Deskly focus app for Windows" />
+    <meta name="twitter:url" content="https://deskly.in/focus-app-for-windows" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Focus App for Windows - Deskly",
+      "description": "Deskly is a focus app for Windows that helps reduce distraction, improve concentration, and maintain healthier digital routines with clear usage insights.",
+      "url": "https://deskly.in/focus-app-for-windows",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Deskly",
+        "operatingSystem": "Windows",
+        "applicationCategory": "UtilitiesApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Does Deskly block distracting apps automatically?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Deskly can either show a gentle overlay reminder once you hit a daily time limit on an app, or fully block an app from launching during scheduled hours using the app blocker. You choose which apps get a soft nudge and which get a hard rule." }
+        },
+        {
+          "@type": "Question",
+          "name": "Is Deskly a Pomodoro or timer-based focus app?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Deskly doesn't use fixed Pomodoro sessions. Instead it continuously tracks your real app and website usage in the background, so focus improves through awareness and limits rather than a ticking countdown you have to start manually." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Deskly include break reminders?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can configure break reminders — for eye rest, breathing, or movement — to trigger automatically at intervals between 20 and 60 minutes while you're actively working." }
+        },
+        {
+          "@type": "Question",
+          "name": "How is a focus app different from a screen time tracker?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A screen time tracker tells you where your time went. A focus app uses that same data to actively help you change behavior — through limits, blocks, break reminders, and streaks. Deskly combines both: the tracking from the screen time tracker plus the limits and blocking tools that make focus practical." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use Deskly's focus tools without an internet connection?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tracking, limits, blocks, and break reminders all run locally on your PC and work fully offline. An internet connection is only needed for optional account sync." }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deskly.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Solutions", "item": "https://deskly.in/solutions" },
+        { "@type": "ListItem", "position": 3, "name": "Focus App for Windows", "item": "https://deskly.in/focus-app-for-windows" }
+      ]
+    }
+    </script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/styles/seo-pages.css" />
+    <link rel="stylesheet" href="/styles/shared-ui.css" />
+    <script src="/js/analytics.js"></script>
 </head>
+
 <body>
-    <main class="wrap">
-        <div class="top">
-            <a href="/" style="color:#ececf2;text-decoration:none;font-weight:700">Deskly</a>
-            <a class="btn ghost" href="/">Back to Home</a>
+
+    <nav aria-label="Main">
+        <div class="inner">
+            <a href="/" class="logo" aria-label="Deskly home">
+                <div class="logo-icon">
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
+                </div>
+                Deskly
+            </a>
+            <div class="nav-links">
+                <a href="/solutions">Solutions</a>
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How it works</a>
+                <a href="/blog">Blog</a>
+                <a href="/account">Sign in</a>
+                <a href="/download/windows?source=nav_focus" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav_focus">Download for Windows</a>
+            </div>
+            <details class="seo-mob-menu">
+                <summary class="seo-mob-toggle" aria-label="Open navigation menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></svg>
+                </summary>
+                <div class="seo-mob-panel">
+                    <a href="/solutions">Solutions</a>
+                    <a href="/features">Features</a>
+                    <a href="/how-it-works">How it works</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/account">Sign in</a>
+                    <a href="/download/windows?source=mobile_menu_focus" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu_focus">Download for Windows</a>
+                </div>
+            </details>
         </div>
+    </nav>
 
-        <h1>A practical focus app for Windows users</h1>
-        <p>Deskly helps you stay focused by turning noisy screen activity into clear action. You can track usage, set limits, and build routines that support deep work and healthier digital behavior.</p>
-
-        <section class="grid" aria-label="Focus outcomes">
-            <article class="card">
-                <h2>Focus with awareness</h2>
-                <p>Know exactly where attention is going before distraction becomes a pattern.</p>
-            </article>
-            <article class="card">
-                <h2>Reduce mindless switching</h2>
-                <p>Use app and website limits to protect high-value work windows.</p>
-            </article>
-            <article class="card">
-                <h2>Build repeatable routines</h2>
-                <p>Daily and weekly reports make progress measurable and easier to sustain.</p>
-            </article>
-            <article class="card">
-                <h2>Use it long-term</h2>
-                <p>Deskly is designed as a companion for ongoing digital wellbeing, not a one-time tool.</p>
-            </article>
+    <main>
+        <section class="seo-header">
+            <div class="container">
+                <div class="seo-eyebrow">Focus · Windows App</div>
+                <h1>A practical <em>focus app</em> for Windows users</h1>
+                <p class="lead">Deskly helps you stay focused by turning noisy screen activity into clear action. Track usage, set limits, and build routines that support deep work and healthier digital behavior.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="seo_focus" href="/download/windows?source=seo_focus">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download Deskly for Windows
+                    </a>
+                    <a class="btn btn-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
         </section>
 
-        <div class="actions">
-            <a class="btn primary" href="/download/windows?source=seo_focus">Download Deskly for Windows</a>
-            <a class="btn ghost" href="/windows-app-and-website-limits">See limits page</a>
-        </div>
+        <section aria-label="Focus outcomes">
+            <div class="container">
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h2>Focus with awareness</h2>
+                        <p>Know exactly where attention is going before distraction becomes a pattern. Clear daily and weekly reports put you in control.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>Reduce mindless switching</h2>
+                        <p>Use app and website limits to protect high-value work windows from distraction apps and social media loops.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>Build repeatable routines</h2>
+                        <p>Daily and weekly reports make progress measurable and easier to sustain. Streaks and goals keep you accountable.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+                        </div>
+                        <h2>Use it long-term</h2>
+                        <p>Deskly is designed as a companion for ongoing digital wellbeing — not a one-time tool. Habits form over weeks, not days.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="How focus app works">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>How Deskly improves your focus</h2>
+                    <ul>
+                        <li>Tracks foreground window activity every second — no browser extension or proxy needed.</li>
+                        <li>Identifies your top distracting apps and sites with precise time breakdowns.</li>
+                        <li>Lets you set daily time caps on specific apps — with gentle overlay reminders, not hard blocks.</li>
+                        <li>Break reminders (eye rest, breathing, movement) trigger at configurable 20–60 minute intervals.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Focus toolkit">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>A focus toolkit, not a single trick</h2>
+                    <p>Deskly combines four tools that reinforce each other instead of relying on willpower alone.</p>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>Awareness</h2>
+                        <p>See exactly which apps and sites consume your day with the <a href="/windows-screen-time-tracker">screen time tracker</a> and <a href="/screen-time-timeline-windows">timeline view</a>.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>Soft limits</h2>
+                        <p><a href="/windows-app-and-website-limits">Daily caps</a> on distracting apps with a few short extensions before the boundary holds firm.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                        </div>
+                        <h2>Hard blocks</h2>
+                        <p>Schedule the <a href="/app-blocker-for-windows">app blocker</a> during deep-work hours so distracting apps can't open at all.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </div>
+                        <h2>Break reminders</h2>
+                        <p>Configurable prompts for eye rest, breathing, or movement so focus sessions don't turn into burnout.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Focus vs distraction data">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>Focus improves faster when you can see the pattern</h2>
+                    <p>Most focus apps only give you a timer and hope. Deskly gives you the <a href="/screen-time-timeline-windows">hour-by-hour timeline</a> of your day — so instead of guessing when you lose focus, you can see it: the 2pm dip into social media, the late-night YouTube spiral, the days that actually went well.</p>
+                    <p>That visibility is what makes limits and blocks effective. You're not guessing at a cap — you're setting it based on your actual worst hours, and adjusting it as your habits change.</p>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Who Deskly's focus tools are for">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Who uses Deskly to focus</h2>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h2>Developers &amp; knowledge workers</h2>
+                        <p>Protect deep-work blocks from Slack, X, and news sites without losing access to them entirely.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        </div>
+                        <h2>Students</h2>
+                        <p>Combine break reminders with app limits to stay sharp through long study sessions.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h2>Freelancers</h2>
+                        <p>Track billable focus time and see how it correlates with distraction-free stretches of the day.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <h2>Anyone rebuilding attention span</h2>
+                        <p>Start with awareness, add soft limits, then graduate to scheduled blocks as focus habits stick.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Frequently asked questions">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Frequently asked questions</h2>
+                </div>
+                <div class="seo-faq">
+                    <div class="faq-item">
+                        <h3>Does Deskly block distracting apps automatically?</h3>
+                        <p>Deskly can either show a gentle overlay reminder once you hit a daily time limit on an app, or fully block an app from launching during scheduled hours using the app blocker. You choose which apps get a soft nudge and which get a hard rule.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Is Deskly a Pomodoro or timer-based focus app?</h3>
+                        <p>No. Deskly doesn't use fixed Pomodoro sessions. Instead it continuously tracks your real app and website usage in the background, so focus improves through awareness and limits rather than a ticking countdown you have to start manually.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Does Deskly include break reminders?</h3>
+                        <p>Yes. You can configure break reminders — for eye rest, breathing, or movement — to trigger automatically at intervals between 20 and 60 minutes while you're actively working.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How is a focus app different from a screen time tracker?</h3>
+                        <p>A screen time tracker tells you where your time went. A focus app uses that same data to actively help you change behavior — through limits, blocks, break reminders, and streaks. Deskly combines both: the tracking from the screen time tracker plus the limits and blocking tools that make focus practical.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I use Deskly's focus tools without an internet connection?</h3>
+                        <p>Yes. Tracking, limits, blocks, and break reminders all run locally on your PC and work fully offline. An internet connection is only needed for optional account sync.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-related" aria-label="Related pages">
+            <div class="container">
+                <div class="seo-related-label">Explore more</div>
+                <div class="seo-related-links">
+                    <a href="/windows-app-and-website-limits" class="seo-related-link">App &amp; website limits →</a>
+                    <a href="/digital-wellbeing-windows" class="seo-related-link">Digital wellbeing →</a>
+                    <a href="/windows-screen-time-tracker" class="seo-related-link">Screen time tracker →</a>
+                    <a href="/windows-app-usage-tracker" class="seo-related-link">App usage tracker →</a>
+                    <a href="/app-blocker-for-windows" class="seo-related-link">App blocker →</a>
+                    <a href="/screen-time-timeline-windows" class="seo-related-link">Screen time timeline →</a>
+                    <a href="/desktop-widgets-for-windows" class="seo-related-link">Desktop widgets →</a>
+                    <a href="/deskly-vs-freedom" class="seo-related-link">Deskly vs Freedom →</a>
+                    <a href="/deskly-vs-cold-turkey" class="seo-related-link">Deskly vs Cold Turkey →</a>
+                    <a href="/blog/block-distracting-apps-windows" class="seo-related-link">Block distracting apps guide →</a>
+                </div>
+            </div>
+        </section>
     </main>
+
+        <footer class="site-footer">
+        <div class="container">
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
+                        </div>
+                        Deskly
+                    </a>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
+                </div>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Solutions</h4>
+                        <a href="/windows-screen-time-tracker">Screen time tracker</a>
+                        <a href="/digital-wellbeing-windows">Digital wellbeing</a>
+                        <a href="/windows-app-and-website-limits">App &amp; website limits</a>
+                        <a href="/windows-app-usage-tracker">App usage tracker</a>
+                        <a href="/app-blocker-for-windows">App blocker</a>
+                        <a href="/screen-time-timeline-windows">Screen time timeline</a>
+                        <a href="/desktop-widgets-for-windows">Desktop widgets</a>
+                        <a href="/solutions">All solutions →</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Compare</h4>
+                        <a href="/deskly-vs-rescuetime">Deskly vs RescueTime</a>
+                        <a href="/deskly-vs-cold-turkey">Deskly vs Cold Turkey</a>
+                        <a href="/deskly-vs-freedom">Deskly vs Freedom</a>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+
+            // Scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
+
 </html>

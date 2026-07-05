@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,50 +9,419 @@
     <meta name="keywords" content="app limits windows, website limits windows, reduce distractions windows, focus limits windows" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://deskly.in/windows-app-and-website-limits" />
+    <meta name="theme-color" content="#0a0a0b" />
+
     <meta property="og:title" content="App and Website Limits for Windows - Deskly" />
     <meta property="og:description" content="Use practical app and website limits on Windows to control overuse and improve focus." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://deskly.in/windows-app-and-website-limits" />
     <meta property="og:image" content="https://deskly.in/og-image.png" />
-    <style>
-        body { margin: 0; background: #09090b; color: #ececf1; font-family: Inter, system-ui, sans-serif; }
-        .wrap { max-width: 980px; margin: 0 auto; padding: 28px 20px 64px; }
-        .top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
-        .btn { display: inline-block; text-decoration: none; border-radius: 10px; padding: 10px 14px; }
-        .btn.primary { background: #fff; color: #111; font-weight: 600; }
-        .btn.ghost { border: 1px solid rgba(255,255,255,0.2); color: #d0d3dd; }
-        h1 { font-size: clamp(1.9rem, 5vw, 3rem); line-height: 1.08; letter-spacing: -0.03em; margin: 0 0 14px; }
-        p { color: #b8bcc7; line-height: 1.7; }
-        .panel { margin-top: 24px; border: 1px solid rgba(255,255,255,0.12); border-radius: 14px; padding: 18px; background: #121216; }
-        .panel h2 { margin: 0 0 10px; font-size: 1.05rem; }
-        ul { margin: 0; padding-left: 20px; color: #c4c8d2; line-height: 1.7; }
-        .actions { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
-    </style>
+    <meta property="og:image:secure_url" content="https://deskly.in/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Deskly app and website limits for Windows" />
+    <meta property="og:site_name" content="Deskly" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="App and Website Limits for Windows - Deskly" />
+    <meta name="twitter:description" content="Use practical app and website limits on Windows to control overuse and improve focus." />
+    <meta name="twitter:image" content="https://deskly.in/og-image.png" />
+    <meta name="twitter:image:alt" content="Deskly app and website limits for Windows" />
+    <meta name="twitter:url" content="https://deskly.in/windows-app-and-website-limits" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "App and Website Limits for Windows - Deskly",
+      "description": "Set app and website limits on Windows with Deskly to reduce distraction, protect focus sessions, and build healthier digital boundaries.",
+      "url": "https://deskly.in/windows-app-and-website-limits",
+      "about": {
+        "@type": "SoftwareApplication",
+        "name": "Deskly",
+        "operatingSystem": "Windows",
+        "applicationCategory": "UtilitiesApplication",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        }
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What's the difference between a limit and a block?",
+          "acceptedAnswer": { "@type": "Answer", "text": "A limit is a soft cap — when you hit your daily time on an app or site, Deskly shows an overlay with the option to take a few short extensions before the boundary holds. A block is a hard rule that stops an app from opening at all during set hours. Deskly supports both, so you can use limits for apps you still need occasional access to and blocks for apps you want off-limits entirely." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I set limits on websites without a browser extension?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Deskly reads browser window titles to identify which site is active across 56+ Chromium and Firefox-based browsers, so website limits work without installing any browser extension or routing traffic through a proxy." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many extensions do I get before a limit holds firm?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Three. After a limit is reached, you can snooze it in 5-minute increments up to three times. After the third extension, the app or site is locked for the rest of the day." }
+        },
+        {
+          "@type": "Question",
+          "name": "Do limits reset automatically each day?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. All app and website limits reset at midnight local time, so you start each day with a fresh allowance without needing to reconfigure anything." }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I set different limits for weekdays vs weekends?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Yes. Deskly lets you configure separate limit schedules, so you can allow more leisure time on weekends while keeping weekday limits tighter for focus." }
+        },
+        {
+          "@type": "Question",
+          "name": "Will limits slow down my PC?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Deskly is a lightweight native Windows app that monitors the active window in the background. It typically uses well under 1% CPU and a small amount of memory, even while tracking dozens of limited apps and sites." }
+        }
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://deskly.in/" },
+        { "@type": "ListItem", "position": 2, "name": "Solutions", "item": "https://deskly.in/solutions" },
+        { "@type": "ListItem", "position": 3, "name": "App and Website Limits for Windows", "item": "https://deskly.in/windows-app-and-website-limits" }
+      ]
+    }
+    </script>
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/styles/seo-pages.css" />
+    <link rel="stylesheet" href="/styles/shared-ui.css" />
+    <script src="/js/analytics.js"></script>
 </head>
+
 <body>
-    <main class="wrap">
-        <div class="top">
-            <a href="/" style="color:#ececf2;text-decoration:none;font-weight:700">Deskly</a>
-            <a class="btn ghost" href="/">Back to Home</a>
+
+    <nav aria-label="Main">
+        <div class="inner">
+            <a href="/" class="logo" aria-label="Deskly home">
+                <div class="logo-icon">
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
+                </div>
+                Deskly
+            </a>
+            <div class="nav-links">
+                <a href="/solutions">Solutions</a>
+                <a href="/features">Features</a>
+                <a href="/how-it-works">How it works</a>
+                <a href="/blog">Blog</a>
+                <a href="/account">Sign in</a>
+                <a href="/download/windows?source=nav_limits" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav_limits">Download for Windows</a>
+            </div>
+            <details class="seo-mob-menu">
+                <summary class="seo-mob-toggle" aria-label="Open navigation menu">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" y1="7" x2="20" y2="7" /><line x1="4" y1="12" x2="20" y2="12" /><line x1="4" y1="17" x2="20" y2="17" /></svg>
+                </summary>
+                <div class="seo-mob-panel">
+                    <a href="/solutions">Solutions</a>
+                    <a href="/features">Features</a>
+                    <a href="/how-it-works">How it works</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/account">Sign in</a>
+                    <a href="/download/windows?source=mobile_menu_limits" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="mobile_menu_limits">Download for Windows</a>
+                </div>
+            </details>
         </div>
+    </nav>
 
-        <h1>Set healthy app and website limits on Windows</h1>
-        <p>Deskly helps you control overuse with practical limits so distractions do not silently consume your day. It is designed for people who want healthier digital boundaries without complicated setup.</p>
-
-        <section class="panel" aria-label="How limits help">
-            <h2>How this helps in real life</h2>
-            <ul>
-                <li>Reduce endless browsing loops and social media drift during work hours.</li>
-                <li>Protect study blocks by limiting distracting apps at key times.</li>
-                <li>Build awareness of overuse patterns and adjust habits week by week.</li>
-                <li>Stay intentional with screen time instead of reacting after burnout.</li>
-            </ul>
+    <main>
+        <section class="seo-header">
+            <div class="container">
+                <div class="seo-eyebrow">App &amp; Website Limits · Windows</div>
+                <h1>Set healthy <em>app and website limits</em> on Windows</h1>
+                <p class="lead">Deskly helps you control overuse with practical limits so distractions don't silently consume your day. Designed for people who want healthier digital boundaries without complicated setup.</p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" data-analytics-event="web.cta.clicked" data-analytics-source="seo_limits" href="/download/windows?source=seo_limits">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        Download Deskly for Windows
+                    </a>
+                    <a class="btn btn-ghost" href="/">Back to Home</a>
+                </div>
+            </div>
         </section>
 
-        <div class="actions">
-            <a class="btn primary" href="/download/windows?source=seo_limits">Download Deskly for Windows</a>
-            <a class="btn ghost" href="/digital-wellbeing-windows">See digital wellbeing page</a>
-        </div>
+        <section aria-label="Limit outcomes">
+            <div class="container">
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>Daily time caps on any app</h2>
+                        <p>Set a per-day limit on specific apps. When reached, a soft overlay follows the app window — three 5-minute extensions, then the limit holds.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                        </div>
+                        <h2>Website limits — no extension needed</h2>
+                        <p>Deskly tracks website time across 56 browsers using window titles. No proxy, no browser extension — just accurate data.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </div>
+                        <h2>Respectful reminders</h2>
+                        <p>Limits respect your decision. After three snooze extensions the limit is firm, keeping you accountable without being overbearing.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                        </div>
+                        <h2>See what limits are working</h2>
+                        <p>Weekly reports show trends for every limited app. You'll see exactly whether your boundaries are reducing overuse over time.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="How to set a limit">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>How to set an app or website limit</h2>
+                    <p>Four steps, no scheduling required.</p>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        </div>
+                        <h2>1. Pick an app or site</h2>
+                        <p>Search your installed apps or add a website by domain — no need to know its exact process name.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h2>2. Set a daily minutes cap</h2>
+                        <p>Choose how many minutes per day are allowed, optionally with a different cap for weekends.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                        </div>
+                        <h2>3. Deskly tracks it in the background</h2>
+                        <p>Every minute spent counts down automatically — no manual timer, no need to check in.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                        </div>
+                        <h2>4. An overlay appears at the limit</h2>
+                        <p>You get up to three 5-minute extensions before the limit holds for the rest of the day.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Limits vs blocks">
+            <div class="container">
+                <div class="seo-panel reveal">
+                    <h2>Soft limits and hard blocks solve different problems</h2>
+                    <p>A limit is the right tool when you still need an app for legitimate work but tend to overuse it — a chat app, a news site, a game you play in moderation. It lets you use the app freely until you hit your cap, then nudges you to stop.</p>
+                    <p>Sometimes a soft nudge isn't enough. If an app has no place in your day during certain hours — a game during work hours, social media during a study block — a hard rule works better than a countdown you can negotiate with. That's what <a href="/app-blocker-for-windows">Deskly's app blocker</a> is for: it prevents an app from launching at all during scheduled hours, no extensions offered.</p>
+                    <p>Most Deskly users combine both — limits on apps they want to moderate, blocks on apps they want off-limits entirely during focus hours.</p>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Who sets limits">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Who uses app and website limits</h2>
+                    <p>Different people, the same goal: less time lost to autopilot.</p>
+                </div>
+                <div class="seo-grid">
+                    <article class="seo-card reveal" data-d="1">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+                        </div>
+                        <h2>Students</h2>
+                        <p>Cap social apps and games during study blocks, and pair limits with the <a href="/focus-app-for-windows">focus app</a> during exam season.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="2">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <h2>Remote workers</h2>
+                        <p>Keep news, chat, and shopping tabs on a leash during work hours without banning them outright.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="3">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="11" width="12" height="8" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+                        </div>
+                        <h2>Parents</h2>
+                        <p>Set reasonable daily caps on games and streaming apps for a shared family PC, with reports to see how they're trending.</p>
+                    </article>
+                    <article class="seo-card reveal" data-d="4">
+                        <div class="seo-card-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        </div>
+                        <h2>Anyone breaking a scroll habit</h2>
+                        <p>Start with a generous limit and lower it each week — small, consistent friction beats an abrupt cutoff.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section aria-label="Frequently asked questions">
+            <div class="container">
+                <div class="seo-section-head">
+                    <h2>Frequently asked questions</h2>
+                </div>
+                <div class="seo-faq">
+                    <div class="faq-item">
+                        <h3>What's the difference between a limit and a block?</h3>
+                        <p>A limit is a soft cap — when you hit your daily time on an app or site, Deskly shows an overlay with the option to take a few short extensions before the boundary holds. A block is a hard rule that stops an app from opening at all during set hours. Deskly supports both, so you can use limits for apps you still need occasional access to and blocks for apps you want off-limits entirely.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I set limits on websites without a browser extension?</h3>
+                        <p>Yes. Deskly reads browser window titles to identify which site is active across 56+ Chromium and Firefox-based browsers, so website limits work without installing any browser extension or routing traffic through a proxy.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How many extensions do I get before a limit holds firm?</h3>
+                        <p>Three. After a limit is reached, you can snooze it in 5-minute increments up to three times. After the third extension, the app or site is locked for the rest of the day.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Do limits reset automatically each day?</h3>
+                        <p>Yes. All app and website limits reset at midnight local time, so you start each day with a fresh allowance without needing to reconfigure anything.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Can I set different limits for weekdays vs weekends?</h3>
+                        <p>Yes. Deskly lets you configure separate limit schedules, so you can allow more leisure time on weekends while keeping weekday limits tighter for focus.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Will limits slow down my PC?</h3>
+                        <p>No. Deskly is a lightweight native Windows app that monitors the active window in the background. It typically uses well under 1% CPU and a small amount of memory, even while tracking dozens of limited apps and sites.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="seo-related" aria-label="Related pages">
+            <div class="container">
+                <div class="seo-related-label">Explore more</div>
+                <div class="seo-related-links">
+                    <a href="/focus-app-for-windows" class="seo-related-link">Focus app →</a>
+                    <a href="/digital-wellbeing-windows" class="seo-related-link">Digital wellbeing →</a>
+                    <a href="/windows-screen-time-tracker" class="seo-related-link">Screen time tracker →</a>
+                    <a href="/windows-app-usage-tracker" class="seo-related-link">App usage tracker →</a>
+                    <a href="/app-blocker-for-windows" class="seo-related-link">App blocker →</a>
+                    <a href="/screen-time-timeline-windows" class="seo-related-link">Screen time timeline →</a>
+                    <a href="/desktop-widgets-for-windows" class="seo-related-link">Desktop widgets →</a>
+                    <a href="/deskly-vs-rescuetime" class="seo-related-link">Deskly vs RescueTime →</a>
+                    <a href="/deskly-vs-cold-turkey" class="seo-related-link">Deskly vs Cold Turkey →</a>
+                    <a href="/blog/block-distracting-apps-windows" class="seo-related-link">Block distracting apps guide →</a>
+                </div>
+            </div>
+        </section>
     </main>
+
+        <footer class="site-footer">
+        <div class="container">
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
+                        </div>
+                        Deskly
+                    </a>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
+                </div>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Solutions</h4>
+                        <a href="/windows-screen-time-tracker">Screen time tracker</a>
+                        <a href="/digital-wellbeing-windows">Digital wellbeing</a>
+                        <a href="/windows-app-usage-tracker">App usage tracker</a>
+                        <a href="/focus-app-for-windows">Focus app</a>
+                        <a href="/app-blocker-for-windows">App blocker</a>
+                        <a href="/screen-time-timeline-windows">Screen time timeline</a>
+                        <a href="/desktop-widgets-for-windows">Desktop widgets</a>
+                        <a href="/solutions">All solutions →</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Compare</h4>
+                        <a href="/deskly-vs-rescuetime">Deskly vs RescueTime</a>
+                        <a href="/deskly-vs-cold-turkey">Deskly vs Cold Turkey</a>
+                        <a href="/deskly-vs-freedom">Deskly vs Freedom</a>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+
+            // Scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
+
 </html>

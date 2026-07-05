@@ -22,7 +22,7 @@
     "express-rate-limit": "^8.2.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
-    "posthog-node": "^4.5.0"
+    "posthog-node": "^5.39.4"
   },
   "devDependencies": {
     "sharp": "^0.34.5"

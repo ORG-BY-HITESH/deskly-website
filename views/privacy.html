@@ -15,48 +15,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Instrument+Serif:ital@0;1&display=block"
         rel="stylesheet" />
 
     <link rel="stylesheet" href="/styles/legal.css" />
+    <link rel="stylesheet" href="/styles/shared-ui.css" />
+    <script src="/js/analytics.js"></script>
 </head>
 
 <body>
 
-    <svg style="position:absolute;width:0;height:0" aria-hidden="true">
-        <defs>
-            <linearGradient id="logoBg" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#7c3aed" />
-                <stop offset="100%" stop-color="#a78bfa" />
-            </linearGradient>
-        </defs>
-    </svg>
 
     <nav id="nav" aria-label="Main">
         <div class="inner">
             <a href="/" class="logo" aria-label="Deskly home">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
-                        <g transform="translate(256,256)">
-                            <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
-                                stroke-width="28" />
-                            <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28"
-                                stroke-linecap="round" opacity="0.9" />
-                            <path
-                                d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
-                                fill="white" opacity="0.95" />
-                            <circle cx="95" cy="-95" r="18" fill="#4ade80" />
-                            <circle cx="95" cy="-95" r="10" fill="#22c55e" />
-                        </g>
-                    </svg>
+                    <img src="/assets/icon.svg" alt="Deskly" width="28" height="28" />
                 </div>
                 Deskly
             </a>
             <div class="nav-links">
-                <a href="/#features">Features</a>
+                <a href="/features">Features</a>
+                <a href="/blog">Blog</a>
                 <a href="/account">Sign in</a>
-                <span class="nav-cta is-disabled" aria-label="Deskly is available soon" aria-disabled="true">Available soon</span>
+                <a href="/download/windows?source=nav_privacy" class="nav-cta" data-analytics-event="web.cta.clicked" data-analytics-source="nav_privacy">Download for Windows</a>
             </div>
         </div>
     </nav>
@@ -64,17 +46,19 @@
     <div class="page-header">
         <div class="container">
             <h1>Privacy Policy</h1>
-            <p>Effective Date: March 9, 2026</p>
+            <p>Effective Date: July 5, 2026</p>
         </div>
     </div>
 
     <div class="content container">
-        <div class="highlight-box">
+        <div class="highlight-box reveal">
             <h3>The "TL;DR" (Too Long; Didn't Read)</h3>
             <p>Deskly is built on a simple philosophy: <strong>Your data is yours.</strong> The core tracking
                 functionality of Deskly operates entirely on your local machine. Your screen time data, including the
-                apps you use and websites you visit, is never uploaded, shared, or sent to any server. It lives in a
-                folder you choose.</p>
+                apps you use and websites you visit, lives in a folder you choose and is never uploaded anywhere unless
+                you explicitly turn on the optional cloud sync feature. Deskly does use anonymous, opt-out product
+                analytics (via PostHog) to understand feature usage — never your screen time content — and you can turn
+                that off too.</p>
         </div>
 
         <!-- Overview -->
@@ -84,21 +68,37 @@
             information when you visit our website (deskly.in) or use the Deskly desktop application.</p>
 
         <!-- Desktop App Data -->
-        <h2>2. The Deskly Desktop Application</h2>
+        <h2 class="reveal">2. The Deskly Desktop Application</h2>
+        <div class="reveal">
         <p>Deskly is designed to be a local-first application.</p>
         <h3>2.1. Screen Time Tracking Data</h3>
         <p>All data collected by the Deskly desktop application regarding your computer usage, including but not limited
-            to open applications, window titles, and website URLs, is <strong>stored locally on your device</strong>. We
-            do not transmit, upload, or sync this data to our servers or any third-party servers.</p>
+            to open applications, window titles, and website URLs, is <strong>stored locally on your device</strong> in
+            your Vault. We do not transmit, upload, or sync this tracking data to our servers or any third-party servers
+            unless you explicitly enable the optional cloud sync feature described below.</p>
         <h3>2.2. Location of Data</h3>
         <p>You choose the directory where your tracking data ("Vault") is stored. You have full access to view, modify,
             export, or delete this data at any time. It is stored in a readable JSON format.</p>
-        <h3>2.3. Analytics and Telemetry</h3>
-        <p>The Deskly desktop application does <strong>not</strong> contain any telemetry, tracking pixels, or
-            diagnostic reporting that sends data back to us. We cannot see how you use the app or what you track.</p>
+        <h3>2.3. Optional Cloud Sync</h3>
+        <p>Deskly offers an <strong>opt-in</strong> cloud sync feature for backing up and syncing your Vault across
+            devices. This feature is disabled by default — your data stays local unless you turn it on. If you choose to
+            enable cloud sync, your Vault contents are encrypted in transit and stored on our servers for the sole
+            purpose of restoring and syncing your data; you can disable cloud sync and delete the synced copy at any
+            time from the app.</p>
+        <h3>2.4. Analytics and Diagnostics</h3>
+        <p>The Deskly desktop application uses <strong>PostHog</strong>, a product analytics provider, to collect
+            aggregate usage and diagnostic events (for example, which features are opened or whether the app
+            crashed) so we can understand what's working and fix bugs. This analytics collection is <strong>opt-out</strong>
+            and never includes your screen time data, window titles, website URLs, or any content from your Vault. If
+            you sign in to a Deskly account, your analytics activity is linked to an internal account identifier (plus
+            whether an email/name are on file — not their actual values) so we can understand usage across your
+            devices; this link is never used to inspect your Vault contents. You can disable analytics entirely from
+            Settings at any time, whether or not you're signed in.</p>
+        </div>
 
         <!-- Website & Accounts -->
-        <h2>3. The Deskly Website and Accounts</h2>
+        <h2 class="reveal">3. The Deskly Website and Accounts</h2>
+        <div class="reveal">
         <p>While the desktop app operates offline, we provide an optional account system via our website (deskly.in) for
             basic user management, authenticated via WorkOS (including Google OAuth).</p>
 
@@ -124,9 +124,22 @@
             <li>Communicate with you regarding essential app updates, security notices, or support requests.</li>
         </ul>
 
+        <h3>3.4. Website Analytics</h3>
+        <p>The deskly.in website itself also uses PostHog to record anonymous interaction events — such as page views,
+            navigation menu opens, link clicks, section views, and download button clicks — tied to a randomly
+            generated identifier stored in your browser, not to your identity. We use this solely to understand which
+            parts of the website are useful and to improve it; it is never combined with your desktop app usage data.
+            PostHog's session replay capability is built into the website but is <strong>currently disabled</strong> —
+            we do not record video-style replays of your visits. If you sign in to a Deskly account through the
+            website, that browser identifier is linked to your account (email, and whether a name is on file) so we
+            can understand your journey from visitor to signed-in user.</p>
+        </div>
+
         <!-- Third Parties -->
-        <h2>4. Third-Party Services</h2>
-        <p>We use the following trusted third-party services to operate the Deskly website and authentication system:
+        <h2 class="reveal">4. Third-Party Services</h2>
+        <div class="reveal">
+        <p>We use the following trusted third-party services to operate the Deskly website, desktop app analytics, and
+            authentication system:
         </p>
         <ul>
             <li><strong>WorkOS</strong>: To handle user authentication securely. When you sign in with Google or another
@@ -134,9 +147,12 @@
                 section 3.2.</li>
             <li><strong>Vercel</strong>: To host our website and API endpoints. Vercel automatically collects standard
                 access logs for operational and security purposes.</li>
+            <li><strong>PostHog</strong>: To collect anonymous, opt-out product analytics from the desktop application
+                (section 2.4) and anonymous interaction analytics from the website (section 3.4).</li>
         </ul>
         <p>We <strong>do not sell, rent, or trade</strong> your personal information or email address to any third
             parties.</p>
+        </div>
 
         <!-- Security -->
         <h2>5. Data Security</h2>
@@ -167,46 +183,75 @@
         <p><strong>Email:</strong> <a href="mailto:hello@deskly.in">hello@deskly.in</a></p>
     </div>
 
-    <footer>
+        <footer class="site-footer">
         <div class="container">
-            <div class="footer-inner">
-                <div class="footer-left">
-                    <a href="/" class="footer-logo">
-                        <div class="fl-icon">
-                            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                                <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#logoBg)" />
-                                <g transform="translate(256,256)">
-                                    <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)"
-                                        stroke-width="28" />
-                                    <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white"
-                                        stroke-width="28" stroke-linecap="round" opacity="0.9" />
-                                    <path
-                                        d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z"
-                                        fill="white" opacity="0.95" />
-                                    <circle cx="95" cy="-95" r="18" fill="#4ade80" />
-                                    <circle cx="95" cy="-95" r="10" fill="#22c55e" />
-                                </g>
-                            </svg>
+            <div class="taped-card">
+                <div class="fc-brand">
+                    <a href="/" class="logo">
+                        <div class="logo-icon">
+                            <img src="/assets/icon.svg" alt="Deskly" width="24" height="24" />
                         </div>
                         Deskly
                     </a>
-                    <div class="footer-sep"></div>
-                    <span class="footer-copy">
-                        &copy;
-                        <script>document.write(new Date().getFullYear())</script> Deskly
-                    </span>
+                    <p>A native Windows digital wellbeing companion for focus, awareness, and healthier habits.</p>
                 </div>
-                <div class="footer-links">
-                    <a href="/#features">Features</a>
-                    <a href="/privacy">Privacy</a>
-                    <a href="/terms">Terms</a>
-                    <a href="/account">Account</a>
-                    <a href="mailto:hello@deskly.in">Contact</a>
+                
+                <div class="fc-links-wrap">
+                    <div class="fc-col">
+                        <h4>Explore</h4>
+                        <a href="/features">Features</a>
+                        <a href="/how-it-works">How it works</a>
+                        <a href="/#use-cases">Who it's for</a>
+                        <a href="/blog">Blog</a>
+                        <a href="#download" class="nav-cta" style="width:fit-content; margin-top: 8px;">Download for Windows</a>
+                    </div>
+                    <div class="fc-col">
+                        <h4>Legal</h4>
+                        <a href="/privacy">Privacy Policy</a>
+                        <a href="/security">Security & Data</a>
+                        <a href="/terms">Terms of Service</a>
+                    </div>
                 </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <span>© 2026 Deskly. All rights reserved.</span>
             </div>
         </div>
     </footer>
 
+
+    
+
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            try {
+                new Lenis({
+                    autoRaf: true,
+                    duration: 1.5,
+                    smoothWheel: true,
+                    wheelMultiplier: 1.2,
+                    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+                });
+            } catch (e) {}
+
+            // Scroll reveal
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        revealObserver.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.06,
+                rootMargin: '0px 0px -40px 0px'
+            });
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+        });
+    </script>
 </body>
 
 </html>

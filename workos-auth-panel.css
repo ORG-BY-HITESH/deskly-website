@@ -37,7 +37,7 @@
   left: -10%;
   width: 120%;
   height: 120%;
-  background: radial-gradient(circle at 50% 30%, rgba(129, 140, 248, 0.15) 0%, rgba(52, 211, 153, 0.05) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.15) 0%, rgba(52, 211, 153, 0.05) 40%, transparent 70%);
   pointer-events: none;
   z-index: 1;
   filter: blur(60px);
@@ -134,8 +134,8 @@
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: rgba(129, 140, 248, 0.15); /* Primary tint */
-  color: #818cf8; /* Primary color */
+  background: rgba(139, 92, 246, 0.15); /* Primary tint */
+  color: #8b5cf6; /* Primary color */
   border-radius: 10px;
   flex-shrink: 0;
 }
@@ -168,3 +168,4 @@
     font-size: 2.5rem;
   }
 }
+

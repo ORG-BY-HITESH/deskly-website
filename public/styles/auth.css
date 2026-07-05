@@ -178,7 +178,7 @@ body.auth-page.desktop-callback {
   padding: 40px 32px;
   max-width: 440px;
   width: 100%;
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(129, 140, 248, 0.06);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(61, 107, 234, 0.06);
 }
 
 .auth-card.centered {
@@ -197,7 +197,7 @@ body.auth-page.desktop-callback {
 }
 
 .auth-subtitle {
-  color: #818cf8;
+  color: #3d6bea;
   font-weight: 500;
   margin: 0;
 }
@@ -245,7 +245,7 @@ body.auth-page.desktop-callback {
 }
 
 .auth-manual a {
-  color: #818cf8;
+  color: #3d6bea;
 }
 
 .auth-manual code {
@@ -312,7 +312,7 @@ body.auth-page.desktop-callback {
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #818cf8, #6366f1);
+  background: linear-gradient(135deg, #3d6bea, #4873f1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -421,7 +421,7 @@ body.status-page {
   letter-spacing: -0.04em;
   line-height: 1;
   margin: 0 0 12px;
-  background: linear-gradient(135deg, #818cf8, #c084fc);
+  background: linear-gradient(135deg, #3d6bea, #7aa2ff);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -446,7 +446,7 @@ body.status-page {
 }
 
 .status-link {
-  color: #818cf8;
+  color: #3d6bea;
   font-weight: 500;
   font-size: 0.9rem;
   text-decoration: none;
@@ -586,7 +586,8 @@ body.status-page {
 .auth-btn:focus-visible,
 .auth-logout:focus-visible,
 .status-link:focus-visible {
-  outline: 2px solid #818cf8;
+  outline: 2px solid #3d6bea;
   outline-offset: 2px;
   border-radius: 8px;
 }
+

@@ -6,24 +6,19 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://deskly.in/privacy</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://deskly.in/terms</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://deskly.in/account</loc>
+    <loc>https://deskly.in/features</loc>
     <changefreq>weekly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://deskly.in/download/windows</loc>
-    <changefreq>weekly</changefreq>
+    <loc>https://deskly.in/how-it-works</loc>
+    <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/security</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://deskly.in/windows-screen-time-tracker</loc>
@@ -49,5 +44,70 @@
     <loc>https://deskly.in/focus-app-for-windows</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/app-blocker-for-windows</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/solutions</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/screen-time-timeline-windows</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/desktop-widgets-for-windows</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/deskly-vs-rescuetime</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/deskly-vs-cold-turkey</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/deskly-vs-freedom</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/blog</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/blog/reduce-screen-time-windows</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/blog/digital-wellbeing-guide</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/blog/block-distracting-apps-windows</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/privacy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://deskly.in/terms</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
   </url>
 </urlset>
