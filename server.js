@@ -872,7 +872,8 @@ function desktopCallbackPage(user, deepLink) {
             overflow: hidden;
             display: block;
         }
-        .topnav-brand-icon svg {
+        .topnav-brand-icon svg,
+        .topnav-brand-icon img {
             width: 26px;
             height: 26px;
             display: block;
@@ -908,7 +909,7 @@ function desktopCallbackPage(user, deepLink) {
             padding: 40px 32px 32px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(129,140,248,0.07);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(61,107,234,0.07);
         }
 
         .cb-check {
@@ -931,7 +932,7 @@ function desktopCallbackPage(user, deepLink) {
             text-align: center;
         }
         .cb-email {
-            color: #818cf8;
+            color: #3d6bea;
             font-size: 0.95rem;
             font-weight: 500;
             text-align: center;
@@ -982,7 +983,7 @@ function desktopCallbackPage(user, deepLink) {
             line-height: 1.5;
             margin-bottom: 10px;
         }
-        .cb-manual a { color: #818cf8; }
+        .cb-manual a { color: #3d6bea; }
         .cb-details {
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 10px;
@@ -1036,7 +1037,8 @@ function desktopCallbackPage(user, deepLink) {
                 padding: 0 10px;
             }
             .topnav-brand-icon,
-            .topnav-brand-icon svg {
+            .topnav-brand-icon svg,
+            .topnav-brand-icon img {
                 width: 22px;
                 height: 22px;
             }
@@ -1062,22 +1064,7 @@ function desktopCallbackPage(user, deepLink) {
     <nav class="topnav">
         <a href="/" class="topnav-brand" title="Deskly home" aria-label="Deskly home">
             <span class="topnav-brand-icon" aria-hidden="true">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="lg-auth-callback" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#7c3aed"/>
-                            <stop offset="100%" stop-color="#a78bfa"/>
-                        </linearGradient>
-                    </defs>
-                    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#lg-auth-callback)"/>
-                    <g transform="translate(256,256)">
-                        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
-                        <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
-                        <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
-                        <circle cx="95" cy="-95" r="18" fill="#4ade80"/>
-                        <circle cx="95" cy="-95" r="10" fill="#22c55e"/>
-                    </g>
-                </svg>
+                <img src="/assets/icon.svg" alt="" width="26" height="26" />
             </span>
             <span class="topnav-brand-text">Deskly</span>
         </a>
@@ -1240,7 +1227,8 @@ function accountPage(user) {
             overflow: hidden;
             display: block;
         }
-        .topnav-brand-icon svg {
+        .topnav-brand-icon svg,
+        .topnav-brand-icon img {
             width: 26px;
             height: 26px;
             display: block;
@@ -1278,13 +1266,13 @@ function accountPage(user) {
             padding: 40px 32px 32px;
             width: 100%;
             max-width: 420px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(129,140,248,0.07);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(61,107,234,0.07);
         }
         .avatar {
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #818cf8, #6366f1);
+            background: linear-gradient(135deg, #3d6bea, #4873f1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1411,7 +1399,8 @@ function accountPage(user) {
             }
 
             .topnav-brand-icon,
-            .topnav-brand-icon svg {
+            .topnav-brand-icon svg,
+            .topnav-brand-icon img {
                 width: 22px;
                 height: 22px;
             }
@@ -1460,22 +1449,7 @@ function accountPage(user) {
     <nav class="topnav">
         <a href="/" class="topnav-brand">
             <span class="topnav-brand-icon">
-                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#7c3aed"/>
-                            <stop offset="100%" stop-color="#a78bfa"/>
-                        </linearGradient>
-                    </defs>
-                    <rect x="32" y="32" width="448" height="448" rx="100" ry="100" fill="url(#lg)"/>
-                    <g transform="translate(256,256)">
-                        <circle cx="0" cy="0" r="130" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="28"/>
-                        <path d="M 0 -130 A 130 130 0 1 1 -92 92" fill="none" stroke="white" stroke-width="28" stroke-linecap="round" opacity="0.9"/>
-                        <path d="M-45-70L-45 70 15 70Q75 70 75 0 75-70 15-70ZM-5-35L15-35Q40-35 40 0 40 35 15 35L-5 35Z" fill="white" opacity="0.95"/>
-                        <circle cx="95" cy="-95" r="18" fill="#4ade80"/>
-                        <circle cx="95" cy="-95" r="10" fill="#22c55e"/>
-                    </g>
-                </svg>
+                <img src="/assets/icon.svg" alt="" width="26" height="26" />
             </span>
             <span class="topnav-brand-text">Deskly</span>
         </a>

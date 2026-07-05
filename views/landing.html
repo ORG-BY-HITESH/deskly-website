@@ -3093,9 +3093,7 @@
 
     <!-- ── APP WINDOW ────────────────────────────── -->
     <section class="mockup-section">
-        <video class="mockup-video" autoplay loop muted playsinline>
-            <source src="/videos/mockup-bg.mp4" type="video/mp4">
-        </video>
+        <video class="mockup-video" loop muted playsinline preload="none" data-src="/videos/mockup-bg.mp4"></video>
         <div class="container" style="position: relative; z-index: 3;">
             <!-- Cutout Tabs -->
             <div class="mockup-tabs-wrapper reveal">
@@ -4442,6 +4440,28 @@
                     if (targetPane) targetPane.classList.add('active');
                 });
             });
+
+            // Defer the 8MB background video fetch until its section is
+            // about to scroll into view, so it doesn't compete with fonts/
+            // CSS/JS for bandwidth during first paint.
+            const bgVideo = document.querySelector('.mockup-video');
+            if (bgVideo && bgVideo.dataset.src) {
+                if (window.IntersectionObserver) {
+                    const videoObserver = new IntersectionObserver((entries, observer) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                bgVideo.src = bgVideo.dataset.src;
+                                bgVideo.play().catch(() => {});
+                                observer.disconnect();
+                            }
+                        });
+                    }, { rootMargin: '600px 0px' });
+                    videoObserver.observe(bgVideo);
+                } else {
+                    bgVideo.src = bgVideo.dataset.src;
+                    bgVideo.play().catch(() => {});
+                }
+            }
             // ── DYNAMIC HERO ARROW ──
             // ── DYNAMIC HERO ARROW ──
             (function() {
@@ -4497,6 +4517,19 @@
                 window.addEventListener('resize', updatePositions);
                 window.addEventListener('mousemove', handleMouseMove);
                 updatePositions(); // Initial calculation
+
+                // Layout can still shift after this point (web font swap, hero
+                // image/video finishing load), which would leave targetCenter
+                // stale — re-measure once things settle.
+                window.addEventListener('load', updatePositions);
+                if (document.fonts && document.fonts.ready) {
+                    document.fonts.ready.then(updatePositions);
+                }
+                if (window.ResizeObserver) {
+                    const ro = new ResizeObserver(updatePositions);
+                    ro.observe(heroSection);
+                    ro.observe(targetBtn);
+                }
 
                 const drawArrow = () => {
                     if (mousePos.x === null || mousePos.y === null) return;
@@ -4558,6 +4591,22 @@
                 };
 
                 animateLoop();
+
+                // Stop redrawing every frame once the hero has scrolled out
+                // of view — the loop otherwise runs for the whole session.
+                if (window.IntersectionObserver) {
+                    const heroVisibility = new IntersectionObserver((entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting && rafId === null) {
+                                animateLoop();
+                            } else if (!entry.isIntersecting && rafId !== null) {
+                                cancelAnimationFrame(rafId);
+                                rafId = null;
+                            }
+                        });
+                    });
+                    heroVisibility.observe(heroSection);
+                }
             })();
         });
     </script>
