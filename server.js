@@ -37,7 +37,7 @@ const baseUrl = process.env.BASE_URL || `http://localhost:${port}`;
 const isProduction = process.env.NODE_ENV === 'production';
 const desktopScheme = process.env.DESKTOP_SCHEME || 'deskly';
 const enablePerfMetrics = process.env.ENABLE_PERF_METRICS === 'true';
-const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://github.com/ORG-BY-HITESH/deskly-updates/releases/latest';
+const desktopDownloadUrl = process.env.DESKTOP_DOWNLOAD_URL || 'https://apps.microsoft.com/detail/9N3XS93TJ82Q?hl=en-us&gl=IN&ocid=pdpshare';
 const desktopUpdatesRepo = process.env.DESKTOP_UPDATES_REPO || 'ORG-BY-HITESH/deskly-updates';
 
 function resolveCookieDomain(urlString) {
