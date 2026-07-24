@@ -3,48 +3,42 @@ const path = require('path');
 
 const viewsDir = 'C:\\Users\\hites\\Desktop\\digitalwellbeing-final-deskly-work\\digitalwellbeing-final-deskly-work\\website\\deskly-website\\views';
 
+const badgeScriptTag = '<script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>';
+
+const msStoreBadgeComponent = `<ms-store-badge
+    productid="9N3XS93TJ82Q"
+    productname="Deskly - Screen Time, App Lock, Widgets & More"
+    window-mode="direct"
+    theme="auto"
+    size="large"
+    language="en-us"
+    animation="on">
+</ms-store-badge>`;
+
 function processFile(filePath) {
     let content = fs.readFileSync(filePath, 'utf8');
     let original = content;
 
-    // 1. Replace the footer `#download` links first to convert them to proper tracking links
-    const footerRegex = /<a\s+href="#download"\s+class="nav-cta"\s+style="([^"]*)"\s*>Download for Windows<\/a>/g;
-    content = content.replace(footerRegex, '<a href="/download/windows?source=footer" class="nav-cta" style="$1">Get from Microsoft Store</a>');
-
-    const footerRegexAlt = /<a\s+class="nav-cta"\s+style="([^"]*)"\s+href="#download"\s*>Download for Windows<\/a>/g;
-    content = content.replace(footerRegexAlt, '<a href="/download/windows?source=footer" class="nav-cta" style="$1">Get from Microsoft Store</a>');
-
-    const footerRegexSimple = /<a\s+href="#download"\s+class="nav-cta"\s*>Download for Windows<\/a>/g;
-    content = content.replace(footerRegexSimple, '<a href="/download/windows?source=footer" class="nav-cta">Get from Microsoft Store</a>');
-
-    // 2. Parse general <a> tags that link to "/download/windows"
-    const aTagRegex = /<a\s+([^>]*href=["']\/download\/windows[^"']*["'][^>]*)>([\s\S]*?)<\/a>/gi;
-
-    content = content.replace(aTagRegex, (match, attrs, body) => {
-        // If it's already a Microsoft Store badge or has an image/badge, skip it
-        if (attrs.includes('ms-store-badge') || body.includes('ms-store-badge') || body.includes('<img') || body.includes('en-us')) {
-            return match;
+    // 1. Ensure the ms-store-badge script is present in the <head>
+    if (!content.includes('ms-store-badge.bundled.js')) {
+        if (content.includes('</head>')) {
+            content = content.replace('</head>', `    ${badgeScriptTag}\n</head>`);
+        } else if (content.includes('<head>')) {
+            content = content.replace('<head>', `<head>\n    ${badgeScriptTag}`);
         }
+    }
 
-        // Extract the source from href
-        let source = 'unknown';
-        const hrefMatch = attrs.match(/href=["']\/download\/windows(?:\?source=([^"'&]+))?/i);
-        if (hrefMatch && hrefMatch[1]) {
-            source = hrefMatch[1];
-        }
+    // 2. Replace primary CTA buttons (either class="ms-store-badge" or class="btn btn-primary" with download link)
+    // Match <a ... class="ms-store-badge" ...> ... </a>
+    const badgeAnchorRegex = /<a\s+[^>]*class="ms-store-badge"[^>]*>[\s\S]*?<\/a>/gi;
+    content = content.replace(badgeAnchorRegex, msStoreBadgeComponent);
 
-        // If it's a primary button (btn-primary or has btn-primary class)
-        if (attrs.includes('btn-primary')) {
-            // Replace with the Microsoft Store Badge link
-            return `<a href="/download/windows?source=${source}" class="ms-store-badge" data-analytics-event="web.cta.clicked" data-analytics-source="${source}">
-                    <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft Store" />
-                </a>`;
-        }
+    // Also match any leftover <a ... href="/download/windows?source=..." class="btn btn-primary" ...> ... </a>
+    const primaryBtnRegex = /<a\s+[^>]*href=["']\/download\/windows[^"']*["'][^>]*class=["'][^"']*btn-primary[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
+    content = content.replace(primaryBtnRegex, msStoreBadgeComponent);
 
-        // Otherwise (navbar, mobile-menu, or text links), update the label text
-        // Keep existing attributes intact (class, styles, tracking tags)
-        return `<a ${attrs}>Get from Microsoft Store</a>`;
-    });
+    const primaryBtnRegexAlt = /<a\s+[^>]*class=["'][^"']*btn-primary[^"']*["'][^>]*href=["']\/download\/windows[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
+    content = content.replace(primaryBtnRegexAlt, msStoreBadgeComponent);
 
     if (content !== original) {
         fs.writeFileSync(filePath, content, 'utf8');
@@ -66,4 +60,4 @@ function walkDir(dir) {
 }
 
 walkDir(viewsDir);
-console.log("Completed replacement of download buttons across all HTML files.");
+console.log("Completed inserting Microsoft Store Web Component badge across all HTML files.");
