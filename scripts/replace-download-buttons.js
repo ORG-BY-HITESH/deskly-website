@@ -5,7 +5,7 @@ const viewsDir = 'C:\\Users\\hites\\Desktop\\digitalwellbeing-final-deskly-work\
 
 const badgeScriptTag = '<script type="module" src="https://get.microsoft.com/badge/ms-store-badge.bundled.js"></script>';
 
-const msStoreBadgeComponent = `<ms-store-badge
+const msStoreBadgeComponent = (source = 'hero') => `<ms-store-badge
     productid="9N3XS93TJ82Q"
     productname="Deskly - Screen Time, App Lock, Widgets & More"
     window-mode="direct"
@@ -13,6 +13,9 @@ const msStoreBadgeComponent = `<ms-store-badge
     size="large"
     language="en-us"
     animation="on">
+    <a href="ms-windows-store://pdp/?ProductId=9N3XS93TJ82Q" class="ms-store-badge-fallback" data-analytics-event="web.cta.clicked" data-analytics-source="${source}">
+        <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft Store" />
+    </a>
 </ms-store-badge>`;
 
 function processFile(filePath) {
@@ -28,17 +31,16 @@ function processFile(filePath) {
         }
     }
 
-    // 2. Replace primary CTA buttons (either class="ms-store-badge" or class="btn btn-primary" with download link)
-    // Match <a ... class="ms-store-badge" ...> ... </a>
+    // 2. Replace any <ms-store-badge ...> ... </ms-store-badge> blocks or standalone badge anchors
+    const badgeComponentRegex = /<ms-store-badge[\s\S]*?<\/ms-store-badge>/gi;
+    content = content.replace(badgeComponentRegex, (match) => {
+        return msStoreBadgeComponent('web_badge');
+    });
+
     const badgeAnchorRegex = /<a\s+[^>]*class="ms-store-badge"[^>]*>[\s\S]*?<\/a>/gi;
-    content = content.replace(badgeAnchorRegex, msStoreBadgeComponent);
-
-    // Also match any leftover <a ... href="/download/windows?source=..." class="btn btn-primary" ...> ... </a>
-    const primaryBtnRegex = /<a\s+[^>]*href=["']\/download\/windows[^"']*["'][^>]*class=["'][^"']*btn-primary[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
-    content = content.replace(primaryBtnRegex, msStoreBadgeComponent);
-
-    const primaryBtnRegexAlt = /<a\s+[^>]*class=["'][^"']*btn-primary[^"']*["'][^>]*href=["']\/download\/windows[^"']*["'][^>]*>[\s\S]*?<\/a>/gi;
-    content = content.replace(primaryBtnRegexAlt, msStoreBadgeComponent);
+    content = content.replace(badgeAnchorRegex, (match) => {
+        return msStoreBadgeComponent('web_badge');
+    });
 
     if (content !== original) {
         fs.writeFileSync(filePath, content, 'utf8');
@@ -60,4 +62,4 @@ function walkDir(dir) {
 }
 
 walkDir(viewsDir);
-console.log("Completed inserting Microsoft Store Web Component badge across all HTML files.");
+console.log("Completed inserting Microsoft Store Web Component badge with fallback links across all HTML files.");
