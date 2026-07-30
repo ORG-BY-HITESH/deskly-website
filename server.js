@@ -551,6 +551,11 @@ app.get('/download/windows', apiLimiter, (req, res) => {
         target: 'windows_installer',
     });
 
+    const installerPath = path.join(__dirname, 'public', 'downloads', 'Deskly - Screen Time, App Lock, Widgets & More Installer.exe');
+    if (fs.existsSync(installerPath)) {
+        return res.download(installerPath, 'Deskly - Screen Time, App Lock, Widgets & More Installer.exe');
+    }
+
     return res.redirect(302, desktopDownloadUrl);
 });
 

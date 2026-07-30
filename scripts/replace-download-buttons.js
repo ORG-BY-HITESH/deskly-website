@@ -13,7 +13,7 @@ const msStoreBadgeComponent = (source = 'hero') => `<ms-store-badge
     size="large"
     language="en-us"
     animation="on">
-    <a href="ms-windows-store://pdp/?ProductId=9N3XS93TJ82Q" class="ms-store-badge-fallback" data-analytics-event="web.cta.clicked" data-analytics-source="${source}">
+    <a href="/download/windows?source=${source}" class="ms-store-badge-fallback" data-analytics-event="web.cta.clicked" data-analytics-source="${source}">
         <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Get it from Microsoft Store" />
     </a>
 </ms-store-badge>`;
@@ -62,4 +62,4 @@ function walkDir(dir) {
 }
 
 walkDir(viewsDir);
-console.log("Completed inserting Microsoft Store Web Component badge with fallback links across all HTML files.");
+console.log("Completed inserting Microsoft Store Web Component badge with direct installer download links across all HTML files.");
